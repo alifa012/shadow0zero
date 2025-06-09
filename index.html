@@ -135,13 +135,22 @@
           <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password" />
           <div class="invalid-feedback">Please confirm your password.</div>
         </div>
+
         <button type="submit" class="btn btn-primary w-100 mb-3" id="registerBtn">
           <span id="registerText">Register</span>
           <span class="loading-spinner" id="spinner"></span>
         </button>
+
+        <div class="text-center mt-3">
+          <button   style="background-color: #dc3545;"    id="googleSignInBtn" type="button" class="btn btn-primary w-100">
+            <i class="fab fa-google"></i> Sign in with Google
+            <span class="loading-spinner" id="googleSpinner"></span>
+          </button>
+        </div>
+
         <div class="text-center mt-4">
           <p class="text-muted mb-0">Already have an account?</p>
-          <a href="login.html" class="text-accent text-decoration-none">Login Here</a>
+          <a href="https://endearing-daffodil-6bfecd.netlify.app/" class="text-accent text-decoration-none">Login Here</a>
         </div>
       </form>
     </div>
@@ -210,7 +219,6 @@
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         await updateProfile(userCredential.user, { displayName: name });
 
-        // Send to Telegram (optional)
         await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -226,8 +234,6 @@
 
       } catch (err) {
         console.error(err);
-
-        // Handle specific Firebase errors with clean messages
         if (err.code === 'auth/weak-password') {
           showAlert('Password is too short. It must be at least 6 characters.');
         } else if (err.code === 'auth/email-already-in-use') {
@@ -235,7 +241,6 @@
         } else if (err.code === 'auth/invalid-email') {
           showAlert('The email address is invalid.');
         } else {
-          // Fallback generic message
           showAlert('Registration failed. Please try again.');
         }
       } finally {
