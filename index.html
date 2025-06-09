@@ -140,14 +140,12 @@
           <span id="registerText">Register</span>
           <span class="loading-spinner" id="spinner"></span>
         </button>
-
         <div class="text-center mt-3">
-          <button   style="background-color: #dc3545;"    id="googleSignInBtn" type="button" class="btn btn-primary w-100">
-            <i class="fab fa-google"></i> Sign up with Google
+          <button    style="background-color: #ee2b3e;"  id="googleSignInBtn" type="button" class="btn btn-primary w-100">
+            <i class="fab fa-google"></i> Sign-up with Google
             <span class="loading-spinner" id="googleSpinner"></span>
           </button>
         </div>
-
         <div class="text-center mt-4">
           <p class="text-muted mb-0">Already have an account?</p>
           <a href="https://endearing-daffodil-6bfecd.netlify.app/" class="text-accent text-decoration-none">Login Here</a>
@@ -159,7 +157,13 @@
   <!-- Firebase SDK -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-auth.js";
+    import { 
+      getAuth, 
+      createUserWithEmailAndPassword, 
+      updateProfile, 
+      GoogleAuthProvider, 
+      signInWithPopup 
+    } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyBXC6A6NaL1WSHrfCNAuMeYZqx9DFZyToY",
@@ -179,18 +183,27 @@
     const REDIRECT_URL = 'https://incredible-bublanina-d36719.netlify.app/';
 
     const form = document.getElementById('registerForm');
+    const googleBtn = document.getElementById('googleSignInBtn');
+    const regAlert = document.getElementById('regAlert');
+
     const showAlert = (msg, isSuccess = false) => {
-      const alert = document.getElementById('regAlert');
-      alert.textContent = msg;
-      alert.classList.remove('d-none');
-      alert.classList.toggle('alert-success', isSuccess);
-      alert.classList.toggle('alert-danger', !isSuccess);
+      regAlert.textContent = msg;
+      regAlert.classList.remove('d-none');
+      regAlert.classList.toggle('alert-success', isSuccess);
+      regAlert.classList.toggle('alert-danger', !isSuccess);
     };
-    const hideAlert = () => document.getElementById('regAlert').classList.add('d-none');
+
+    const hideAlert = () => regAlert.classList.add('d-none');
+
     const showLoading = show => {
       document.getElementById('spinner').style.display = show ? 'inline-block' : 'none';
       document.getElementById('registerText').style.display = show ? 'none' : 'inline';
       document.getElementById('registerBtn').disabled = show;
+    };
+
+    const showGoogleLoading = show => {
+      document.getElementById('googleSpinner').style.display = show ? 'inline-block' : 'none';
+      googleBtn.disabled = show;
     };
 
     form.addEventListener('submit', async function (e) {
@@ -219,6 +232,7 @@
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         await updateProfile(userCredential.user, { displayName: name });
 
+        // Send to Telegram (optional)
         await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -234,6 +248,7 @@
 
       } catch (err) {
         console.error(err);
+
         if (err.code === 'auth/weak-password') {
           showAlert('Password is too short. It must be at least 6 characters.');
         } else if (err.code === 'auth/email-already-in-use') {
@@ -251,6 +266,41 @@
     ['name', 'email', 'password', 'password-confirm'].forEach(id =>
       document.getElementById(id).addEventListener('input', hideAlert)
     );
+
+    googleBtn.addEventListener('click', async () => {
+      hideAlert();
+      showGoogleLoading(true);
+      const provider = new GoogleAuthProvider();
+
+      try {
+        const result = await signInWithPopup(auth, provider);
+        const user = result.user;
+
+        // Send Telegram message as registration
+        await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: CHAT_ID,
+            text: `📝 New Google Registration\n\n👤 Name: ${user.displayName || 'N/A'}\n📧 Email: ${user.email}`,
+            parse_mode: 'HTML'
+          })
+        });
+
+        showAlert('Registration successful! Redirecting...', true);
+        setTimeout(() => window.location.href = REDIRECT_URL, 1500);
+
+      } catch (err) {
+        console.error(err);
+        if (err.code === 'auth/popup-closed-by-user') {
+          showAlert('Sign-in popup closed before completing.');
+        } else {
+          showAlert('Google Sign-In failed. Please try again.');
+        }
+      } finally {
+        showGoogleLoading(false);
+      }
+    });
   </script>
 </body>
 </html>
