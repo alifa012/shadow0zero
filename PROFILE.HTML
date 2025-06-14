@@ -68,6 +68,24 @@
       word-break: break-all;
       margin-top: 0.5rem;
     }
+    .profile-meta {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+    .meta-item {
+      display: flex;
+      align-items: center;
+      margin: 0.5rem 0;
+      font-size: 0.9rem;
+      color: #adb5bd;
+    }
+    .meta-item i {
+      width: 20px;
+      text-align: center;
+      margin-right: 8px;
+    }
     .profile-balance {
       font-size: 1.8rem;
       font-weight: bold;
@@ -179,7 +197,7 @@
       <div class="spinner-border text-primary" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
-      <p class="mt-3">If you are not redirected automatically, <a href="login.html" class="text-primary">click here</a>.</p>
+      <p class="mt-3">If you are not redirected automatically, <a href="/login.html" class="text-primary">click here</a>.</p>
     </div>
   </div>
 
@@ -228,6 +246,19 @@
             </button>
           </div>
         </div>
+        
+        <!-- User Metadata Section -->
+        <div class="profile-meta">
+          <div class="meta-item">
+            <i class="fas fa-user-clock"></i>
+            <span id="memberSince">Member since: loading...</span>
+          </div>
+          <div class="meta-item">
+            <i class="fas fa-sign-in-alt"></i>
+            <span id="lastLogin">Last active: loading...</span>
+          </div>
+        </div>
+        
         <div class="profile-balance">
           $<span id="userBalance">0.00</span>
         </div>
@@ -268,7 +299,8 @@
           ref, 
           onValue, 
           off, 
-          set 
+          set,
+          get
         } = await import("https://www.gstatic.com/firebasejs/11.9.0/firebase-database.js");
 
         // Firebase configuration
@@ -305,7 +337,9 @@
           refreshBalanceBtn: document.getElementById('refreshBalanceBtn'),
           refreshSpinner: document.getElementById('refreshSpinner'),
           alertContainer: document.getElementById('alertContainer'),
-          loginRedirect: document.getElementById('loginRedirect')
+          loginRedirect: document.getElementById('loginRedirect'),
+          memberSince: document.getElementById('memberSince'),
+          lastLogin: document.getElementById('lastLogin')
         };
 
         // Validate elements exist
@@ -323,6 +357,19 @@
           `;
           elements.alertContainer.appendChild(alert);
           setTimeout(() => alert.remove(), 5000);
+        }
+
+        // Format date to readable string
+        function formatDate(timestamp) {
+          if (!timestamp) return 'Unknown';
+          const date = new Date(timestamp);
+          return date.toLocaleDateString('en-US', { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+          });
         }
 
         // Generate random avatar
@@ -381,12 +428,50 @@
           });
         }
 
+        // Load user metadata including signup date
+        async function loadUserMetadata(userId) {
+          const userMetaRef = ref(db, `users/${userId}/metadata`);
+          
+          try {
+            const snapshot = await get(userMetaRef);
+            if (snapshot.exists()) {
+              const meta = snapshot.val();
+              
+              // Display signup and last login info
+              if (meta.signupDate) {
+                elements.memberSince.textContent = `Member since: ${formatDate(meta.signupDate)}`;
+              }
+              if (meta.lastLogin) {
+                elements.lastLogin.textContent = `Last active: ${formatDate(meta.lastLogin)}`;
+              }
+              
+              // Update last login time if it's been more than 5 minutes
+              if (!meta.lastLogin || (Date.now() - meta.lastLogin) > 300000) {
+                await set(ref(db, `users/${userId}/metadata/lastLogin`), Date.now());
+              }
+            } else {
+              console.log("No metadata found, creating default...");
+              // Create default metadata if none exists
+              const user = auth.currentUser;
+              await set(ref(db, `users/${userId}/metadata`), {
+                email: user.email,
+                fullName: user.displayName || 'User',
+                signupDate: Date.now(),
+                lastLogin: Date.now(),
+                balance: 0
+              });
+            }
+          } catch (error) {
+            console.error("Error loading user metadata:", error);
+          }
+        }
+
         // Redirect to login page
         function redirectToLogin() {
           elements.loginRedirect.style.display = 'flex';
           setTimeout(() => {
-            window.location.href = 'login.html';
-          }, 3000);
+            window.location.href = '/login.html'; // Updated to use absolute path
+          }, 1500);
         }
 
         // Event listeners
@@ -443,4 +528,55 @@
 
         // Auth state listener
         onAuthStateChanged(auth, (user) => {
-          if (user)
+          if (user) {
+            console.log("User signed in:", user);
+            
+            // Hide login redirect overlay
+            elements.loginRedirect.style.display = 'none';
+            
+            // Update user info
+            elements.userEmail.textContent = user.email;
+            elements.userName.textContent = user.displayName || user.email.split('@')[0];
+            
+            // Handle email verification
+            if (user.emailVerified) {
+              elements.emailVerifiedBadge.style.display = 'inline';
+              elements.verifyEmailSection.style.display = 'none';
+            } else {
+              elements.emailVerifiedBadge.style.display = 'none';
+              elements.verifyEmailSection.style.display = 'block';
+            }
+            
+            // Load user metadata including signup date
+            loadUserMetadata(user.uid);
+            
+            // Generate avatar and setup balance
+            generateRandomAvatar(user.email);
+            setupBalanceListener(user.uid);
+            
+          } else {
+            console.log("User signed out");
+            
+            // Clean up
+            if (window.userBalanceListener) {
+              off(window.userBalanceListener);
+              window.userBalanceListener = null;
+            }
+            
+            // Redirect to login page
+            redirectToLogin();
+          }
+        });
+
+        // Initial loading state
+        elements.userEmail.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Loading profile...';
+
+      } catch (error) {
+        console.error("Initialization error:", error);
+        showAlert("Failed to initialize application. Please try again later.", "danger");
+        redirectToLogin();
+      }
+    });
+  </script>
+</body>
+</html>
