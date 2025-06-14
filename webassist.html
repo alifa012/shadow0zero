@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shadowlogs Assistant</title>
+    <style>
+        /* Shadowlogs Assistant - Centered Version */
+        body {
+            background-color: #022001;
+        }
+        #shadowlogs-assistant {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50vw; /* 50% of viewport width */
+            height: 50vh; /* 50% of viewport height */
+            max-width: 600px; /* Maximum width */
+            max-height: 600px; /* Maximum height */
+            background-color: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.15);
+            overflow: hidden;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            font-family: 'Segoe UI', Roboto, -apple-system, sans-serif;
+            border: 1px solid #e1e5eb;
+        }
+        
+        #sa-header {
+            background: linear-gradient(135deg, #04d118 0%, #045204 100%);
+            color: white;
+            padding: 14px 18px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-align: center;
+            position: relative;
+        }
+        
+        #sa-back-button {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(4, 4, 4, 0.2);
+            border: none;
+            color: white;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        #sa-back-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        #sa-back-button::before {
+            content: "←";
+            font-size: 1.2rem;
+        }
+        
+        #sa-header-title {
+            margin: 0 auto;
+            width: calc(100% - 60px);
+            text-align: center;
+        }
+        
+        #sa-messages {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 15px;
+            background-color: #f8fafc;
+        }
+        
+        .sa-message {
+            margin-bottom: 14px;
+            max-width: 85%;
+            padding: 12px 16px;
+            border-radius: 16px;
+            line-height: 1.5;
+            font-size: 0.98rem;
+            word-break: break-word;
+        }
+        
+        .sa-user-message {
+            background-color: #e6f0ff;
+            color: #002366;
+            margin-left: auto;
+            border-bottom-right-radius: 4px;
+        }
+        
+        .sa-assistant-message {
+            background-color: #e4eae6;
+            color: #1a1a1a;
+            margin-right: auto;
+            border-bottom-left-radius: 4px;
+            border: 1px solid #e1e5eb;
+        }
+        
+        #sa-input-area {
+            display: flex;
+            padding: 14px;
+            border-top: 1px solid #e1e5eb;
+            background-color: #f5f7fa;
+        }
+        
+        #sa-user-input {
+            flex-grow: 1;
+            padding: 12px 15px;
+            border: 1px solid #d5dbe3;
+            border-radius: 20px;
+            outline: none;
+            font-size: 0.98rem;
+            background-color: white;
+            color: #1a1a1a;
+        }
+        
+        #sa-send-button {
+            background: linear-gradient(135deg, #01550a 0%, #022001 100%);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 12px 18px;
+            margin-left: 12px;
+            cursor: pointer;
+            font-size: 0.98rem;
+            font-weight: 500;
+        }
+        
+        .sa-typing-indicator {
+            display: inline-block;
+            padding: 12px 16px;
+            background-color: #f0f4f8;
+            border-radius: 16px;
+            margin-bottom: 14px;
+        }
+        
+        .sa-typing-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #718096;
+            margin: 0 4px;
+            animation: typingAnimation 1.4s infinite ease-in-out;
+        }
+        
+        @keyframes typingAnimation {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-4px); }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            #shadowlogs-assistant {
+                width: 80vw;
+                height: 60vh;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            #shadowlogs-assistant {
+                width: 90vw;
+                height: 70vh;
+            }
+            #sa-back-button {
+                width: 25px;
+                height: 25px;
+                left: 10px;
+            }
+            #sa-header-title {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Shadowlogs Assistant - Centered -->
+    <div id="shadowlogs-assistant">
+        <div id="sa-header">
+            <button id="sa-back-button" onclick="window.location.href='/home.html'"></button>
+            <div id="sa-header-title">SHADOWLOGS ASSISTANT</div>
+        </div>
+        <div id="sa-messages">
+            <div class="sa-message sa-assistant-message">
+                Hello Shadowlogs Member! How may I assist you today?
+            </div>
+        </div>
+        <div id="sa-input-area">
+            <input type="text" id="sa-user-input" placeholder="Type your message here...">
+            <button id="sa-send-button" type="button">Send</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const messagesContainer = document.getElementById('sa-messages');
+            const userInput = document.getElementById('sa-user-input');
+            const sendButton = document.getElementById('sa-send-button');
+            
+            function addMessage(text, isUser) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `sa-message ${isUser ? 'sa-user-message' : 'sa-assistant-message'}`;
+                messageDiv.textContent = text;
+                messagesContainer.appendChild(messageDiv);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+            
+            function showTyping() {
+                const typingDiv = document.createElement('div');
+                typingDiv.className = 'sa-typing-indicator';
+                typingDiv.id = 'typing-indicator';
+                typingDiv.innerHTML = `
+                    <span class="sa-typing-dot"></span>
+                    <span class="sa-typing-dot"></span>
+                    <span class="sa-typing-dot"></span>
+                `;
+                messagesContainer.appendChild(typingDiv);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+            
+            function hideTyping() {
+                const indicator = document.getElementById('typing-indicator');
+                if (indicator) {
+                    indicator.remove();
+                }
+            }
+            
+            function getResponse(userMessage) {
+                const input = userMessage.toLowerCase();
+                
+                if (input.includes('hello') || input.includes('hi')) {
+                    return "Hello! How can I help you today?";
+                } else if (input.includes('product')) {
+                    return "You can find all our products in your dashboard.";
+                } else if (input.includes('help')) {
+                    return "Please contact support@shadowlogs.com for assistance.";
+                } else if (input.includes('time')) {
+                    return `The current time is ${new Date().toLocaleTimeString()}.`;
+                } else {
+                    return "I'm here to help. Could you clarify your question?";
+                }
+            }
+            
+            function handleSendMessage() {
+                const message = userInput.value.trim();
+                if (message === '') return;
+                
+                addMessage(message, true);
+                userInput.value = '';
+                showTyping();
+                
+                setTimeout(() => {
+                    hideTyping();
+                    const response = getResponse(message);
+                    addMessage(response, false);
+                }, 1000);
+            }
+            
+            sendButton.addEventListener('click', handleSendMessage);
+            
+            userInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    handleSendMessage();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
