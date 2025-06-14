@@ -144,12 +144,44 @@
     .verify-email-btn {
       margin-top: 10px;
     }
+    #loginRedirect {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      z-index: 9999;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    #loginRedirect .content {
+      background: var(--container-bg);
+      padding: 2rem;
+      border-radius: 10px;
+      text-align: center;
+      max-width: 500px;
+    }
   </style>
 </head>
 <body>
   <div class="squares-bg"></div>
   
   <div id="alertContainer" style="position: fixed; top: 20px; right: 20px; z-index: 1000;"></div>
+
+  <!-- Login Redirect Overlay -->
+  <div id="loginRedirect">
+    <div class="content">
+      <h3><i class="fas fa-exclamation-triangle text-warning me-2"></i>Authentication Required</h3>
+      <p class="my-3">You need to be logged in to view this page. Redirecting to login page...</p>
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="mt-3">If you are not redirected automatically, <a href="login.html" class="text-primary">click here</a>.</p>
+    </div>
+  </div>
 
   <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: rgba(0,0,0,0.2); backdrop-filter: blur(5px);">
     <div class="container">
@@ -229,9 +261,7 @@
           getAuth, 
           signOut,
           onAuthStateChanged,
-          sendEmailVerification,
-          setPersistence,
-          browserSessionPersistence
+          sendEmailVerification
         } = await import("https://www.gstatic.com/firebasejs/11.9.0/firebase-auth.js");
         const { 
           getDatabase, 
@@ -258,9 +288,6 @@
         const auth = getAuth(app);
         const db = getDatabase(app);
 
-        // Set persistence
-        await setPersistence(auth, browserSessionPersistence);
-
         // Get DOM elements
         const elements = {
           userEmail: document.getElementById('userEmail'),
@@ -277,12 +304,13 @@
           topupSpinner: document.getElementById('topupSpinner'),
           refreshBalanceBtn: document.getElementById('refreshBalanceBtn'),
           refreshSpinner: document.getElementById('refreshSpinner'),
-          alertContainer: document.getElementById('alertContainer')
+          alertContainer: document.getElementById('alertContainer'),
+          loginRedirect: document.getElementById('loginRedirect')
         };
 
         // Validate elements exist
         Object.entries(elements).forEach(([name, element]) => {
-          if (!element) throw new Error(`Element ${name} not found`);
+          if (!element) console.error(`Element ${name} not found`);
         });
 
         // Show alert function
@@ -353,15 +381,21 @@
           });
         }
 
+        // Redirect to login page
+        function redirectToLogin() {
+          elements.loginRedirect.style.display = 'flex';
+          setTimeout(() => {
+            window.location.href = 'login.html';
+          }, 3000);
+        }
+
         // Event listeners
         elements.logoutBtn.addEventListener('click', async () => {
           showLoading(elements.logoutBtn, elements.logoutSpinner, true);
           try {
             await signOut(auth);
-            showAlert('Logged out successfully. Redirecting...', 'success');
-            setTimeout(() => {
-              window.location.href = 'login.html';
-            }, 1500);
+            showAlert('Logged out successfully', 'success');
+            redirectToLogin();
           } catch (error) {
             console.error("Logout error:", error);
             showAlert('Logout failed. Please try again.', 'danger');
@@ -395,7 +429,7 @@
             elements.verifyEmailText.textContent = 'Error sending verification. Try again.';
           } finally {
             showLoading(elements.verifyEmailBtn, null, false);
-            elements.verifyEmailBtn.textContent = 'Resend Verification';
+            elements.verifyEmailBtn.innerHTML = '<i class="fas fa-paper-plane me-1"></i> Resend Verification';
           }
         });
 
@@ -409,60 +443,4 @@
 
         // Auth state listener
         onAuthStateChanged(auth, (user) => {
-          if (user) {
-            console.log("User signed in:", user);
-            
-            // Update user info
-            elements.userEmail.textContent = user.email;
-            elements.userName.textContent = user.displayName || user.email.split('@')[0];
-            
-            // Handle email verification
-            if (user.emailVerified) {
-              elements.emailVerifiedBadge.style.display = 'inline';
-              elements.verifyEmailSection.style.display = 'none';
-            } else {
-              elements.emailVerifiedBadge.style.display = 'none';
-              elements.verifyEmailSection.style.display = 'block';
-            }
-            
-            // Generate avatar and setup balance
-            generateRandomAvatar(user.email);
-            setupBalanceListener(user.uid);
-            
-          } else {
-            console.log("User signed out");
-            
-            // Clean up
-            if (window.userBalanceListener) {
-              off(window.userBalanceListener);
-              window.userBalanceListener = null;
-            }
-            
-            // Reset UI
-            elements.userEmail.textContent = 'loading...';
-            elements.userName.textContent = 'User Profile';
-            elements.userBalance.textContent = '0.00';
-            elements.userAvatar.textContent = 'SL';
-            elements.userAvatar.style.background = '';
-            elements.emailVerifiedBadge.style.display = 'none';
-            elements.verifyEmailSection.style.display = 'none';
-            
-            // Redirect to login
-            showAlert('Please login to access your profile', 'warning');
-            setTimeout(() => {
-              window.location.href = 'login.html';
-            }, 2000);
-          }
-        });
-
-        // Initial loading state
-        elements.userEmail.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Loading profile...';
-
-      } catch (error) {
-        console.error("Initialization error:", error);
-        alert("Failed to initialize application. Please try again later.");
-      }
-    });
-  </script>
-</body>
-</html>
+          if (user)
