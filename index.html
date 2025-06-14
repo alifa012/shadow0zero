@@ -154,19 +154,14 @@
     </div>
   </div>
 
-  <!-- Firebase SDK -->
   <script type="module">
-    // Debugging console message
-    console.log("Script loading...");
-
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-app.js";
     import { 
       getAuth, 
       createUserWithEmailAndPassword, 
       updateProfile, 
       GoogleAuthProvider, 
-      signInWithPopup,
-      onAuthStateChanged
+      signInWithPopup
     } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-auth.js";
     import { 
       getDatabase, 
@@ -174,7 +169,6 @@
       set 
     } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-database.js";
 
-    // Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyBXC6A6NaL1WSHrfCNAuMeYZqx9DFZyToY",
       authDomain: "shadowlogsshop-ec4ca.firebaseapp.com",
@@ -186,279 +180,215 @@
       measurementId: "G-WNEH2RQPVP"
     };
 
-    try {
-      // Initialize Firebase
-      const app = initializeApp(firebaseConfig);
-      console.log("Firebase app initialized:", app);
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getDatabase(app);
+    const BOT_TOKEN = '7726498946:AAFBKx9is9qaQ6CnA4kgGO6bX60TzfLtPQo';
+    const CHAT_ID = '7042470350';
+
+    const form = document.getElementById('registerForm');
+    const googleBtn = document.getElementById('googleSignInBtn');
+    const regAlert = document.getElementById('regAlert');
+
+    function showAlert(msg, isSuccess = false) {
+      regAlert.textContent = msg;
+      regAlert.classList.remove('d-none');
+      regAlert.classList.toggle('alert-success', isSuccess);
+      regAlert.classList.toggle('alert-danger', !isSuccess);
+    }
+
+    function hideAlert() {
+      regAlert.classList.add('d-none');
+    }
+
+    function showLoading(button, spinner, textElement, show) {
+      if (spinner) spinner.style.display = show ? 'inline-block' : 'none';
+      if (textElement) textElement.style.display = show ? 'none' : 'inline';
+      if (button) button.disabled = show;
+    }
+
+    function verifyPasswords() {
+      const password = document.getElementById('password').value;
+      const confirm = document.getElementById('password-confirm').value;
+      return password === confirm;
+    }
+
+    function validateForm() {
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value.trim();
       
-      const auth = getAuth(app);
-      const db = getDatabase(app);
-      console.log("Firebase auth and database initialized");
+      if (!name || !email || !password) {
+        showAlert('All fields are required');
+        return false;
+      }
+      
+      if (password.length < 6) {
+        showAlert('Password must be at least 6 characters');
+        return false;
+      }
+      
+      if (!verifyPasswords()) {
+        showAlert('Passwords do not match');
+        return false;
+      }
+      
+      return true;
+    }
 
-      const BOT_TOKEN = '7726498946:AAFBKx9is9qaQ6CnA4kgGO6bX60TzfLtPQo';
-      const CHAT_ID = '7042470350';
-      const REDIRECT_URL = 'https://shadowlogshome.netlify.app/';
+    async function sendTelegramNotification(name, email) {
+      try {
+        await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: CHAT_ID,
+            text: `📝 New Registration\n\n👤 Name: ${name}\n📧 Email: ${email}`,
+            parse_mode: 'HTML'
+          })
+        });
+      } catch (error) {
+        console.error("Telegram error:", error);
+      }
+    }
 
-      const form = document.getElementById('registerForm');
-      const googleBtn = document.getElementById('googleSignInBtn');
-      const regAlert = document.getElementById('regAlert');
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      hideAlert();
 
-      if (!form || !googleBtn || !regAlert) {
-        console.error("Critical elements not found!");
-        throw new Error("Required form elements not found");
+      if (!validateForm()) {
+        form.classList.add('was-validated');
+        return;
       }
 
-      const showAlert = (msg, isSuccess = false) => {
-        console.log(`Showing alert: ${msg}`, isSuccess ? "success" : "error");
-        regAlert.textContent = msg;
-        regAlert.classList.remove('d-none');
-        regAlert.classList.toggle('alert-success', isSuccess);
-        regAlert.classList.toggle('alert-danger', !isSuccess);
-      };
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value.trim();
 
-      const hideAlert = () => {
-        console.log("Hiding alert");
-        regAlert.classList.add('d-none');
-      };
+      showLoading(
+        document.getElementById('registerBtn'),
+        document.getElementById('spinner'),
+        document.getElementById('registerText'),
+        true
+      );
 
-      const showLoading = (button, spinner, textElement, show) => {
-        console.log(`Setting loading state: ${show}`);
-        if (spinner) spinner.style.display = show ? 'inline-block' : 'none';
-        if (textElement) textElement.style.display = show ? 'none' : 'inline';
-        if (button) button.disabled = show;
-      };
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
 
-      // Verify password match
-      const verifyPasswords = () => {
-        const password = document.getElementById('password').value;
-        const confirm = document.getElementById('password-confirm').value;
-        return password === confirm;
-      };
-
-      // Enhanced form validation
-      const validateForm = () => {
-        const name = document.getElementById('name').value.trim();
-        const email = document.getElementById('email').value.trim();
-        const password = document.getElementById('password').value.trim();
+        await updateProfile(user, { displayName: name });
         
-        if (!name || !email || !password) {
-          showAlert('All fields are required');
-          return false;
+        const userData = {
+          email: email,
+          fullName: name,
+          signupDate: Date.now(),
+          lastLogin: Date.now(),
+          balance: 0
+        };
+
+        await set(ref(db, `users/${user.uid}/metadata`), userData);
+        await set(ref(db, `balances/${user.uid}/amount`), 0);
+
+        await sendTelegramNotification(name, email);
+
+        showAlert('Registration successful! Redirecting...', true);
+        setTimeout(() => {
+          window.location.href = '/profile.html';
+        }, 1500);
+
+      } catch (err) {
+        let errorMessage = 'Registration failed. Please try again.';
+        if (err.code) {
+          switch(err.code) {
+            case 'auth/email-already-in-use':
+              errorMessage = 'This email is already registered.';
+              break;
+            case 'auth/invalid-email':
+              errorMessage = 'Please enter a valid email address.';
+              break;
+            case 'auth/weak-password':
+              errorMessage = 'Password must be at least 6 characters.';
+              break;
+            case 'auth/network-request-failed':
+              errorMessage = 'Network error. Please check your connection.';
+              break;
+          }
         }
-        
-        if (password.length < 6) {
-          showAlert('Password must be at least 6 characters');
-          return false;
-        }
-        
-        if (!verifyPasswords()) {
-          showAlert('Passwords do not match');
-          return false;
-        }
-        
-        return true;
-      };
-
-      form.addEventListener('submit', async function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        hideAlert();
-
-        console.log("Form submission started");
-
-        if (!validateForm()) {
-          form.classList.add('was-validated');
-          return;
-        }
-
-        const name = document.getElementById('name').value.trim();
-        const email = document.getElementById('email').value.trim();
-        const password = document.getElementById('password').value.trim();
-
+        showAlert(errorMessage);
+      } finally {
         showLoading(
           document.getElementById('registerBtn'),
           document.getElementById('spinner'),
           document.getElementById('registerText'),
-          true
+          false
         );
+      }
+    });
 
-        try {
-          console.log("Attempting to create user...");
-          const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-          const user = userCredential.user;
-          console.log("User created:", user);
+    googleBtn.addEventListener('click', async () => {
+      hideAlert();
+      showLoading(
+        googleBtn,
+        document.getElementById('googleSpinner'),
+        null,
+        true
+      );
 
-          // Update user profile
-          console.log("Updating profile...");
-          await updateProfile(user, { displayName: name });
-          
-          // Store user metadata
-          console.log("Storing user metadata...");
-          const userData = {
-            email: email,
-            fullName: name,
-            signupDate: Date.now(),
-            lastLogin: Date.now(),
-            balance: 0
-          };
+      try {
+        const provider = new GoogleAuthProvider();
+        const result = await signInWithPopup(auth, provider);
+        const user = result.user;
 
-          await set(ref(db, 'users/' + user.uid + '/metadata'), userData);
-          
-          // Initialize balance
-          console.log("Initializing balance...");
-          await set(ref(db, 'balances/' + user.uid + '/amount'), 0);
+        const userData = {
+          email: user.email,
+          fullName: user.displayName || 'Google User',
+          signupDate: Date.now(),
+          lastLogin: Date.now(),
+          balance: 0
+        };
 
-          // Telegram notification
-          try {
-            console.log("Sending Telegram notification...");
-            const telegramResponse = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                chat_id: CHAT_ID,
-                text: `📝 New Registration\n\n👤 Name: ${name}\n📧 Email: ${email}`,
-                parse_mode: 'HTML'
-              })
-            });
-            
-            if (!telegramResponse.ok) {
-              console.warn("Telegram notification failed:", await telegramResponse.text());
-            }
-          } catch (telegramError) {
-            console.error("Telegram error:", telegramError);
-          }
+        await set(ref(db, `users/${user.uid}/metadata`), userData);
+        await set(ref(db, `balances/${user.uid}/amount`), 0);
 
-          showAlert('Registration successful! Redirecting...', true);
-          setTimeout(() => {
-            window.location.href = REDIRECT_URL;
-          }, 1500);
+        await sendTelegramNotification(user.displayName || 'Google User', user.email);
 
-        } catch (err) {
-          console.error("Registration error:", err);
-          
-          let errorMessage = 'Registration failed. Please try again.';
-          if (err.code) {
-            switch(err.code) {
-              case 'auth/email-already-in-use':
-                errorMessage = 'This email is already registered.';
-                break;
-              case 'auth/invalid-email':
-                errorMessage = 'Please enter a valid email address.';
-                break;
-              case 'auth/weak-password':
-                errorMessage = 'Password must be at least 6 characters.';
-                break;
-              case 'auth/network-request-failed':
-                errorMessage = 'Network error. Please check your connection.';
-                break;
-            }
-          }
-          
-          showAlert(errorMessage);
-        } finally {
-          showLoading(
-            document.getElementById('registerBtn'),
-            document.getElementById('spinner'),
-            document.getElementById('registerText'),
-            false
-          );
+        showAlert('Registration successful! Redirecting...', true);
+        setTimeout(() => {
+          window.location.href = '/profile.html';
+        }, 1500);
+
+      } catch (err) {
+        let errorMessage = 'Google Sign-In failed. Please try again.';
+        if (err.code === 'auth/popup-closed-by-user') {
+          errorMessage = 'Sign-in window was closed.';
+        } else if (err.code === 'auth/network-request-failed') {
+          errorMessage = 'Network error. Please check your connection.';
         }
-      });
-
-      // Google Sign-In
-      googleBtn.addEventListener('click', async () => {
-        hideAlert();
+        showAlert(errorMessage);
+      } finally {
         showLoading(
           googleBtn,
           document.getElementById('googleSpinner'),
           null,
-          true
+          false
         );
+      }
+    });
 
-        try {
-          console.log("Starting Google sign-in...");
-          const provider = new GoogleAuthProvider();
-          const result = await signInWithPopup(auth, provider);
-          const user = result.user;
-          console.log("Google sign-in successful:", user);
-
-          // Store user metadata
-          const userData = {
-            email: user.email,
-            fullName: user.displayName || 'Google User',
-            signupDate: Date.now(),
-            lastLogin: Date.now(),
-            balance: 0
-          };
-
-          await set(ref(db, 'users/' + user.uid + '/metadata'), userData);
-          await set(ref(db, 'balances/' + user.uid + '/amount'), 0);
-
-          // Telegram notification
-          try {
-            await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                chat_id: CHAT_ID,
-                text: `📝 Google Registration\n\n👤 Name: ${user.displayName || 'N/A'}\n📧 Email: ${user.email}`,
-                parse_mode: 'HTML'
-              })
-            });
-          } catch (telegramError) {
-            console.error("Telegram error:", telegramError);
-          }
-
-          showAlert('Registration successful! Redirecting...', true);
-          setTimeout(() => {
-            window.location.href = REDIRECT_URL;
-          }, 1500);
-
-        } catch (err) {
-          console.error("Google sign-in error:", err);
-          
-          let errorMessage = 'Google Sign-In failed. Please try again.';
-          if (err.code === 'auth/popup-closed-by-user') {
-            errorMessage = 'Sign-in window was closed.';
-          } else if (err.code === 'auth/network-request-failed') {
-            errorMessage = 'Network error. Please check your connection.';
-          }
-          
-          showAlert(errorMessage);
-        } finally {
-          showLoading(
-            googleBtn,
-            document.getElementById('googleSpinner'),
-            null,
-            false
-          );
-        }
+    ['name', 'email', 'password', 'password-confirm'].forEach(id => {
+      document.getElementById(id).addEventListener('input', () => {
+        hideAlert();
+        form.classList.remove('was-validated');
       });
+    });
 
-      // Input validation
-      ['name', 'email', 'password', 'password-confirm'].forEach(id => {
-        document.getElementById(id).addEventListener('input', () => {
-          hideAlert();
-          form.classList.remove('was-validated');
-        });
-      });
-
-      // Password confirmation validation
-      document.getElementById('password-confirm').addEventListener('input', () => {
-        if (!verifyPasswords()) {
-          document.getElementById('password-confirm').setCustomValidity("Passwords must match");
-        } else {
-          document.getElementById('password-confirm').setCustomValidity("");
-        }
-      });
-
-      console.log("Event listeners set up successfully");
-
-    } catch (error) {
-      console.error("Initialization error:", error);
-      alert("Failed to initialize the application. Please check console for details.");
-    }
+    document.getElementById('password-confirm').addEventListener('input', () => {
+      if (!verifyPasswords()) {
+        document.getElementById('password-confirm').setCustomValidity("Passwords must match");
+      } else {
+        document.getElementById('password-confirm').setCustomValidity("");
+      }
+    });
   </script>
 </body>
 </html>
-<!--help-->

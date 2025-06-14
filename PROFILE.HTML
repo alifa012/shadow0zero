@@ -189,7 +189,6 @@
   
   <div id="alertContainer" style="position: fixed; top: 20px; right: 20px; z-index: 1000;"></div>
 
-  <!-- Login Redirect Overlay -->
   <div id="loginRedirect">
     <div class="content">
       <h3><i class="fas fa-exclamation-triangle text-warning me-2"></i>Authentication Required</h3>
@@ -247,7 +246,6 @@
           </div>
         </div>
         
-        <!-- User Metadata Section -->
         <div class="profile-meta">
           <div class="meta-item">
             <i class="fas fa-user-clock"></i>
@@ -284,299 +282,256 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 
   <script type="module">
-    document.addEventListener('DOMContentLoaded', async () => {
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-app.js";
+    import { 
+      getAuth, 
+      signOut,
+      onAuthStateChanged,
+      sendEmailVerification
+    } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-auth.js";
+    import { 
+      getDatabase, 
+      ref, 
+      onValue, 
+      off, 
+      set,
+      get,
+      update
+    } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBXC6A6NaL1WSHrfCNAuMeYZqx9DFZyToY",
+      authDomain: "shadowlogsshop-ec4ca.firebaseapp.com",
+      databaseURL: "https://shadowlogsshop-ec4ca-default-rtdb.firebaseio.com",
+      projectId: "shadowlogsshop-ec4ca",
+      storageBucket: "shadowlogsshop-ec4ca.appspot.com",
+      messagingSenderId: "709594271975",
+      appId: "1:709594271975:web:6a4bfc8bdcbc51c2859242",
+      measurementId: "G-WNEH2RQPVP"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getDatabase(app);
+
+    const elements = {
+      userEmail: document.getElementById('userEmail'),
+      emailVerifiedBadge: document.getElementById('emailVerifiedBadge'),
+      verifyEmailSection: document.getElementById('verifyEmailSection'),
+      verifyEmailBtn: document.getElementById('verifyEmailBtn'),
+      verifyEmailText: document.getElementById('verifyEmailText'),
+      userAvatar: document.getElementById('userAvatar'),
+      userName: document.getElementById('userName'),
+      userBalance: document.getElementById('userBalance'),
+      logoutBtn: document.getElementById('logoutBtn'),
+      logoutSpinner: document.getElementById('logoutSpinner'),
+      topUpBtn: document.getElementById('topUpBtn'),
+      topupSpinner: document.getElementById('topupSpinner'),
+      refreshBalanceBtn: document.getElementById('refreshBalanceBtn'),
+      refreshSpinner: document.getElementById('refreshSpinner'),
+      alertContainer: document.getElementById('alertContainer'),
+      loginRedirect: document.getElementById('loginRedirect'),
+      memberSince: document.getElementById('memberSince'),
+      lastLogin: document.getElementById('lastLogin')
+    };
+
+    function showAlert(message, type = 'success') {
+      const alert = document.createElement('div');
+      alert.className = `alert alert-${type} alert-dismissible fade show`;
+      alert.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      `;
+      elements.alertContainer.appendChild(alert);
+      setTimeout(() => alert.remove(), 5000);
+    }
+
+    function formatDate(timestamp) {
+      if (!timestamp) return 'Unknown';
+      const date = new Date(timestamp);
+      return date.toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    }
+
+    function generateRandomAvatar(email) {
+      const colors = [
+        'linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%)',
+        'linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%)',
+        'linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%)',
+        'linear-gradient(120deg, #f6d365 0%, #fda085 100%)',
+        'linear-gradient(to right, #ff758c 0%, #ff7eb3 100%)'
+      ];
+      
+      const initials = email ? 
+        email.split('@')[0].split(/[._-]/).map(p => p.charAt(0)).join('').toUpperCase().substring(0, 2) : 
+        'SL';
+      
+      elements.userAvatar.style.background = colors[Math.floor(Math.random() * colors.length)];
+      elements.userAvatar.textContent = initials;
+    }
+
+    function showLoading(button, spinner, show) {
+      if (spinner) spinner.style.display = show ? 'inline-block' : 'none';
+      if (button) button.disabled = show;
+    }
+
+    function setupBalanceListener(userId) {
+      const userBalanceRef = ref(db, `balances/${userId}/amount`);
+      
+      if (window.userBalanceListener) {
+        off(window.userBalanceListener);
+      }
+      
+      window.userBalanceListener = onValue(userBalanceRef, (snapshot) => {
+        const balance = snapshot.val();
+        if (balance !== null) {
+          elements.userBalance.textContent = balance.toFixed(2);
+        } else {
+          set(userBalanceRef, 0).catch(error => console.error("Error initializing balance:", error));
+        }
+        showLoading(elements.refreshBalanceBtn, elements.refreshSpinner, false);
+      }, (error) => {
+        console.error("Balance listener error:", error);
+        showAlert('Failed to load balance', 'danger');
+        showLoading(elements.refreshBalanceBtn, elements.refreshSpinner, false);
+      });
+    }
+
+    async function loadUserMetadata(userId) {
+      const userMetaRef = ref(db, `users/${userId}/metadata`);
+      
       try {
-        // Import Firebase modules
-        const { initializeApp } = await import("https://www.gstatic.com/firebasejs/11.9.0/firebase-app.js");
-        const { 
-          getAuth, 
-          signOut,
-          onAuthStateChanged,
-          sendEmailVerification
-        } = await import("https://www.gstatic.com/firebasejs/11.9.0/firebase-auth.js");
-        const { 
-          getDatabase, 
-          ref, 
-          onValue, 
-          off, 
-          set,
-          get
-        } = await import("https://www.gstatic.com/firebasejs/11.9.0/firebase-database.js");
-
-        // Firebase configuration
-        const firebaseConfig = {
-          apiKey: "AIzaSyBXC6A6NaL1WSHrfCNAuMeYZqx9DFZyToY",
-          authDomain: "shadowlogsshop-ec4ca.firebaseapp.com",
-          databaseURL: "https://shadowlogsshop-ec4ca-default-rtdb.firebaseio.com",
-          projectId: "shadowlogsshop-ec4ca",
-          storageBucket: "shadowlogsshop-ec4ca.appspot.com",
-          messagingSenderId: "709594271975",
-          appId: "1:709594271975:web:6a4bfc8bdcbc51c2859242",
-          measurementId: "G-WNEH2RQPVP"
-        };
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getDatabase(app);
-
-        // Get DOM elements
-        const elements = {
-          userEmail: document.getElementById('userEmail'),
-          emailVerifiedBadge: document.getElementById('emailVerifiedBadge'),
-          verifyEmailSection: document.getElementById('verifyEmailSection'),
-          verifyEmailBtn: document.getElementById('verifyEmailBtn'),
-          verifyEmailText: document.getElementById('verifyEmailText'),
-          userAvatar: document.getElementById('userAvatar'),
-          userName: document.getElementById('userName'),
-          userBalance: document.getElementById('userBalance'),
-          logoutBtn: document.getElementById('logoutBtn'),
-          logoutSpinner: document.getElementById('logoutSpinner'),
-          topUpBtn: document.getElementById('topUpBtn'),
-          topupSpinner: document.getElementById('topupSpinner'),
-          refreshBalanceBtn: document.getElementById('refreshBalanceBtn'),
-          refreshSpinner: document.getElementById('refreshSpinner'),
-          alertContainer: document.getElementById('alertContainer'),
-          loginRedirect: document.getElementById('loginRedirect'),
-          memberSince: document.getElementById('memberSince'),
-          lastLogin: document.getElementById('lastLogin')
-        };
-
-        // Validate elements exist
-        Object.entries(elements).forEach(([name, element]) => {
-          if (!element) console.error(`Element ${name} not found`);
-        });
-
-        // Show alert function
-        function showAlert(message, type = 'success') {
-          const alert = document.createElement('div');
-          alert.className = `alert alert-${type} alert-dismissible fade show`;
-          alert.innerHTML = `
-            ${message}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          `;
-          elements.alertContainer.appendChild(alert);
-          setTimeout(() => alert.remove(), 5000);
-        }
-
-        // Format date to readable string
-        function formatDate(timestamp) {
-          if (!timestamp) return 'Unknown';
-          const date = new Date(timestamp);
-          return date.toLocaleDateString('en-US', { 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-          });
-        }
-
-        // Generate random avatar
-        function generateRandomAvatar(email) {
-          const colors = [
-            'linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%)',
-            'linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%)',
-            'linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%)',
-            'linear-gradient(120deg, #f6d365 0%, #fda085 100%)',
-            'linear-gradient(to right, #ff758c 0%, #ff7eb3 100%)'
-          ];
+        const snapshot = await get(userMetaRef);
+        
+        if (snapshot.exists()) {
+          const meta = snapshot.val();
+          const displayName = meta.fullName || auth.currentUser.displayName || auth.currentUser.email.split('@')[0];
+          elements.userName.textContent = displayName;
           
-          const initials = email ? 
-            email.split('@')[0].split(/[._-]/).map(p => p.charAt(0)).join('').toUpperCase().substring(0, 2) : 
-            'SL';
-          
-          elements.userAvatar.style.background = colors[Math.floor(Math.random() * colors.length)];
-          elements.userAvatar.textContent = initials;
-          
-          if (email) {
-            const username = email.split('@')[0];
-            elements.userName.textContent = username.charAt(0).toUpperCase() + username.slice(1);
-          }
-        }
-
-        // Show/hide loading spinner
-        function showLoading(button, spinner, show) {
-          if (spinner) spinner.style.display = show ? 'inline-block' : 'none';
-          if (button) button.disabled = show;
-        }
-
-        // Setup balance listener
-        function setupBalanceListener(userId) {
-          const userBalanceRef = ref(db, `balances/${userId}/amount`);
-          
-          // Remove previous listener if exists
-          if (window.userBalanceListener) {
-            off(window.userBalanceListener);
-          }
-          
-          // Set up new listener
-          window.userBalanceListener = onValue(userBalanceRef, (snapshot) => {
-            const balance = snapshot.val();
-            if (balance !== null) {
-              elements.userBalance.textContent = balance.toFixed(2);
-            } else {
-              // Initialize balance if doesn't exist
-              set(userBalanceRef, 0)
-                .catch(error => console.error("Error initializing balance:", error));
-            }
-            showLoading(elements.refreshBalanceBtn, elements.refreshSpinner, false);
-          }, (error) => {
-            console.error("Balance listener error:", error);
-            showAlert('Failed to load balance', 'danger');
-            showLoading(elements.refreshBalanceBtn, elements.refreshSpinner, false);
-          });
-        }
-
-        // Load user metadata including signup date
-        async function loadUserMetadata(userId) {
-          const userMetaRef = ref(db, `users/${userId}/metadata`);
-          
-          try {
-            const snapshot = await get(userMetaRef);
-            if (snapshot.exists()) {
-              const meta = snapshot.val();
-              
-              // Display signup and last login info
-              if (meta.signupDate) {
-                elements.memberSince.textContent = `Member since: ${formatDate(meta.signupDate)}`;
-              }
-              if (meta.lastLogin) {
-                elements.lastLogin.textContent = `Last active: ${formatDate(meta.lastLogin)}`;
-              }
-              
-              // Update last login time if it's been more than 5 minutes
-              if (!meta.lastLogin || (Date.now() - meta.lastLogin) > 300000) {
-                await set(ref(db, `users/${userId}/metadata/lastLogin`), Date.now());
-              }
-            } else {
-              console.log("No metadata found, creating default...");
-              // Create default metadata if none exists
-              const user = auth.currentUser;
-              await set(ref(db, `users/${userId}/metadata`), {
-                email: user.email,
-                fullName: user.displayName || 'User',
-                signupDate: Date.now(),
-                lastLogin: Date.now(),
-                balance: 0
-              });
-            }
-          } catch (error) {
-            console.error("Error loading user metadata:", error);
-          }
-        }
-
-        // Redirect to login page
-        function redirectToLogin() {
-          elements.loginRedirect.style.display = 'flex';
-          setTimeout(() => {
-            window.location.href = '/login.html'; // Updated to use absolute path
-          }, 1500);
-        }
-
-        // Event listeners
-        elements.logoutBtn.addEventListener('click', async () => {
-          showLoading(elements.logoutBtn, elements.logoutSpinner, true);
-          try {
-            await signOut(auth);
-            showAlert('Logged out successfully', 'success');
-            redirectToLogin();
-          } catch (error) {
-            console.error("Logout error:", error);
-            showAlert('Logout failed. Please try again.', 'danger');
-            showLoading(elements.logoutBtn, elements.logoutSpinner, false);
-          }
-        });
-
-        elements.topUpBtn.addEventListener('click', async () => {
-          showLoading(elements.topUpBtn, elements.topupSpinner, true);
-          try {
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            showAlert('Redirecting to payment gateway...', 'info');
-          } catch (error) {
-            console.error("Top up error:", error);
-            showAlert('Failed to initiate top up. Please try again.', 'danger');
-          } finally {
-            showLoading(elements.topUpBtn, elements.topupSpinner, false);
-          }
-        });
-
-        elements.verifyEmailBtn.addEventListener('click', async () => {
-          showLoading(elements.verifyEmailBtn, null, true);
-          elements.verifyEmailText.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Sending verification email...';
-          try {
-            await sendEmailVerification(auth.currentUser);
-            showAlert('Verification email sent! Please check your inbox.', 'success');
-            elements.verifyEmailText.textContent = 'Verification email sent! Check your inbox.';
-          } catch (error) {
-            console.error("Error sending verification email:", error);
-            showAlert('Failed to send verification email. Please try again.', 'danger');
-            elements.verifyEmailText.textContent = 'Error sending verification. Try again.';
-          } finally {
-            showLoading(elements.verifyEmailBtn, null, false);
-            elements.verifyEmailBtn.innerHTML = '<i class="fas fa-paper-plane me-1"></i> Resend Verification';
-          }
-        });
-
-        elements.refreshBalanceBtn.addEventListener('click', () => {
-          showLoading(elements.refreshBalanceBtn, elements.refreshSpinner, true);
-          setTimeout(() => {
-            showLoading(elements.refreshBalanceBtn, elements.refreshSpinner, false);
-            showAlert('Balance refreshed!', 'success');
-          }, 500);
-        });
-
-        // Auth state listener
-        onAuthStateChanged(auth, (user) => {
-          if (user) {
-            console.log("User signed in:", user);
-            
-            // Hide login redirect overlay
-            elements.loginRedirect.style.display = 'none';
-            
-            // Update user info
-            elements.userEmail.textContent = user.email;
-            elements.userName.textContent = user.displayName || user.email.split('@')[0];
-            
-            // Handle email verification
-            if (user.emailVerified) {
-              elements.emailVerifiedBadge.style.display = 'inline';
-              elements.verifyEmailSection.style.display = 'none';
-            } else {
-              elements.emailVerifiedBadge.style.display = 'none';
-              elements.verifyEmailSection.style.display = 'block';
-            }
-            
-            // Load user metadata including signup date
-            loadUserMetadata(user.uid);
-            
-            // Generate avatar and setup balance
-            generateRandomAvatar(user.email);
-            setupBalanceListener(user.uid);
-            
+          if (meta.signupDate) {
+            elements.memberSince.textContent = `Member since: ${formatDate(meta.signupDate)}`;
           } else {
-            console.log("User signed out");
-            
-            // Clean up
-            if (window.userBalanceListener) {
-              off(window.userBalanceListener);
-              window.userBalanceListener = null;
-            }
-            
-            // Redirect to login page
-            redirectToLogin();
+            await update(userMetaRef, { signupDate: Date.now() });
+            elements.memberSince.textContent = `Member since: ${formatDate(Date.now())}`;
           }
-        });
-
-        // Initial loading state
-        elements.userEmail.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Loading profile...';
-
+          
+          if (meta.lastLogin) {
+            elements.lastLogin.textContent = `Last active: ${formatDate(meta.lastLogin)}`;
+          }
+          
+          await update(userMetaRef, { lastLogin: Date.now() });
+          
+        } else {
+          const user = auth.currentUser;
+          const newMeta = {
+            email: user.email,
+            fullName: user.displayName || user.email.split('@')[0],
+            signupDate: Date.now(),
+            lastLogin: Date.now(),
+            balance: 0
+          };
+          
+          await set(userMetaRef, newMeta);
+          elements.userName.textContent = newMeta.fullName;
+          elements.memberSince.textContent = `Member since: ${formatDate(newMeta.signupDate)}`;
+          elements.lastLogin.textContent = `Last active: ${formatDate(newMeta.lastLogin)}`;
+        }
       } catch (error) {
-        console.error("Initialization error:", error);
-        showAlert("Failed to initialize application. Please try again later.", "danger");
+        console.error("Error loading user metadata:", error);
+        showAlert("Error loading profile data", "danger");
+      }
+    }
+
+    function redirectToLogin() {
+      elements.loginRedirect.style.display = 'flex';
+      setTimeout(() => {
+        window.location.href = '/login.html';
+      }, 1500);
+    }
+
+    elements.logoutBtn.addEventListener('click', async () => {
+      showLoading(elements.logoutBtn, elements.logoutSpinner, true);
+      try {
+        await signOut(auth);
+        showAlert('Logged out successfully', 'success');
+        redirectToLogin();
+      } catch (error) {
+        console.error("Logout error:", error);
+        showAlert('Logout failed. Please try again.', 'danger');
+        showLoading(elements.logoutBtn, elements.logoutSpinner, false);
+      }
+    });
+
+    elements.topUpBtn.addEventListener('click', async () => {
+      showLoading(elements.topUpBtn, elements.topupSpinner, true);
+      try {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        showAlert('Redirecting to payment gateway...', 'info');
+      } catch (error) {
+        console.error("Top up error:", error);
+        showAlert('Failed to initiate top up. Please try again.', 'danger');
+      } finally {
+        showLoading(elements.topUpBtn, elements.topupSpinner, false);
+      }
+    });
+
+    elements.verifyEmailBtn.addEventListener('click', async () => {
+      showLoading(elements.verifyEmailBtn, null, true);
+      elements.verifyEmailText.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Sending verification email...';
+      try {
+        await sendEmailVerification(auth.currentUser);
+        showAlert('Verification email sent! Please check your inbox.', 'success');
+        elements.verifyEmailText.textContent = 'Verification email sent! Check your inbox.';
+      } catch (error) {
+        console.error("Error sending verification email:", error);
+        showAlert('Failed to send verification email. Please try again.', 'danger');
+        elements.verifyEmailText.textContent = 'Error sending verification. Try again.';
+      } finally {
+        showLoading(elements.verifyEmailBtn, null, false);
+        elements.verifyEmailBtn.innerHTML = '<i class="fas fa-paper-plane me-1"></i> Resend Verification';
+      }
+    });
+
+    elements.refreshBalanceBtn.addEventListener('click', () => {
+      showLoading(elements.refreshBalanceBtn, elements.refreshSpinner, true);
+      setTimeout(() => {
+        showLoading(elements.refreshBalanceBtn, elements.refreshSpinner, false);
+        showAlert('Balance refreshed!', 'success');
+      }, 500);
+    });
+
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        elements.loginRedirect.style.display = 'none';
+        elements.userEmail.textContent = user.email;
+        
+        if (user.emailVerified) {
+          elements.emailVerifiedBadge.style.display = 'inline';
+          elements.verifyEmailSection.style.display = 'none';
+        } else {
+          elements.emailVerifiedBadge.style.display = 'none';
+          elements.verifyEmailSection.style.display = 'block';
+        }
+        
+        await loadUserMetadata(user.uid);
+        generateRandomAvatar(user.email);
+        setupBalanceListener(user.uid);
+        
+      } else {
+        if (window.userBalanceListener) {
+          off(window.userBalanceListener);
+          window.userBalanceListener = null;
+        }
         redirectToLogin();
       }
     });
+
+    elements.userEmail.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Loading profile...';
   </script>
 </body>
 </html>
