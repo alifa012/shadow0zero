@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>My Profile - SHADOWLOGS</title>
+  <title>SHADOWLOGS - Home</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-dark-5@1.1.3/dist/css/bootstrap-dark.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
   <style>
@@ -33,6 +33,8 @@
       top: 0;
       left: 0;
     }
+    
+    /* Profile Container Styles */
     .profile-container {
       background: var(--container-bg);
       border-radius: 15px;
@@ -202,7 +204,7 @@
 
   <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: rgba(0,0,0,0.2); backdrop-filter: blur(5px);">
     <div class="container">
-      <a class="nav-brand" href="#">
+      <a class="nav-brand" href="/home.html">
         <img src="SHADOWLOGS.png" alt="Logo" style="height: 40px; margin-right: 10px;" />
         SHADOWLOGS
       </a>
@@ -212,13 +214,13 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <a class="nav-link active" href="#"><i class="fas fa-user me-1"></i> Profile</a>
+            <a class="nav-link active" href="#profileSection"><i class="fas fa-user me-1"></i> Profile</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#"><i class="fas fa-tachometer-alt me-1"></i> Dashboard</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#"><i class="fas fa-question-circle me-1"></i> Support</a>
+            <a class="nav-link" href="#" id="supportLink"><i class="fas fa-question-circle me-1"></i> Support</a>
           </li>
         </ul>
       </div>
@@ -226,7 +228,10 @@
   </nav>
 
   <div class="container">
-    <div class="profile-container">
+    <!-- Main Content of your home.html goes here -->
+    
+    <!-- Profile Section -->
+    <div class="profile-container" id="profileSection" style="display: none;">
       <div class="profile-info">
         <div class="profile-avatar" id="userAvatar">SL</div>
         <h3 id="userName">User Profile</h3>
@@ -277,6 +282,9 @@
         </button>
       </div>
     </div>
+    <!-- End Profile Section -->
+    
+    <!-- Rest of your home.html content -->
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
@@ -294,7 +302,6 @@
       ref, 
       onValue, 
       off, 
-      set,
       get,
       update
     } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-database.js";
@@ -332,7 +339,9 @@
       alertContainer: document.getElementById('alertContainer'),
       loginRedirect: document.getElementById('loginRedirect'),
       memberSince: document.getElementById('memberSince'),
-      lastLogin: document.getElementById('lastLogin')
+      lastLogin: document.getElementById('lastLogin'),
+      profileSection: document.getElementById('profileSection'),
+      supportLink: document.getElementById('supportLink')
     };
 
     function showAlert(message, type = 'success') {
@@ -373,6 +382,11 @@
       
       elements.userAvatar.style.background = colors[Math.floor(Math.random() * colors.length)];
       elements.userAvatar.textContent = initials;
+      
+      if (email) {
+        const username = email.split('@')[0];
+        elements.userName.textContent = username.charAt(0).toUpperCase() + username.slice(1);
+      }
     }
 
     function showLoading(button, spinner, show) {
@@ -392,7 +406,8 @@
         if (balance !== null) {
           elements.userBalance.textContent = balance.toFixed(2);
         } else {
-          set(userBalanceRef, 0).catch(error => console.error("Error initializing balance:", error));
+          set(ref(db, `balances/${userId}/amount`), 0)
+            .catch(error => console.error("Error initializing balance:", error));
         }
         showLoading(elements.refreshBalanceBtn, elements.refreshSpinner, false);
       }, (error) => {
@@ -410,8 +425,6 @@
         
         if (snapshot.exists()) {
           const meta = snapshot.val();
-          const displayName = meta.fullName || auth.currentUser.displayName || auth.currentUser.email.split('@')[0];
-          elements.userName.textContent = displayName;
           
           if (meta.signupDate) {
             elements.memberSince.textContent = `Member since: ${formatDate(meta.signupDate)}`;
@@ -437,7 +450,6 @@
           };
           
           await set(userMetaRef, newMeta);
-          elements.userName.textContent = newMeta.fullName;
           elements.memberSince.textContent = `Member since: ${formatDate(newMeta.signupDate)}`;
           elements.lastLogin.textContent = `Last active: ${formatDate(newMeta.lastLogin)}`;
         }
@@ -454,6 +466,20 @@
       }, 1500);
     }
 
+    // Setup support link (you can add your WhatsApp number later)
+    elements.supportLink.addEventListener('click', function(e) {
+      e.preventDefault();
+      window.location.href = 'https://wa.me/';
+    });
+
+    // Setup top up button
+    elements.topUpBtn.addEventListener('click', function() {
+      showLoading(elements.topUpBtn, elements.topupSpinner, true);
+      setTimeout(() => {
+        window.location.href = '/topup.html';
+      }, 1000);
+    });
+
     elements.logoutBtn.addEventListener('click', async () => {
       showLoading(elements.logoutBtn, elements.logoutSpinner, true);
       try {
@@ -464,19 +490,6 @@
         console.error("Logout error:", error);
         showAlert('Logout failed. Please try again.', 'danger');
         showLoading(elements.logoutBtn, elements.logoutSpinner, false);
-      }
-    });
-
-    elements.topUpBtn.addEventListener('click', async () => {
-      showLoading(elements.topUpBtn, elements.topupSpinner, true);
-      try {
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        showAlert('Redirecting to payment gateway...', 'info');
-      } catch (error) {
-        console.error("Top up error:", error);
-        showAlert('Failed to initiate top up. Please try again.', 'danger');
-      } finally {
-        showLoading(elements.topUpBtn, elements.topupSpinner, false);
       }
     });
 
@@ -508,6 +521,7 @@
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         elements.loginRedirect.style.display = 'none';
+        elements.profileSection.style.display = 'block';
         elements.userEmail.textContent = user.email;
         
         if (user.emailVerified) {
@@ -531,6 +545,7 @@
       }
     });
 
+    // Initial loading state
     elements.userEmail.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Loading profile...';
   </script>
 </body>
