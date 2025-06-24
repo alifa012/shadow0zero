@@ -396,9 +396,9 @@
       if (button) button.disabled = show;
     }
 
-    // MODIFIED: Listen to users/{userId}/balance for real-time updates
+    // MODIFIED: Listen to balances/{userId}/amount for real-time updates
     function setupBalanceListener(userId) {
-      const userBalanceRef = ref(db, `users/${userId}/balance`);
+      const userBalanceRef = ref(db, `balances/${userId}/amount`);
       
       if (window.userBalanceListener) {
         off(window.userBalanceListener);
