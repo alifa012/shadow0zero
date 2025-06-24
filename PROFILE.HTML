@@ -185,16 +185,7 @@
   </style>
 </head>
 <body>
-  <a href="#" class="btn btn-danger neo-glass" style="z-index:1000;background:black" onclick="goBack(event)">
-  <i class="fas fa-arrow-left" aria-hidden="true"></i> Back
-</a>
-
-<script>
-function goBack(event) {
-  event.preventDefault();
-  window.history.back();
-}
-</script>
+  
   <div class="squares-bg"></div>
   
   <div id="alertContainer" style="position: fixed; top: 20px; right: 20px; z-index: 1000;"></div>
@@ -213,12 +204,23 @@ function goBack(event) {
   <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: rgba(0,0,0,0.2); backdrop-filter: blur(5px);">
     <div class="container">
       <a class="nav-brand" href="/home.html">
+        <a href="#" class="btn btn-danger neo-glass" style="z-index:1000;background:black" onclick="goBack(event)">
+  <i class="fas fa-arrow-left" aria-hidden="true"></i> Back
+</a>
+
+<script>
+function goBack(event) {
+  event.preventDefault();
+  window.history.back();
+}
+</script>
         <img src="SHADOWLOGS.png" alt="Logo" style="height: 40px; margin-right: 10px;" />
         SHADOWLOGS
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
       </button>
+     
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
