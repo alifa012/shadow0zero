@@ -144,6 +144,20 @@
     .verify-email-btn {
       margin-top: 10px;
     }
+    .btn-vip-forum {
+      background: #222;
+      color: #fff;
+      border: 1px solid var(--accent-color);
+      margin: 10px 0;
+      font-weight: bold;
+      border-radius: 8px;
+      padding: 10px 20px;
+      display: inline-block;
+    }
+    .btn-vip-forum:hover {
+      background: var(--accent-color);
+      color: #fff;
+    }
   </style>
 </head>
 <body>
@@ -180,6 +194,10 @@
   </nav>
 
   <div class="container">
+    <!-- VIP Balance Button -->
+    <a href="#" class="btn btn-vip-forum">
+      Bal $<span id="vipBalance">0.00</span>
+    </a>
     <div class="profile-container">
       <div class="profile-info">
         <div class="profile-avatar" id="userAvatar">SL</div>
@@ -343,11 +361,20 @@
             const balance = snapshot.val();
             if (balance !== null) {
               elements.userBalance.textContent = Number(balance).toFixed(2);
+              // Update VIP balance button
+              const vipBalanceElem = document.getElementById('vipBalance');
+              if (vipBalanceElem) {
+                vipBalanceElem.textContent = Number(balance).toFixed(2);
+              }
             } else {
               // Initialize balance if doesn't exist
               set(userBalanceRef, 0)
                 .catch(error => console.error("Error initializing balance:", error));
               elements.userBalance.textContent = "0.00";
+              const vipBalanceElem = document.getElementById('vipBalance');
+              if (vipBalanceElem) {
+                vipBalanceElem.textContent = "0.00";
+              }
             }
             showLoading(elements.refreshBalanceBtn, elements.refreshSpinner, false);
           }, (error) => {
@@ -410,13 +437,7 @@
             showAlert('Balance refreshed!', 'success');
           }, 500);
         });
-  // ...existing code inside setupBalanceListener...
-  elements.userBalance.textContent = Number(balance).toFixed(2);
-  const vipBalanceElem = document.getElementById('vipBalance');
-  if (vipBalanceElem) {
-    vipBalanceElem.textContent = Number(balance).toFixed(2);
-  }
-// ...existing code...
+
         // Auth state listener
         onAuthStateChanged(auth, (user) => {
           if (user) {
@@ -452,6 +473,10 @@
             elements.userEmail.textContent = 'loading...';
             elements.userName.textContent = 'User Profile';
             elements.userBalance.textContent = '0.00';
+            const vipBalanceElem = document.getElementById('vipBalance');
+            if (vipBalanceElem) {
+              vipBalanceElem.textContent = "0.00";
+            }
             elements.userAvatar.textContent = 'SL';
             elements.userAvatar.style.background = '';
             elements.emailVerifiedBadge.style.display = 'none';
