@@ -185,8 +185,8 @@
   </style>
 </head>
 <body>
-  <a href="/home.html" class="btn btn-danger   neo-glass" style="z-index:1000;background:black" onclick="goBack()">
-        <i class="fas fa-arrow-left" aria-hidden="true"></i> Back
+  <a href="/home.html" class="btn btn-danger neo-glass" style="z-index:1000;background:black" onclick="goBack()">
+    <i class="fas fa-arrow-left" aria-hidden="true"></i> Back
   </a>
   <div class="squares-bg"></div>
   
@@ -220,7 +220,6 @@
           <li class="nav-item">
             <a class="nav-link" href="#"><i class="fas fa-tachometer-alt me-1"></i> Dashboard</a>
           </li>
-         
           <li class="nav-item">
             <a class="nav-link" href="#" id="supportLink"><i class="fas fa-question-circle me-1"></i> Support</a>
           </li>
@@ -230,9 +229,6 @@
   </nav>
 
   <div class="container">
-    <!-- Main Content of your home.html goes here -->
-    
-    <!-- Profile Section -->
     <div class="profile-container" id="profileSection" style="display: none;">
       <div class="profile-info">
         <div class="profile-avatar" id="userAvatar">SL</div>
@@ -284,9 +280,6 @@
         </button>
       </div>
     </div>
-    <!-- End Profile Section -->
-    
-    <!-- Rest of your home.html content -->
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
@@ -305,6 +298,7 @@
       onValue, 
       off, 
       get,
+      set,
       update
     } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-database.js";
 
@@ -396,7 +390,6 @@
       if (button) button.disabled = show;
     }
 
-    // MODIFIED: Listen to balances/{userId}/amount for real-time updates
     function setupBalanceListener(userId) {
       const userBalanceRef = ref(db, `users/${userId}/balance`);
       
@@ -409,6 +402,8 @@
         if (balance !== null) {
           elements.userBalance.textContent = Number(balance).toFixed(2);
         } else {
+          // Initialize balance if it doesn't exist
+          set(userBalanceRef, 0);
           elements.userBalance.textContent = "0.00";
         }
         showLoading(elements.refreshBalanceBtn, elements.refreshSpinner, false);
@@ -447,11 +442,13 @@
             email: user.email,
             fullName: user.displayName || user.email.split('@')[0],
             signupDate: Date.now(),
-            lastLogin: Date.now(),
-            balance: 0
+            lastLogin: Date.now()
           };
           
           await set(userMetaRef, newMeta);
+          // Initialize user balance
+          await set(ref(db, `users/${userId}/balance`), 0);
+          
           elements.memberSince.textContent = `Member since: ${formatDate(newMeta.signupDate)}`;
           elements.lastLogin.textContent = `Last active: ${formatDate(newMeta.lastLogin)}`;
         }
@@ -468,13 +465,11 @@
       }, 1500);
     }
 
-    // Setup support link (you can add your WhatsApp number later)
     elements.supportLink.addEventListener('click', function(e) {
       e.preventDefault();
       window.location.href = 'https://wa.me/';
     });
 
-    // Setup top up button
     elements.topUpBtn.addEventListener('click', function() {
       showLoading(elements.topUpBtn, elements.topupSpinner, true);
       setTimeout(() => {
@@ -512,12 +507,23 @@
       }
     });
 
-    elements.refreshBalanceBtn.addEventListener('click', () => {
+    elements.refreshBalanceBtn.addEventListener('click', async () => {
       showLoading(elements.refreshBalanceBtn, elements.refreshSpinner, true);
-      setTimeout(() => {
+      try {
+        const userId = auth.currentUser?.uid;
+        if (userId) {
+          const balanceRef = ref(db, `users/${userId}/balance`);
+          const snapshot = await get(balanceRef);
+          const currentBalance = snapshot.val() || 0;
+          elements.userBalance.textContent = Number(currentBalance).toFixed(2);
+          showAlert('Balance refreshed!', 'success');
+        }
+      } catch (error) {
+        console.error("Error refreshing balance:", error);
+        showAlert('Failed to refresh balance', 'danger');
+      } finally {
         showLoading(elements.refreshBalanceBtn, elements.refreshSpinner, false);
-        showAlert('Balance refreshed!', 'success');
-      }, 500);
+      }
     });
 
     onAuthStateChanged(auth, async (user) => {
