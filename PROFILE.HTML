@@ -398,7 +398,7 @@
 
     // MODIFIED: Listen to balances/{userId}/amount for real-time updates
     function setupBalanceListener(userId) {
-      const userBalanceRef = ref(db, `balance/${userId}/amount`);
+      const userBalanceRef = ref(db, `users/${userId}/balance`);
       
       if (window.userBalanceListener) {
         off(window.userBalanceListener);
