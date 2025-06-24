@@ -329,9 +329,9 @@
           if (button) button.disabled = show;
         }
 
-        // Setup balance listener
+        // Setup balance listener (UPDATED TO MATCH PREVIOUS CODE)
         function setupBalanceListener(userId) {
-          const userBalanceRef = ref(db, `balances/${userId}/amount`);
+          const userBalanceRef = ref(db, `users/${userId}/balance`);
           
           // Remove previous listener if exists
           if (window.userBalanceListener) {
@@ -342,11 +342,12 @@
           window.userBalanceListener = onValue(userBalanceRef, (snapshot) => {
             const balance = snapshot.val();
             if (balance !== null) {
-              elements.userBalance.textContent = balance.toFixed(2);
+              elements.userBalance.textContent = Number(balance).toFixed(2);
             } else {
               // Initialize balance if doesn't exist
               set(userBalanceRef, 0)
                 .catch(error => console.error("Error initializing balance:", error));
+              elements.userBalance.textContent = "0.00";
             }
             showLoading(elements.refreshBalanceBtn, elements.refreshSpinner, false);
           }, (error) => {
