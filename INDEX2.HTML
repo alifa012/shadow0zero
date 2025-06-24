@@ -161,7 +161,16 @@
   </style>
 </head>
 <body>
-  <a href="#" class="btn btn-danger neo-glass" style="z-index:1000;background:black" onclick="goBack(event)">
+ 
+  
+  <div class="squares-bg"></div>
+  
+  <div id="alertContainer" style="position: fixed; top: 20px; right: 20px; z-index: 1000;"></div>
+
+  <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: rgba(0,0,0,0.2); backdrop-filter: blur(5px);">
+    <div class="container">
+      <a class="nav-brand" href="#">
+        <a href="#" class="btn btn-danger neo-glass" style="z-index:1000;background:black" onclick="goBack(event)">
   <i class="fas fa-arrow-left" aria-hidden="true"></i> Back
 </a>
 
@@ -171,13 +180,6 @@ function goBack(event) {
   window.history.back();
 }
 </script>
-  <div class="squares-bg"></div>
-  
-  <div id="alertContainer" style="position: fixed; top: 20px; right: 20px; z-index: 1000;"></div>
-
-  <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: rgba(0,0,0,0.2); backdrop-filter: blur(5px);">
-    <div class="container">
-      <a class="nav-brand" href="#">
         <img src="SHADOWLOGS.png" alt="Logo" style="height: 40px; margin-right: 10px;" />
         SHADOWLOGS
       </a>
