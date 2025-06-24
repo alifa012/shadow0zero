@@ -410,7 +410,13 @@
             showAlert('Balance refreshed!', 'success');
           }, 500);
         });
-
+  // ...existing code inside setupBalanceListener...
+  elements.userBalance.textContent = Number(balance).toFixed(2);
+  const vipBalanceElem = document.getElementById('vipBalance');
+  if (vipBalanceElem) {
+    vipBalanceElem.textContent = Number(balance).toFixed(2);
+  }
+// ...existing code...
         // Auth state listener
         onAuthStateChanged(auth, (user) => {
           if (user) {
