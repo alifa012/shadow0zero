@@ -4,142 +4,209 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shadowlogs Assistant</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Shadowlogs Assistant - Centered Version */
+        /* Professional Shadowlogs Assistant */
         body {
-            background-color: #022001;
+            background-color: #0a1f0a;
+            background-image: radial-gradient(circle at 20% 30%, rgba(4, 81, 4, 0.2) 0%, transparent 50%),
+                              radial-gradient(circle at 80% 70%, rgba(4, 81, 4, 0.15) 0%, transparent 50%);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
+        
         #shadowlogs-assistant {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 50vw; /* 50% of viewport width */
-            height: 50vh; /* 50% of viewport height */
-            max-width: 600px; /* Maximum width */
-            max-height: 600px; /* Maximum height */
-            background-color: #ffffff;
-            border-radius: 16px;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.15);
+            width: 90vw;
+            height: 80vh;
+            max-width: 800px;
+            max-height: 700px;
+            background: linear-gradient(145deg, #ffffff 0%, #f8faf9 100%);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 30, 0, 0.25),
+                        0 5px 15px rgba(0, 0, 0, 0.1);
             overflow: hidden;
-            z-index: 10000;
             display: flex;
             flex-direction: column;
-            font-family: 'Segoe UI', Roboto, -apple-system, sans-serif;
-            border: 1px solid #e1e5eb;
+            position: relative;
+            border: 1px solid rgba(4, 81, 4, 0.1);
         }
         
         #sa-header {
-            background: linear-gradient(135deg, #04d118 0%, #045204 100%);
+            background: linear-gradient(135deg, #045204 0%, #022001 100%);
             color: white;
-            padding: 14px 18px;
+            padding: 18px 24px;
             font-weight: 600;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             text-align: center;
             position: relative;
+            box-shadow: 0 2px 10px rgba(0, 30, 0, 0.2);
+            z-index: 10;
         }
         
         #sa-back-button {
             position: absolute;
-            left: 15px;
+            left: 20px;
             top: 50%;
             transform: translateY(-50%);
-            background: rgba(4, 4, 4, 0.2);
+            background: rgba(255, 255, 255, 0.15);
             border: none;
             color: white;
             border-radius: 50%;
-            width: 30px;
-            height: 30px;
+            width: 36px;
+            height: 36px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             transition: all 0.3s ease;
+            font-size: 1.1rem;
         }
         
         #sa-back-button:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-        
-        #sa-back-button::before {
-            content: "←";
-            font-size: 1.2rem;
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-50%) scale(1.05);
         }
         
         #sa-header-title {
             margin: 0 auto;
-            width: calc(100% - 60px);
+            width: calc(100% - 80px);
             text-align: center;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        #sa-header-title i {
+            font-size: 1.3rem;
         }
         
         #sa-messages {
             flex-grow: 1;
             overflow-y: auto;
-            padding: 15px;
+            padding: 20px;
             background-color: #f8fafc;
+            background-image: linear-gradient(to bottom, #f8fafc 0%, #ffffff 100%);
+            display: flex;
+            flex-direction: column;
         }
         
         .sa-message {
-            margin-bottom: 14px;
-            max-width: 85%;
-            padding: 12px 16px;
-            border-radius: 16px;
+            margin-bottom: 16px;
+            max-width: 80%;
+            padding: 14px 18px;
+            border-radius: 18px;
             line-height: 1.5;
-            font-size: 0.98rem;
+            font-size: 1rem;
             word-break: break-word;
+            position: relative;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         .sa-user-message {
-            background-color: #e6f0ff;
-            color: #002366;
+            background: linear-gradient(135deg, #045204 0%, #078a1c 100%);
+            color: white;
             margin-left: auto;
-            border-bottom-right-radius: 4px;
+            border-bottom-right-radius: 6px;
+            box-shadow: 0 3px 10px rgba(4, 82, 4, 0.2);
         }
         
         .sa-assistant-message {
-            background-color: #e4eae6;
+            background-color: #ffffff;
             color: #1a1a1a;
             margin-right: auto;
-            border-bottom-left-radius: 4px;
-            border: 1px solid #e1e5eb;
+            border-bottom-left-radius: 6px;
+            border: 1px solid #e8ecef;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .sa-assistant-message::before {
+            content: "SHADOWLOGS";
+            position: absolute;
+            top: -8px;
+            left: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #045204;
+            background: white;
+            padding: 2px 6px;
+            border-radius: 10px;
+            border: 1px solid #e8ecef;
         }
         
         #sa-input-area {
             display: flex;
-            padding: 14px;
-            border-top: 1px solid #e1e5eb;
+            padding: 18px 20px;
+            border-top: 1px solid #e8ecef;
             background-color: #f5f7fa;
+            align-items: center;
         }
         
         #sa-user-input {
             flex-grow: 1;
-            padding: 12px 15px;
+            padding: 14px 18px;
             border: 1px solid #d5dbe3;
-            border-radius: 20px;
+            border-radius: 24px;
             outline: none;
-            font-size: 0.98rem;
+            font-size: 1rem;
             background-color: white;
             color: #1a1a1a;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+        
+        #sa-user-input:focus {
+            border-color: #045204;
+            box-shadow: 0 0 0 2px rgba(4, 82, 4, 0.1);
         }
         
         #sa-send-button {
-            background: linear-gradient(135deg, #01550a 0%, #022001 100%);
+            background: linear-gradient(135deg, #045204 0%, #078a1c 100%);
             color: white;
             border: none;
-            border-radius: 20px;
-            padding: 12px 18px;
+            border-radius: 24px;
+            padding: 14px 22px;
             margin-left: 12px;
             cursor: pointer;
-            font-size: 0.98rem;
+            font-size: 1rem;
             font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 3px 10px rgba(4, 82, 4, 0.2);
+        }
+        
+        #sa-send-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(4, 82, 4, 0.3);
+        }
+        
+        #sa-send-button:active {
+            transform: translateY(0);
         }
         
         .sa-typing-indicator {
             display: inline-block;
-            padding: 12px 16px;
+            padding: 14px 18px;
             background-color: #f0f4f8;
-            border-radius: 16px;
-            margin-bottom: 14px;
+            border-radius: 18px;
+            margin-bottom: 16px;
+            max-width: 80px;
+            border-bottom-left-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
         
         .sa-typing-dot {
@@ -148,54 +215,192 @@
             height: 8px;
             border-radius: 50%;
             background-color: #718096;
-            margin: 0 4px;
+            margin: 0 3px;
             animation: typingAnimation 1.4s infinite ease-in-out;
+        }
+        
+        .sa-typing-dot:nth-child(1) {
+            animation-delay: 0s;
+        }
+        
+        .sa-typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .sa-typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
         }
         
         @keyframes typingAnimation {
             0%, 60%, 100% { transform: translateY(0); }
             30% { transform: translateY(-4px); }
         }
-
+        
+        /* Scrollbar styling */
+        #sa-messages::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        #sa-messages::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        #sa-messages::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 10px;
+        }
+        
+        #sa-messages::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+        
+        /* Status indicator */
+        #sa-status {
+            position: absolute;
+            top: 18px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #4ade80;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        /* Welcome message styling */
+        .welcome-message {
+            text-align: center;
+            padding: 10px;
+            margin-bottom: 20px;
+            color: #045204;
+            font-weight: 500;
+            font-size: 0.9rem;
+            border-bottom: 1px solid #e8ecef;
+        }
+        
+        /* Timestamp */
+        .message-time {
+            font-size: 0.7rem;
+            opacity: 0.7;
+            margin-top: 5px;
+            text-align: right;
+        }
+        
+        .sa-assistant-message .message-time {
+            text-align: left;
+        }
+        
         /* Responsive adjustments */
         @media (max-width: 768px) {
             #shadowlogs-assistant {
-                width: 80vw;
-                height: 60vh;
+                width: 95vw;
+                height: 85vh;
+                border-radius: 16px;
+            }
+            
+            #sa-header {
+                padding: 16px 20px;
+                font-size: 1.1rem;
+            }
+            
+            #sa-back-button {
+                width: 32px;
+                height: 32px;
+                left: 16px;
+            }
+            
+            .sa-message {
+                max-width: 85%;
+                padding: 12px 16px;
+            }
+            
+            #sa-input-area {
+                padding: 16px;
             }
         }
         
         @media (max-width: 480px) {
             #shadowlogs-assistant {
-                width: 90vw;
-                height: 70vh;
+                width: 98vw;
+                height: 90vh;
+                border-radius: 12px;
             }
-            #sa-back-button {
-                width: 25px;
-                height: 25px;
-                left: 10px;
-            }
-            #sa-header-title {
+            
+            #sa-header {
+                padding: 14px 16px;
                 font-size: 1rem;
+            }
+            
+            #sa-back-button {
+                width: 28px;
+                height: 28px;
+                left: 12px;
+                font-size: 0.9rem;
+            }
+            
+            #sa-messages {
+                padding: 16px;
+            }
+            
+            .sa-message {
+                max-width: 90%;
+                padding: 10px 14px;
+                font-size: 0.95rem;
+            }
+            
+            #sa-user-input {
+                padding: 12px 16px;
+            }
+            
+            #sa-send-button {
+                padding: 12px 18px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Shadowlogs Assistant - Centered -->
+    <!-- Professional Shadowlogs Assistant -->
     <div id="shadowlogs-assistant">
         <div id="sa-header">
-            <button id="sa-back-button" onclick="window.location.href='/home.html'"></button>
-            <div id="sa-header-title">SHADOWLOGS ASSISTANT</div>
-        </div>
-        <div id="sa-messages">
-            <div class="sa-message sa-assistant-message">
-                Hello Shadowlogs Member! How may I assist you today?
+            <button id="sa-back-button" onclick="window.location.href='/home.html'">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <div id="sa-header-title">
+                <i class="fas fa-headset"></i> SHADOWLOGS ASSISTANT
+            </div>
+            <div id="sa-status">
+                <span class="status-dot"></span> Online
             </div>
         </div>
+        
+        <div id="sa-messages">
+            <div class="welcome-message">Today at <span id="current-time"></span></div>
+            
+            <div class="sa-message sa-assistant-message">
+                Hello Shadowlogs Member! How may I assist you today?
+                <div class="message-time" id="welcome-time"></div>
+            </div>
+        </div>
+        
         <div id="sa-input-area">
             <input type="text" id="sa-user-input" placeholder="Type your message here...">
-            <button id="sa-send-button" type="button">Send</button>
+            <button id="sa-send-button" type="button">
+                <i class="fas fa-paper-plane"></i> Send
+            </button>
         </div>
     </div>
 
@@ -204,11 +409,30 @@
             const messagesContainer = document.getElementById('sa-messages');
             const userInput = document.getElementById('sa-user-input');
             const sendButton = document.getElementById('sa-send-button');
+            const currentTimeElement = document.getElementById('current-time');
+            const welcomeTimeElement = document.getElementById('welcome-time');
+            
+            // Set current time
+            function updateTime() {
+                const now = new Date();
+                currentTimeElement.textContent = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                welcomeTimeElement.textContent = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            }
+            
+            updateTime();
+            setInterval(updateTime, 60000); // Update time every minute
             
             function addMessage(text, isUser) {
                 const messageDiv = document.createElement('div');
                 messageDiv.className = `sa-message ${isUser ? 'sa-user-message' : 'sa-assistant-message'}`;
                 messageDiv.textContent = text;
+                
+                // Add timestamp
+                const timeDiv = document.createElement('div');
+                timeDiv.className = 'message-time';
+                timeDiv.textContent = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                messageDiv.appendChild(timeDiv);
+                
                 messagesContainer.appendChild(messageDiv);
                 messagesContainer.scrollTop = messagesContainer.scrollHeight;
             }
@@ -236,16 +460,22 @@
             function getResponse(userMessage) {
                 const input = userMessage.toLowerCase();
                 
-                if (input.includes('hello') || input.includes('hi')) {
+                if (input.includes('hello') || input.includes('hi') || input.includes('hey')) {
                     return "Hello! How can I help you today?";
-                } else if (input.includes('product')) {
-                    return "You can find all our products in your dashboard.";
-                } else if (input.includes('help')) {
-                    return "Please contact support@shadowlogs.com for assistance.";
+                } else if (input.includes('product') || input.includes('log') || input.includes('bank')) {
+                    return "You can find all our products in your dashboard. We offer various bank logs and financial services.";
+                } else if (input.includes('help') || input.includes('support') || input.includes('issue')) {
+                    return "For technical support or account issues, please contact support@shadowlogs.com. Our team typically responds within 24 hours.";
                 } else if (input.includes('time')) {
                     return `The current time is ${new Date().toLocaleTimeString()}.`;
+                } else if (input.includes('thank')) {
+                    return "You're welcome! Is there anything else I can help you with?";
+                } else if (input.includes('price') || input.includes('cost')) {
+                    return "Product pricing varies based on type and availability. Please check the product listings in your dashboard for current prices.";
+                } else if (input.includes('balance') || input.includes('fund')) {
+                    return "You can check your account balance in the dashboard. For transaction history, visit the 'Transactions' section.";
                 } else {
-                    return "I'm here to help.no nuisance...watch it!!";
+                    return "I'm here to help with any questions about Shadowlogs services. Please be specific about what you need assistance with.";
                 }
             }
             
@@ -261,7 +491,7 @@
                     hideTyping();
                     const response = getResponse(message);
                     addMessage(response, false);
-                }, 1000);
+                }, 1000 + Math.random() * 1000); // Random delay for more natural feel
             }
             
             sendButton.addEventListener('click', handleSendMessage);
@@ -271,6 +501,9 @@
                     handleSendMessage();
                 }
             });
+            
+            // Focus on input when page loads
+            userInput.focus();
         });
     </script>
 </body>
