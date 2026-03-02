@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="eRtjYiTWjVSBJT0yfm3zqEbqnCyKxptUa0jPOlYj">
+  
+  <title>SHADOWLOGS — Crypto Deposit</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+  
+  <!-- QR Code Library -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+  
+  <link href="assets/css/site.css" rel="stylesheet">
+  
+  <style>
+    body {
+      background: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
+      color: white;
+      min-height: 100vh;
+    }
+    
+    .deposit-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    .crypto-selector {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+    
+    .crypto-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 2px solid transparent;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .crypto-card:hover, .crypto-card.active {
+      border-color: #007bff;
+      background: rgba(0, 123, 255, 0.1);
+      transform: translateY(-2px);
+    }
+    
+    .crypto-icon {
+      font-size: 32px;
+      margin-bottom: 10px;
+      display: block;
+    }
+    
+    .deposit-section {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 20px;
+      display: none;
+    }
+    
+    .deposit-section.active {
+      display: block;
+    }
+    
+    .qr-container {
+      text-align: center;
+      margin: 20px 0;
+    }
+    
+    .address-box {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      padding: 15px;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      word-break: break-all;
+      margin: 15px 0;
+      position: relative;
+    }
+    
+    .copy-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #007bff;
+      border: none;
+      color: white;
+      border-radius: 4px;
+      padding: 5px 10px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    
+    .copy-btn:hover {
+      background: #0056b3;
+    }
+    
+    .deposit-info {
+      background: rgba(255, 193, 7, 0.1);
+      border: 1px solid rgba(255, 193, 7, 0.3);
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+    }
+    
+    .deposit-history {
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 30px;
+    }
+    
+    .deposit-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .deposit-item:last-child {
+      border-bottom: none;
+    }
+    
+    .status-pending { color: #ffc107; }
+    .status-confirmed { color: #28a745; }
+    .status-failed { color: #dc3545; }
+    
+    .loading-spinner {
+      display: none;
+      width: 16px;
+      height: 16px;
+      border: 2px solid transparent;
+      border-top: 2px solid currentColor;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-dark bg-dark">
+    <div class="container">
+      <a href="/profile.html" class="btn btn-danger neo-glass" onclick="goBack(event)">
+        <i class="fas fa-arrow-left" aria-hidden="true"></i> Back
+      </a>
+      <div class="navbar-brand">
+        <img src="SHADOWLOGS.png" alt="Logo" style="height: 30px; margin-right: 10px;" />
+        SHADOWLOGS — Deposit
+      </div>
+    </div>
+  </nav>
+
+  <div class="deposit-container">
+    <div id="alertContainer" style="position: fixed; top: 70px; right: 20px; z-index: 1000;"></div>
+    
+    <div id="loginCheck" style="display: none;">
+      <div class="text-center">
+        <h3><i class="fas fa-exclamation-triangle text-warning me-2"></i>Authentication Required</h3>
+        <p>Please log in to access the deposit system.</p>
+        <a href="/login.html" class="btn btn-primary">Login</a>
+      </div>
+    </div>
+
+    <div id="depositMain" style="display: none;">
+      <h2><i class="fas fa-plus-circle me-2"></i>Deposit Cryptocurrency</h2>
+      <p class="text-muted">Select a cryptocurrency to generate your personal deposit address</p>
+      
+      <!-- Crypto Selection -->
+      <div class="crypto-selector">
+        <div class="crypto-card" data-crypto="BTC" data-network="BTC">
+          <span class="crypto-icon">₿</span>
+          <h5>Bitcoin</h5>
+          <small class="text-muted">BTC Network</small>
+        </div>
+        
+        <div class="crypto-card" data-crypto="ETH" data-network="ERC20">
+          <span class="crypto-icon">Ξ</span>
+          <h5>Ethereum</h5>
+          <small class="text-muted">ERC20 Network</small>
+        </div>
+        
+        <div class="crypto-card" data-crypto="USDT" data-network="TRC20">
+          <span class="crypto-icon">₮</span>
+          <h5>USDT</h5>
+          <small class="text-muted">TRC20 (Tron)</small>
+        </div>
+        
+        <div class="crypto-card" data-crypto="USDT" data-network="ERC20">
+          <span class="crypto-icon">₮</span>
+          <h5>USDT</h5>
+          <small class="text-muted">ERC20 (Ethereum)</small>
+        </div>
+        
+        <div class="crypto-card" data-crypto="USDC" data-network="ERC20">
+          <span class="crypto-icon">$</span>
+          <h5>USDC</h5>
+          <small class="text-muted">ERC20 Network</small>
+        </div>
+      </div>
+
+      <!-- Deposit Sections -->
+      <div id="depositSection" class="deposit-section">
+        <div class="text-center">
+          <h4 id="selectedCrypto">Select a cryptocurrency above</h4>
+          <div id="loadingDeposit" style="display: none;">
+            <i class="fas fa-spinner fa-spin fa-2x text-primary mb-3"></i>
+            <p>Generating deposit address...</p>
+          </div>
+        </div>
+
+        <div id="depositContent" style="display: none;">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="qr-container">
+                <canvas id="depositQR" width="200" height="200"></canvas>
+                <p class="mt-2 text-muted">Scan QR code with your wallet</p>
+              </div>
+            </div>
+            
+            <div class="col-md-6">
+              <h5><i class="fas fa-wallet me-2"></i>Deposit Address</h5>
+              <div class="address-box">
+                <span id="depositAddress">Loading...</span>
+                <button class="copy-btn" id="copyAddressBtn" onclick="copyAddress()">
+                  <i class="fas fa-copy"></i> Copy
+                </button>
+              </div>
+              
+              <div class="deposit-info">
+                <h6><i class="fas fa-info-circle me-2"></i>Important Information</h6>
+                <ul class="small mb-0">
+                  <li id="networkInfo">Network: ---</li>
+                  <li>Minimum deposit: <span id="minDeposit">0.001</span></li>
+                  <li>Confirmations required: <span id="confirmations">3</span></li>
+                  <li>Processing time: <span id="processTime">10-30 minutes</span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Deposit History -->
+      <div class="deposit-history">
+        <h4><i class="fas fa-history me-2"></i>Recent Deposits</h4>
+        <div id="depositHistoryContainer">
+          <div class="text-center text-muted py-3">
+            <i class="fas fa-spinner fa-spin me-2" id="historyLoader"></i>
+            <span>Loading deposit history...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function goBack(event) {
+      event.preventDefault();
+      window.history.back();
+    }
+    
+    function copyAddress() {
+      const address = document.getElementById('depositAddress').textContent;
+      if (address && address !== 'Loading...') {
+        navigator.clipboard.writeText(address).then(() => {
+          showAlert('Address copied to clipboard!', 'success');
+          document.getElementById('copyAddressBtn').innerHTML = '<i class="fas fa-check"></i> Copied!';
+          setTimeout(() => {
+            document.getElementById('copyAddressBtn').innerHTML = '<i class="fas fa-copy"></i> Copy';
+          }, 2000);
+        });
+      }
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-app.js";
+    import { 
+      getAuth, 
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-auth.js";
+    import { 
+      getDatabase, 
+      ref, 
+      onValue, 
+      off, 
+      get,
+      set,
+      push
+    } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBXC6A6NaL1WSHrfCNAuMeYZqx9DFZyToY",
+      authDomain: "shadowlogsshop-ec4ca.firebaseapp.com",
+      databaseURL: "https://shadowlogsshop-ec4ca-default-rtdb.firebaseio.com",
+      projectId: "shadowlogsshop-ec4ca",
+      storageBucket: "shadowlogsshop-ec4ca.appspot.com",
+      messagingSenderId: "709594271975",
+      appId: "1:709594271975:web:6a4bfc8bdcbc51c2859242",
+      measurementId: "G-WNEH2RQPVP"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getDatabase(app);
+
+    let currentUser = null;
+    
+    // NOWPayments API configuration
+    const NOWPAYMENTS_API = 'https://api.nowpayments.io/v1';
+    const API_KEY = 'YOUR_NOWPAYMENTS_API_KEY'; // Replace with your actual API key
+    
+    const CRYPTO_CONFIG = {
+      BTC: {
+        network: 'BTC',
+        minDeposit: '0.001',
+        confirmations: '3',
+        processTime: '20-60 minutes',
+        nowpaymentsCode: 'btc'
+      },
+      ETH: {
+        network: 'ERC20',
+        minDeposit: '0.01',
+        confirmations: '12',
+        processTime: '10-30 minutes',
+        nowpaymentsCode: 'eth'
+      },
+      'USDT-TRC20': {
+        network: 'TRC20 (Tron)',
+        minDeposit: '10',
+        confirmations: '1',
+        processTime: '5-15 minutes',
+        nowpaymentsCode: 'usdttrc20'
+      },
+      'USDT-ERC20': {
+        network: 'ERC20 (Ethereum)',
+        minDeposit: '10',
+        confirmations: '12',
+        processTime: '10-30 minutes',
+        nowpaymentsCode: 'usdterc20'
+      },
+      'USDC-ERC20': {
+        network: 'ERC20 (Ethereum)',
+        minDeposit: '10',
+        confirmations: '12',
+        processTime: '10-30 minutes',
+        nowpaymentsCode: 'usdcerc20'
+      }
+    };
+
+    function showAlert(message, type = 'success') {
+      const alert = document.createElement('div');
+      alert.className = `alert alert-${type} alert-dismissible fade show`;
+      alert.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      `;
+      document.getElementById('alertContainer').appendChild(alert);
+      setTimeout(() => alert.remove(), 5000);
+    }
+
+    async function createNOWPaymentsDeposit(crypto, network) {
+      try {
+        // This is a simplified example - you'll need to replace with actual NOWPayments integration
+        console.log('Creating NOWPayments deposit for:', crypto, network);
+        
+        // For demo purposes, return a mock address
+        // In production, this should call NOWPayments API
+        const mockAddresses = {
+          'BTC': '1A1BvP2Lap2ku12345678901234567890AbCdEfGh',
+          'ETH': '0x742d35Cc9001234567890123456789012345678901',
+          'USDT-TRC20': 'TQrghijk123456789012345678901234567890',
+          'USDT-ERC20': '0x742d35Cc9012345678901234567890123456789012',
+          'USDC-ERC20': '0x742d35Cc9023456789012345678901234567890123'
+        };
+        
+        const cryptoKey = network === 'TRC20' ? `${crypto}-TRC20` : 
+                         network === 'ERC20' && crypto === 'USDT' ? `${crypto}-ERC20` :
+                         network === 'ERC20' && crypto === 'USDC' ? `${crypto}-ERC20` : crypto;
+        
+        return {
+          address: mockAddresses[cryptoKey] || 'Address generation failed',
+          paymentId: `dep_${Date.now()}_${currentUser.uid.substring(0, 8)}`
+        };
+        
+        /*
+        // PRODUCTION CODE - Uncomment and configure when ready
+        const response = await fetch(`${NOWPAYMENTS_API}/invoice`, {
+          method: 'POST',
+          headers: {
+            'x-api-key': API_KEY,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            price_amount: 0.1, // Minimum amount
+            price_currency: 'usd',
+            pay_currency: CRYPTO_CONFIG[cryptoKey].nowpaymentsCode,
+            ipn_callback_url: `${window.location.origin}/api/webhooks/nowpayments`,
+            order_id: `deposit_${currentUser.uid}_${Date.now()}`,
+            order_description: `Crypto deposit for user ${currentUser.uid}`,
+            success_url: `${window.location.origin}/profile.html`,
+            cancel_url: `${window.location.origin}/deposit.html`
+          })
+        });
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        return {
+          address: data.pay_address,
+          paymentId: data.payment_id
+        };
+        */
+        
+      } catch (error) {
+        console.error('Error creating deposit:', error);
+        throw error;
+      }
+    }
+
+    function generateQRCode(address, crypto) {
+      const canvas = document.getElementById('depositQR');
+      const qrText = crypto === 'BTC' ? `bitcoin:${address}` : address;
+      
+      QrCode.toCanvas(canvas, qrText, {
+        width: 200,
+        margin: 2,
+        color: {
+          dark: '#000000',
+          light: '#FFFFFF'
+        }
+      }, function (error) {
+        if (error) console.error('QR code generation error:', error);
+      });
+    }
+
+    async function selectCrypto(crypto, network) {
+      const cryptoKey = network === 'TRC20' ? `${crypto}-TRC20` : 
+                       network === 'ERC20' && crypto === 'USDT' ? `${crypto}-ERC20` :
+                       network === 'ERC20' && crypto === 'USDC' ? `${crypto}-ERC20` : crypto;
+      
+      // Update UI
+      document.querySelectorAll('.crypto-card').forEach(card => card.classList.remove('active'));
+      document.querySelector(`[data-crypto="${crypto}"][data-network="${network}"]`).classList.add('active');
+      
+      document.getElementById('selectedCrypto').textContent = `${crypto} (${network})`;
+      document.getElementById('depositSection').classList.add('active');
+      document.getElementById('loadingDeposit').style.display = 'block';
+      document.getElementById('depositContent').style.display = 'none';
+      
+      try {
+        // Check if user already has a deposit address for this crypto
+        const walletRef = ref(db, `users/${currentUser.uid}/wallets/${cryptoKey}`);
+        const walletSnapshot = await get(walletRef);
+        
+        let depositData;
+        
+        if (walletSnapshot.exists()) {
+          // Use existing address
+          const wallet = walletSnapshot.val();
+          depositData = {
+            address: wallet.depositAddress,
+            paymentId: wallet.paymentId || 'existing'
+          };
+        } else {
+          // Create new deposit address
+          depositData = await createNOWPaymentsDeposit(crypto, network);
+          
+          // Save to Firebase
+          await set(walletRef, {
+            depositAddress: depositData.address,
+            paymentId: depositData.paymentId,
+            network: network,
+            createdAt: Date.now()
+          });
+        }
+        
+        // Update UI
+        document.getElementById('depositAddress').textContent = depositData.address;
+        document.getElementById('networkInfo').textContent = `Network: ${CRYPTO_CONFIG[cryptoKey].network}`;
+        document.getElementById('minDeposit').textContent = CRYPTO_CONFIG[cryptoKey].minDeposit;
+        document.getElementById('confirmations').textContent = CRYPTO_CONFIG[cryptoKey].confirmations;
+        document.getElementById('processTime').textContent = CRYPTO_CONFIG[cryptoKey].processTime;
+        
+        generateQRCode(depositData.address, crypto);
+        
+        document.getElementById('loadingDeposit').style.display = 'none';
+        document.getElementById('depositContent').style.display = 'block';
+        
+      } catch (error) {
+        console.error('Error selecting crypto:', error);
+        showAlert('Failed to generate deposit address. Please try again.', 'danger');
+        document.getElementById('loadingDeposit').style.display = 'none';
+      }
+    }
+
+    async function loadDepositHistory() {
+      try {
+        const depositsRef = ref(db, `users/${currentUser.uid}/deposits`);
+        const snapshot = await get(depositsRef);
+        
+        const container = document.getElementById('depositHistoryContainer');
+        container.innerHTML = '';
+        
+        if (snapshot.exists()) {
+          const deposits = snapshot.val();
+          const depositArray = Object.entries(deposits)
+            .map(([id, data]) => ({id, ...data}))
+            .sort((a, b) => b.timestamp - a.timestamp)
+            .slice(0, 10); // Show last 10 deposits
+          
+          if (depositArray.length > 0) {
+            depositArray.forEach(deposit => {
+              const item = document.createElement('div');
+              item.className = 'deposit-item';
+              item.innerHTML = `
+                <div>
+                  <strong>${deposit.asset} ${deposit.network ? `(${deposit.network})` : ''}</strong>
+                  <br>
+                  <small class="text-muted">${new Date(deposit.timestamp).toLocaleString()}</small>
+                  ${deposit.txHash ? `<br><small>TX: ${deposit.txHash.substring(0, 20)}...</small>` : ''}
+                </div>
+                <div class="text-end">
+                  <div><strong>${deposit.amount || '0'}</strong></div>
+                  <div class="status-${deposit.status}">${deposit.status || 'pending'}</div>
+                </div>
+              `;
+              container.appendChild(item);
+            });
+          } else {
+            container.innerHTML = '<div class="text-center text-muted py-3">No deposits yet</div>';
+          }
+        } else {
+          container.innerHTML = '<div class="text-center text-muted py-3">No deposits yet</div>';
+        }
+      } catch (error) {
+        console.error('Error loading deposit history:', error);
+        document.getElementById('depositHistoryContainer').innerHTML = 
+          '<div class="text-center text-muted py-3">Error loading history</div>';
+      }
+    }
+
+    // Event listeners
+    document.querySelectorAll('.crypto-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const crypto = card.getAttribute('data-crypto');
+        const network = card.getAttribute('data-network');
+        selectCrypto(crypto, network);
+      });
+    });
+
+    // Auth state listener
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        currentUser = user;
+        document.getElementById('loginCheck').style.display = 'none';
+        document.getElementById('depositMain').style.display = 'block';
+        loadDepositHistory();
+      } else {
+        document.getElementById('loginCheck').style.display = 'block';
+        document.getElementById('depositMain').style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>

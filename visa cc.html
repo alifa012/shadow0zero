@@ -55,8 +55,13 @@
                 <h5 id="offcanvasLeftLabel" class="text-accent">SHADOWLOGS</h5>
             </div>
             <div class="balance">
-                <h5>BALANCE</h5>
-                $<strong>0.00</strong>
+                <h5>CRYPTO BALANCE</h5>
+                <div class="crypto-balances-sidebar" id="sidebarBalances">
+                    <div class="crypto-item">₿ <span id="sidebarBTC">0.00000000</span></div>
+                    <div class="crypto-item">Ξ <span id="sidebarETH">0.00000000</span></div>
+                    <div class="crypto-item">₮ <span id="sidebarUSDT">0.00000000</span></div>
+                    <div class="crypto-item">$ <span id="sidebarUSDC">0.00000000</span></div>
+                </div>
             </div>
             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
@@ -857,6 +862,79 @@
       function goBack() {
             window.history.back();
         }
+</script>
+
+<style>
+.crypto-balances-sidebar {
+  font-size: 11px;
+  margin-top: 8px;
+}
+
+.crypto-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 3px;
+  font-family: 'Courier New', monospace;
+}
+</style>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-app.js";
+  import { 
+    getAuth, 
+    onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-auth.js";
+  import { 
+    getDatabase, 
+    ref, 
+    onValue
+  } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBXC6A6NaL1WSHrfCNAuMeYZqx9DFZyToY",
+    authDomain: "shadowlogsshop-ec4ca.firebaseapp.com",
+    databaseURL: "https://shadowlogsshop-ec4ca-default-rtdb.firebaseio.com",
+    projectId: "shadowlogsshop-ec4ca",
+    storageBucket: "shadowlogsshop-ec4ca.appspot.com",
+    messagingSenderId: "709594271975",
+    appId: "1:709594271975:web:6a4bfc8bdcbc51c2859242",
+    measurementId: "G-WNEH2RQPVP"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getDatabase(app);
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      const userBalanceRef = ref(db, `users/${user.uid}/balance`);
+      
+      onValue(userBalanceRef, (snapshot) => {
+        const balances = snapshot.val();
+        
+        if (balances) {
+          document.getElementById('sidebarBTC').textContent = (balances.BTC || 0).toFixed(8);
+          document.getElementById('sidebarETH').textContent = (balances.ETH || 0).toFixed(6);
+          
+          // Combine USDT from both networks
+          const totalUSDT = (balances['USDT-TRC20'] || 0) + (balances['USDT-ERC20'] || 0);
+          document.getElementById('sidebarUSDT').textContent = totalUSDT.toFixed(2);
+          
+          document.getElementById('sidebarUSDC').textContent = (balances['USDC-ERC20'] || 0).toFixed(2);
+        } else {
+          document.getElementById('sidebarBTC').textContent = '0.00000000';
+          document.getElementById('sidebarETH').textContent = '0.000000';
+          document.getElementById('sidebarUSDT').textContent = '0.00';
+          document.getElementById('sidebarUSDC').textContent = '0.00';
+        }
+      });
+    } else {
+      document.getElementById('sidebarBTC').textContent = '0.00000000';
+      document.getElementById('sidebarETH').textContent = '0.000000';
+      document.getElementById('sidebarUSDT').textContent = '0.00';
+      document.getElementById('sidebarUSDC').textContent = '0.00';
+    }
+  });
 </script>
      </div>
 

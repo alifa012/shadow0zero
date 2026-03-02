@@ -22,6 +22,20 @@
 
   <!-- Local consolidated stylesheet (create this file) -->
   <link href="assets/css/site.css" rel="stylesheet">
+  
+  <style>
+    .crypto-balances-sidebar {
+      font-size: 11px;
+      margin-top: 8px;
+    }
+
+    .crypto-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 3px;
+      font-family: 'Courier New', monospace;
+    }
+  </style>
 
 </head>
 
@@ -46,10 +60,13 @@
 
     </div>
       <div class="balance">
-      
-        <h5>BALANCE</h5>
-          $ <strong>0.00</strong>
-        
+        <h5>CRYPTO BALANCE</h5>
+        <div class="crypto-balances-sidebar" id="sidebarBalances">
+          <div class="crypto-item">₿ <span id="sidebarBTC">0.00000000</span></div>
+          <div class="crypto-item">Ξ <span id="sidebarETH">0.00000000</span></div>
+          <div class="crypto-item">₮ <span id="sidebarUSDT">0.00000000</span></div>
+          <div class="crypto-item">$ <span id="sidebarUSDC">0.00000000</span></div>
+        </div>
       </div>
           </div>
     <div class="offcanvas-body">
@@ -102,7 +119,7 @@
               CC Checker
               </a>
           </li><li>
-            <a href="/PROFILE.HTML" class="pages">
+            <a href="/profile.html" class="pages">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user sidebar-icon text-white"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
               <h3 class="text-white">Profile</h3>
             </a>
@@ -2626,12 +2643,50 @@ onAuthStateChanged(auth, (user) => {
   if (user) {
     const userBalanceRef = ref(db, `users/${user.uid}/balance`);
     onValue(userBalanceRef, (snapshot) => {
-      const balance = snapshot.val();
+      const balances = snapshot.val();
+      
+      // Update sidebar crypto balances
+      if (balances) {
+        document.getElementById('sidebarBTC').textContent = (balances.BTC || 0).toFixed(8);
+        document.getElementById('sidebarETH').textContent = (balances.ETH || 0).toFixed(6);
+        
+        // Combine USDT from both networks
+        const totalUSDT = (balances['USDT-TRC20'] || 0) + (balances['USDT-ERC20'] || 0);
+        document.getElementById('sidebarUSDT').textContent = totalUSDT.toFixed(2);
+        
+        document.getElementById('sidebarUSDC').textContent = (balances['USDC-ERC20'] || 0).toFixed(2);
+      } else {
+        document.getElementById('sidebarBTC').textContent = '0.00000000';
+        document.getElementById('sidebarETH').textContent = '0.000000';
+        document.getElementById('sidebarUSDT').textContent = '0.00';
+        document.getElementById('sidebarUSDC').textContent = '0.00';
+      }
+      
+      // Keep VIP balance for backward compatibility (convert total to USD equivalent)
       const vipBalanceElem = document.getElementById('vipBalance');
-      if (vipBalanceElem) {
-        vipBalanceElem.textContent = balance !== null ? Number(balance).toFixed(2) : "0.00";
+      if (vipBalanceElem && balances) {
+        // Simple USD equivalent calculation (you can enhance this with real-time prices)
+        const btcPrice = 45000; // Replace with real-time price API
+        const ethPrice = 3000;
+        const usdtPrice = 1;
+        const usdcPrice = 1;
+        
+        const totalUSD = 
+          (balances.BTC || 0) * btcPrice +
+          (balances.ETH || 0) * ethPrice +
+          (balances['USDT-TRC20'] || 0) * usdtPrice +
+          (balances['USDT-ERC20'] || 0) * usdtPrice +
+          (balances['USDC-ERC20'] || 0) * usdcPrice;
+          
+        vipBalanceElem.textContent = totalUSD.toFixed(2);
       }
     });
+  } else {
+    // Reset balances when user is not logged in
+    document.getElementById('sidebarBTC').textContent = '0.00000000';
+    document.getElementById('sidebarETH').textContent = '0.000000';
+    document.getElementById('sidebarUSDT').textContent = '0.00';
+    document.getElementById('sidebarUSDC').textContent = '0.00';
   }
 });
 </script>

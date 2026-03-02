@@ -24,6 +24,52 @@
 
   <!-- Local consolidated stylesheet (create this file) -->
   <link href="assets/css/site.css" rel="stylesheet">
+  
+  <style>
+    .crypto-balances {
+      margin-top: 15px;
+    }
+    
+    .crypto-balance-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      margin-bottom: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .crypto-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .crypto-symbol {
+      font-size: 18px;
+      font-weight: bold;
+      width: 25px;
+      text-align: center;
+    }
+    
+    .crypto-name {
+      font-weight: 500;
+      opacity: 0.9;
+    }
+    
+    .crypto-amount {
+      font-family: 'Courier New', monospace;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    
+    .balance-header h4 {
+      margin-bottom: 15px;
+      color: #fff;
+    }
+  </style>
 
 </head>
 <body>
@@ -112,11 +158,54 @@ function goBack(event) {
         </div>
         
         <div class="profile-balance">
-          $<span id="userBalance">0.00</span>
+          <div class="balance-header">
+            <h4><i class="fas fa-wallet me-2"></i>Account Balance</h4>
+          </div>
+          <div class="crypto-balances" id="cryptoBalances">
+            <div class="crypto-balance-item">
+              <div class="crypto-info">
+                <span class="crypto-symbol">₿</span>
+                <span class="crypto-name">Bitcoin</span>
+              </div>
+              <div class="crypto-amount" id="balanceBTC">0.00000000 BTC</div>
+            </div>
+            <div class="crypto-balance-item">
+              <div class="crypto-info">
+                <span class="crypto-symbol">Ξ</span>
+                <span class="crypto-name">Ethereum</span>
+              </div>
+              <div class="crypto-amount" id="balanceETH">0.000000000000000000 ETH</div>
+            </div>
+            <div class="crypto-balance-item">
+              <div class="crypto-info">
+                <span class="crypto-symbol">₮</span>
+                <span class="crypto-name">USDT (TRC20)</span>
+              </div>
+              <div class="crypto-amount" id="balanceUSDT-TRC20">0.00000000 USDT</div>
+            </div>
+            <div class="crypto-balance-item">
+              <div class="crypto-info">
+                <span class="crypto-symbol">₮</span>
+                <span class="crypto-name">USDT (ERC20)</span>
+              </div>
+              <div class="crypto-amount" id="balanceUSDT-ERC20">0.00000000 USDT</div>
+            </div>
+            <div class="crypto-balance-item">
+              <div class="crypto-info">
+                <span class="crypto-symbol">$</span>
+                <span class="crypto-name">USDC (ERC20)</span>
+              </div>
+              <div class="crypto-amount" id="balanceUSDC-ERC20">0.00000000 USDC</div>
+            </div>
+          </div>
         </div>
       </div>
       
       <div class="profile-actions">
+        <button class="btn btn-profile btn-deposit" id="depositBtn">
+          <i class="fas fa-plus me-2"></i> Deposit Crypto
+          <span class="loading-spinner" id="depositSpinner"></span>
+        </button>
         <button class="btn btn-profile btn-topup" id="topUpBtn">
           <i class="fas fa-wallet me-2"></i> Top Up Balance
           <span class="loading-spinner" id="topupSpinner"></span>
@@ -176,11 +265,12 @@ function goBack(event) {
       verifyEmailText: document.getElementById('verifyEmailText'),
       userAvatar: document.getElementById('userAvatar'),
       userName: document.getElementById('userName'),
-      userBalance: document.getElementById('userBalance'),
       logoutBtn: document.getElementById('logoutBtn'),
       logoutSpinner: document.getElementById('logoutSpinner'),
       topUpBtn: document.getElementById('topUpBtn'),
       topupSpinner: document.getElementById('topupSpinner'),
+      depositBtn: document.getElementById('depositBtn'),
+      depositSpinner: document.getElementById('depositSpinner'),
       refreshBalanceBtn: document.getElementById('refreshBalanceBtn'),
       refreshSpinner: document.getElementById('refreshSpinner'),
       alertContainer: document.getElementById('alertContainer'),
@@ -249,13 +339,37 @@ function goBack(event) {
       }
       
       window.userBalanceListener = onValue(userBalanceRef, (snapshot) => {
-        const balance = snapshot.val();
-        if (balance !== null) {
-          elements.userBalance.textContent = Number(balance).toFixed(2);
+        const balances = snapshot.val();
+        
+        if (balances) {
+          // Update each crypto balance display
+          document.getElementById('balanceBTC').textContent = 
+            `${(balances.BTC || 0).toFixed(8)} BTC`;
+          document.getElementById('balanceETH').textContent = 
+            `${(balances.ETH || 0).toFixed(18)} ETH`;
+          document.getElementById('balanceUSDT-TRC20').textContent = 
+            `${(balances['USDT-TRC20'] || 0).toFixed(8)} USDT`;
+          document.getElementById('balanceUSDT-ERC20').textContent = 
+            `${(balances['USDT-ERC20'] || 0).toFixed(8)} USDT`;
+          document.getElementById('balanceUSDC-ERC20').textContent = 
+            `${(balances['USDC-ERC20'] || 0).toFixed(8)} USDC`;
         } else {
-          // Initialize balance if it doesn't exist
-          set(userBalanceRef, 0);
-          elements.userBalance.textContent = "0.00";
+          // Initialize multi-crypto balances if they don't exist
+          const initialBalances = {
+            BTC: 0,
+            ETH: 0,
+            'USDT-TRC20': 0,
+            'USDT-ERC20': 0,
+            'USDC-ERC20': 0
+          };
+          set(userBalanceRef, initialBalances);
+          
+          // Set display to zero
+          document.getElementById('balanceBTC').textContent = '0.00000000 BTC';
+          document.getElementById('balanceETH').textContent = '0.000000000000000000 ETH';
+          document.getElementById('balanceUSDT-TRC20').textContent = '0.00000000 USDT';
+          document.getElementById('balanceUSDT-ERC20').textContent = '0.00000000 USDT';
+          document.getElementById('balanceUSDC-ERC20').textContent = '0.00000000 USDC';
         }
         showLoading(elements.refreshBalanceBtn, elements.refreshSpinner, false);
       }, (error) => {
@@ -297,8 +411,14 @@ function goBack(event) {
           };
           
           await set(userMetaRef, newMeta);
-          // Initialize user balance
-          await set(ref(db, `users/${userId}/balance`), 0);
+          // Initialize multi-crypto user balance
+          await set(ref(db, `users/${userId}/balance`), {
+            BTC: 0,
+            ETH: 0,
+            'USDT-TRC20': 0,
+            'USDT-ERC20': 0,
+            'USDC-ERC20': 0
+          });
           
           elements.memberSince.textContent = `Member since: ${formatDate(newMeta.signupDate)}`;
           elements.lastLogin.textContent = `Last active: ${formatDate(newMeta.lastLogin)}`;
@@ -319,6 +439,13 @@ function goBack(event) {
     elements.supportLink.addEventListener('click', function(e) {
       e.preventDefault();
       window.location.href = 'https://wa.me/';
+    });
+
+    elements.depositBtn.addEventListener('click', function() {
+      showLoading(elements.depositBtn, elements.depositSpinner, true);
+      setTimeout(() => {
+        window.location.href = '/deposit.html';
+      }, 1000);
     });
 
     elements.topUpBtn.addEventListener('click', function() {
@@ -365,8 +492,21 @@ function goBack(event) {
         if (userId) {
           const balanceRef = ref(db, `users/${userId}/balance`);
           const snapshot = await get(balanceRef);
-          const currentBalance = snapshot.val() || 0;
-          elements.userBalance.textContent = Number(currentBalance).toFixed(2);
+          const balances = snapshot.val() || {
+            BTC: 0,
+            ETH: 0,
+            'USDT-TRC20': 0,
+            'USDT-ERC20': 0,
+            'USDC-ERC20': 0
+          };
+          
+          // Update displays
+          document.getElementById('balanceBTC').textContent = `${balances.BTC.toFixed(8)} BTC`;
+          document.getElementById('balanceETH').textContent = `${balances.ETH.toFixed(18)} ETH`;
+          document.getElementById('balanceUSDT-TRC20').textContent = `${balances['USDT-TRC20'].toFixed(8)} USDT`;
+          document.getElementById('balanceUSDT-ERC20').textContent = `${balances['USDT-ERC20'].toFixed(8)} USDT`;
+          document.getElementById('balanceUSDC-ERC20').textContent = `${balances['USDC-ERC20'].toFixed(8)} USDC`;
+          
           showAlert('Balance refreshed!', 'success');
         }
       } catch (error) {
