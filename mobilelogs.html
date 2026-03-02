@@ -4,7 +4,7 @@
 
   <meta name="csrf-token" content="eRtjYiTWjVSBJT0yfm3zqEbqnCyKxptUa0jPOlYj">
 
-  <title>Automotive — Inventory</title>
+  <title>SHADOWLOGS — Mobile Logs</title>
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -150,8 +150,8 @@
         <div class="row gy-4">
                             <div class="col-12 col-md-6 col-lg-4">
                     <div class="product-card">
-                       <div class="product-image"></div>
-                            <img src="" alt="">
+                       <div class="product-image">
+                            <img src="https://logos-world.net/wp-content/uploads/2020/07/PayPal-Logo-700x394.png" alt="PayPal Logo">
                         </div>
 
                         <!-- Product Title -->
@@ -184,8 +184,8 @@
                 </div>
                             <div class="col-12 col-md-6 col-lg-4">
                     <div class="product-card">
-                       <div class="product-image"></div>
-                            <img src="" alt="">
+                       <div class="product-image">
+                            <img src="https://logos-world.net/wp-content/uploads/2020/07/PayPal-Logo-700x394.png" alt="PayPal Logo">
                         </div>
 
                         <!-- Product Title -->
@@ -217,8 +217,8 @@
                 </div>
                             <div class="col-12 col-md-6 col-lg-4">
                     <div class="product-card">
-                       <div class="product-image"></div>
-                            <img src="" alt="">
+                       <div class="product-image">
+                            <img src="https://logos-world.net/wp-content/uploads/2021/03/Cash-App-Logo-700x394.png" alt="CashApp Logo">
                         </div>
 
                         <!-- Product Title -->
@@ -253,8 +253,8 @@
                 </div>
                             <div class="col-12 col-md-6 col-lg-4">
                     <div class="product-card">
-                       <div class="product-image"></div>
-                            <img src="" alt="">
+                       <div class="product-image">
+                            <img src="https://logos-world.net/wp-content/uploads/2021/03/Cash-App-Logo-700x394.png" alt="CashApp Logo">
                         </div>
 
                         <!-- Product Title -->
@@ -318,13 +318,17 @@
         align-items: center;
         justify-content: center;
         border: 2px solid #00ffff;
+        background-color: #ffffff;
+        background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
     }
 
     .product-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
+        width: 80%;
+        height: auto;
+        max-height: 80%;
+        object-fit: contain;
         transition: transform 0.3s ease;
+        filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.1));
     }
 
     .product-card:hover .product-image img {
