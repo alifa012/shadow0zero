@@ -154,7 +154,7 @@
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="product-card">
                         <div class="product-image">
-                            <img src="btc.jpg" alt="VISA CC Product" loading="lazy">
+                            <img src="https://logos-world.net/wp-content/uploads/2020/04/Visa-Logo-700x394.png" alt="VISA CC Product" loading="lazy">
                         </div>
 
                         <h5 class="product-title">VISA CC</h5>
@@ -225,7 +225,7 @@
                             <div class="col-12 col-md-6 col-lg-4">
                     <div class="product-card">
                        <div class="product-image">
-                            <img src="btc.jpg" alt="placeholder">
+                            <img src="https://logos-world.net/wp-content/uploads/2020/04/Visa-Logo-700x394.png" alt="VISA Logo">
                         </div>
 
                         <!-- Product Title -->
@@ -259,7 +259,7 @@
                             <div class="col-12 col-md-6 col-lg-4">
                     <div class="product-card">
                        <div class="product-image">
-                            <img src="btc.jpg" alt="placeholder">
+                            <img src="https://logos-world.net/wp-content/uploads/2020/04/Visa-Logo-700x394.png" alt="VISA Logo">
                         </div>
 
                         <!-- Product Title -->
@@ -293,7 +293,7 @@
                             <div class="col-12 col-md-6 col-lg-4">
                     <div class="product-card">
                        <div class="product-image">
-                            <img src="btc.jpg" alt="placeholder">
+                            <img src="https://logos-world.net/wp-content/uploads/2020/04/Visa-Logo-700x394.png" alt="VISA Logo">
                         </div>
 
                         <!-- Product Title -->
@@ -357,13 +357,17 @@
         align-items: center;
         justify-content: center;
         border: 2px solid #00ffff;
+        background-color: #ffffff;
+        background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
     }
 
     .product-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
+        width: 80%;
+        height: auto;
+        max-height: 80%;
+        object-fit: contain;
         transition: transform 0.3s ease;
+        filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.1));
     }
 
     .product-card:hover .product-image img {
@@ -466,6 +470,11 @@
     @media (max-width: 768px) {
         .product-image {
             height: 200px;
+        }
+
+        .product-image img {
+            width: 90%;
+            max-height: 90%;
         }
 
         .price-section {
