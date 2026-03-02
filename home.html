@@ -34,6 +34,71 @@
       justify-content: space-between;
       margin-bottom: 3px;
       font-family: 'Courier New', monospace;
+      color: #28a745;
+    }
+    
+    .btn-vip-forum {
+      background: linear-gradient(45deg, #000, #1a1a1a);
+      color: #28a745;
+      border: 2px solid #28a745;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+    
+    .btn-vip-forum:hover {
+      background: #28a745;
+      color: #000;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
+    }
+    
+    .theme-color, .theme-color h3 {
+      color: #28a745 !important;
+    }
+    
+    .btn-become-vendor {
+      background: #000;
+      border: 2px solid #28a745;
+      color: #28a745;
+      padding: 15px 25px;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-become-vendor:hover {
+      background: #28a745;
+      color: #000;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(40, 167, 69, 0.4);
+    }
+    
+    .sidebar-header {
+      background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+      border-bottom: 2px solid #28a745;
+    }
+    
+    .sidebar-offcanvas {
+      background: #000;
+      border-right: 2px solid #28a745;
+    }
+    
+    .pages {
+      color: #fff !important;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      transition: all 0.3s ease;
+    }
+    
+    .pages:hover {
+      background: rgba(40, 167, 69, 0.1);
+      border-left: 3px solid #28a745;
+      color: #28a745 !important;
     }
   </style>
 
@@ -238,8 +303,8 @@
 <a href="webassist.html" class="btn btn-verify-bin" id="openTawkBtn">
  Web Assistant
 </a>
-<a href="#" class="btn btn-vip-forum">
-  Bal $<span id="vipBalance">0.00</span>
+<a href="/profile.html" class="btn btn-vip-forum">
+  <i class="fas fa-wallet me-2"></i>Balance: $<span id="vipBalance">0.00</span>
 </a>
 
  <a href="/topup.html" class="theme-color btn btn-become-vendor pages" <!--data-bs-toggle="modal"-->

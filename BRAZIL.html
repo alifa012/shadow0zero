@@ -31,25 +31,32 @@
                 background-color: #000;
             }
         </style>
-<a href="/home.html"  class="btn btn-danger   neo-glass" style="z-index:1000;background:black" onclick="goBack()">
+<a href="/home.html"  class="btn btn-danger neo-glass" style="z-index:1000;background:black" onclick="goBack()">
         <i class="fas fa-arrow-left" aria-hidden="true"></i> Back
 </a>
-    
+
+ <!-- Hamburger Menu Button -->
+ <button class="sidebar-btn" style="border-radius: 7px;width: 40px;height: 40px;margin-left: 3px;position: absolute;top: 15px;right: 15px;background: #000;border: 1px solid #28a745;color: #28a745;" data-bs-toggle="offcanvas" data-bs-target="#offcanvasLeft">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu menu-icon"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+ </button>
     
     <!-- side bar start -->
  <div class="offcanvas sidebar-offcanvas offcanvas-start" tabindex="-1" id="offcanvasLeft">
     <div class="offcanvas-header sidebar-header">
       <div class="sidebar-logo">
-        
-
-    </div>
-      <div class="balance">
-      
-        <h5>BALANCE</h5>
-          $ <strong>0.00</strong>
-        
+        <h5 class="text-accent" style="color: #28a745;">SHADOWLOGS</h5>
       </div>
-          </div>
+      <div class="balance">
+        <h5 style="color: #28a745;">CRYPTO BALANCE</h5>
+        <div class="crypto-balances-sidebar" id="sidebarBalances">
+          <div class="crypto-item">₿ <span id="sidebarBTC">0.00000000</span></div>
+          <div class="crypto-item">Ξ <span id="sidebarETH">0.00000000</span></div>
+          <div class="crypto-item">₮ <span id="sidebarUSDT">0.00000000</span></div>
+          <div class="crypto-item">$ <span id="sidebarUSDC">0.00000000</span></div>
+        </div>
+      </div>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close" style="color: #dc3545;"></button>
+    </div>
     <div class="offcanvas-body">
       <div class="sidebar-content" style="margin-top:-20px">
         <ul class="link-section">
@@ -60,6 +67,7 @@
             </a>
           </li>
           <li>
+            <a href="/home.html" class="pages text-white">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-airplay sidebar-icon text-white"><path d="M5 17H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-1"></path><polygon points="12 15 17 21 7 21 12 15"></polygon></svg>
               <h3 class="text-white">Dashboard</h3>
             </a>
@@ -98,21 +106,29 @@
              
               CC Checker
               </a>
-          </li><li>
-            <a href="/" class="pages">
+          </li>
+          <li>
+            <a href="/profile.html" class="pages">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user sidebar-icon text-white"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
               <h3 class="text-white">Profile</h3>
             </a>
           </li>
-
-
-
-
+          <li>
+            <a href="/deposit.html" class="pages" style="color: #28a745;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="sidebar-icon" style="color: #28a745;"><path d="M12 2v20m9-9H3"></path></svg>
+              <h3 style="color: #28a745;">Deposit Crypto</h3>
+            </a>
+          </li>
 
           <li>
-                <input type="hidden" name="_token" value="eRtjYiTWjVSBJT0yfm3zqEbqnCyKxptUa0jPOlYj" autocomplete="off">                <button type="submit" class="flex items-center space-x-2" style="background: none; border: none; cursor: pointer;">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-log-out sidebar-icon" style="color:rgb(206, 80, 80) !important;"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
-                  <h3 style="color:rgb(206, 80, 80) !important;">Log out</h3>
+            <form method="POST" action="logout.html" style="width: 100%;">
+              <input type="hidden" name="_token" value="eRtjYiTWjVSBJT0yfm3zqEbqnCyKxptUa0jPOlYj" autocomplete="off">
+              <button type="submit" class="pages w-100 text-start" style="background: none; border: none; cursor: pointer; color: #dc3545 !important; padding: 12px 16px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-log-out sidebar-icon me-2" style="color: #dc3545 !important;"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                <span style="color: #dc3545 !important;">Log out</span>
+              </button>
+            </form>
+          </li>
                 </button>
               </form>
 
@@ -1042,6 +1058,112 @@
       });
     }
   };
+</script>
+
+<style>
+.crypto-balances-sidebar {
+  font-size: 11px;
+  margin-top: 8px;
+}
+
+.crypto-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 3px;
+  font-family: 'Courier New', monospace;
+  color: #28a745;
+}
+
+.sidebar-header {
+  background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+  border-bottom: 2px solid #28a745;
+}
+
+.sidebar-offcanvas {
+  background: #000;
+  border-right: 2px solid #28a745;
+}
+
+.pages {
+  color: #fff !important;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  transition: all 0.3s ease;
+}
+
+.pages:hover {
+  background: rgba(40, 167, 69, 0.1);
+  border-left: 3px solid #28a745;
+  color: #28a745 !important;
+}
+
+.theme-color, .theme-color h3 {
+  color: #28a745 !important;
+}
+
+.btn-close-white:hover {
+  background-color: #dc3545;
+}
+</style>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-app.js";
+  import { 
+    getAuth, 
+    onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-auth.js";
+  import { 
+    getDatabase, 
+    ref, 
+    onValue
+  } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBXC6A6NaL1WSHrfCNAuMeYZqx9DFZyToY",
+    authDomain: "shadowlogsshop-ec4ca.firebaseapp.com",
+    databaseURL: "https://shadowlogsshop-ec4ca-default-rtdb.firebaseio.com",
+    projectId: "shadowlogsshop-ec4ca",
+    storageBucket: "shadowlogsshop-ec4ca.appspot.com",
+    messagingSenderId: "709594271975",
+    appId: "1:709594271975:web:6a4bfc8bdcbc51c2859242",
+    measurementId: "G-WNEH2RQPVP"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getDatabase(app);
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      const userBalanceRef = ref(db, `users/${user.uid}/balance`);
+      
+      onValue(userBalanceRef, (snapshot) => {
+        const balances = snapshot.val();
+        
+        if (balances) {
+          document.getElementById('sidebarBTC').textContent = (balances.BTC || 0).toFixed(8);
+          document.getElementById('sidebarETH').textContent = (balances.ETH || 0).toFixed(6);
+          
+          // Combine USDT from both networks
+          const totalUSDT = (balances['USDT-TRC20'] || 0) + (balances['USDT-ERC20'] || 0);
+          document.getElementById('sidebarUSDT').textContent = totalUSDT.toFixed(2);
+          
+          document.getElementById('sidebarUSDC').textContent = (balances['USDC-ERC20'] || 0).toFixed(2);
+        } else {
+          document.getElementById('sidebarBTC').textContent = '0.00000000';
+          document.getElementById('sidebarETH').textContent = '0.000000';
+          document.getElementById('sidebarUSDT').textContent = '0.00';
+          document.getElementById('sidebarUSDC').textContent = '0.00';
+        }
+      });
+    } else {
+      document.getElementById('sidebarBTC').textContent = '0.00000000';
+      document.getElementById('sidebarETH').textContent = '0.000000';
+      document.getElementById('sidebarUSDT').textContent = '0.00';
+      document.getElementById('sidebarUSDC').textContent = '0.00';
+    }
+  });
 </script>
 
 <script>
