@@ -1,37 +1,29 @@
 <html lang="en"><head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <meta name="csrf-token" content="eRtjYiTWjVSBJT0yfm3zqEbqnCyKxptUa0jPOlYj">
 
-    <meta name="csrf-token" content="eRtjYiTWjVSBJT0yfm3zqEbqnCyKxptUa0jPOlYj">
+  <title>Automotive — Inventory</title>
 
-    <title></title>
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&display=swap" rel="stylesheet">
 
+  <!-- Bootstrap (official CDN) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
+  <!-- Swiper (official CDN) -->
+  <link href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" rel="stylesheet">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&amp;display=swap" rel="stylesheet">
+  <!-- Font Awesome (official CDN) -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 
-    <link rel="stylesheet" type="text/css" href="https://darkdeep.shop/final/assets/css/vendors/iconsax.css">
-    <link rel="stylesheet" id="rtl-link" type="text/css" href="https://darkdeep.shop/final/assets/css/vendors/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="https://darkdeep.shop/final/assets/css/vendors/swiper-bundle.min.css">
-    <link rel="stylesheet" id="change-link" type="text/css" href="https://darkdeep.shop/final/assets/css/style.css">
+  <!-- Local consolidated stylesheet (create this file) -->
+  <link href="assets/css/site.css" rel="stylesheet">
 
-    <!-- DataTables -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" integrity="sha512-INSERT_HASH_HERE" crossorigin="anonymous" referrerpolicy="no-referrer">
-
-
-<style>:root{--swal2-outline: 0 0 0 3px rgba(100, 150, 200, 0.5);--swal2-container-padding: 0.625em;--swal2-backdrop: rgba(0, 0, 0, 0.4);--swal2-backdrop-transition: background-color 0.1s;--swal2-width: 32em;--swal2-padding: 0 0 1.25em;--swal2-border: none;--swal2-border-radius: 0.3125rem;--swal2-background: white;--swal2-color: #545454;--swal2-show-animation: swal2-show 0.3s;--swal2-hide-animation: swal2-hide 0.15s forwards;--swal2-icon-zoom: 1;--swal2-icon-animations: true;--swal2-title-padding: 0.8em 1em 0;--swal2-html-container-padding: 1em 1.6em 0.3em;--swal2-input-border: 1px solid #d9d9d9;--swal2-input-border-radius: 0.1875em;--swal2-input-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.06), 0 0 0 3px transparent;--swal2-input-background: transparent;--swal2-input-transition: border-color 0.2s, box-shadow 0.2s;--swal2-input-hover-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.06), 0 0 0 3px transparent;--swal2-input-focus-border: 1px solid #b4dbed;--swal2-input-focus-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.06), 0 0 0 3px $swal2-outline-color;--swal2-progress-step-background: #add8e6;--swal2-validation-message-background: #f0f0f0;--swal2-validation-message-color: #666;--swal2-footer-border-color: #eee;--swal2-footer-background: transparent;--swal2-footer-color: inherit;--swal2-close-button-position: initial;--swal2-close-button-inset: auto;--swal2-close-button-font-size: 2.5em;--swal2-close-button-color: #ccc;--swal2-close-button-transition: color 0.2s, box-shadow 0.2s;--swal2-close-button-outline: initial;--swal2-close-button-box-shadow: inset 0 0 0 3px transparent;--swal2-close-button-focus-box-shadow: inset var(--swal2-outline);--swal2-close-button-hover-transform: none;--swal2-actions-justify-content: center;--swal2-actions-width: auto;--swal2-actions-margin: 1.25em auto 0;--swal2-actions-padding: 0;--swal2-actions-border-radius: 0;--swal2-actions-background: transparent;--swal2-action-button-transition: background-color 0.2s, box-shadow 0.2s;--swal2-action-button-hover: black 10%;--swal2-action-button-active: black 10%;--swal2-confirm-button-box-shadow: none;--swal2-confirm-button-border-radius: 0.25em;--swal2-confirm-button-background-color: #7066e0;--swal2-confirm-button-color: #fff;--swal2-deny-button-box-shadow: none;--swal2-deny-button-border-radius: 0.25em;--swal2-deny-button-background-color: #dc3741;--swal2-deny-button-color: #fff;--swal2-cancel-button-box-shadow: none;--swal2-cancel-button-border-radius: 0.25em;--swal2-cancel-button-background-color: #6e7881;--swal2-cancel-button-color: #fff;--swal2-toast-show-animation: swal2-toast-show 0.5s;--swal2-toast-hide-animation: swal2-toast-hide 0.1s forwards;--swal2-toast-border: none;--swal2-toast-box-shadow: 0 0 1px hsl(0deg 0% 0% / 0.075), 0 1px 2px hsl(0deg 0% 0% / 0.075), 1px 2px 4px hsl(0deg 0% 0% / 0.075), 1px 3px 8px hsl(0deg 0% 0% / 0.075), 2px 4px 16px hsl(0deg 0% 0% / 0.075)}[data-swal2-theme=dark]{--swal2-dark-theme-black: #19191a;--swal2-dark-theme-white: #e1e1e1;--swal2-background: var(--swal2-dark-theme-black);--swal2-color: var(--swal2-dark-theme-white);--swal2-footer-border-color: #555;--swal2-input-background: color-mix(in srgb, var(--swal2-dark-theme-black), var(--swal2-dark-theme-white) 10%);--swal2-validation-message-background: color-mix( in srgb, var(--swal2-dark-theme-black), var(--swal2-dark-theme-white) 10% );--swal2-validation-message-color: var(--swal2-dark-theme-white)}@media(prefers-color-scheme: dark){[data-swal2-theme=auto]{--swal2-dark-theme-black: #19191a;--swal2-dark-theme-white: #e1e1e1;--swal2-background: var(--swal2-dark-theme-black);--swal2-color: var(--swal2-dark-theme-white);--swal2-footer-border-color: #555;--swal2-input-background: color-mix(in srgb, var(--swal2-dark-theme-black), var(--swal2-dark-theme-white) 10%);--swal2-validation-message-background: color-mix( in srgb, var(--swal2-dark-theme-black), var(--swal2-dark-theme-white) 10% );--swal2-validation-message-color: var(--swal2-dark-theme-white)}}body.swal2-shown:not(.swal2-no-backdrop,.swal2-toast-shown){overflow:hidden}body.swal2-height-auto{height:auto !important}body.swal2-no-backdrop .swal2-container{background-color:rgba(0,0,0,0) !important;pointer-events:none}body.swal2-no-backdrop .swal2-container .swal2-popup{pointer-events:all}body.swal2-no-backdrop .swal2-container .swal2-modal{box-shadow:0 0 10px var(--swal2-backdrop)}body.swal2-toast-shown .swal2-container{box-sizing:border-box;width:360px;max-width:100%;background-color:rgba(0,0,0,0);pointer-events:none}body.swal2-toast-shown .swal2-container.swal2-top{inset:0 auto auto 50%;transform:translateX(-50%)}body.swal2-toast-shown .swal2-container.swal2-top-end,body.swal2-toast-shown .swal2-container.swal2-top-right{inset:0 0 auto auto}body.swal2-toast-shown .swal2-container.swal2-top-start,body.swal2-toast-shown .swal2-container.swal2-top-left{inset:0 auto auto 0}body.swal2-toast-shown .swal2-container.swal2-center-start,body.swal2-toast-shown .swal2-container.swal2-center-left{inset:50% auto auto 0;transform:translateY(-50%)}body.swal2-toast-shown .swal2-container.swal2-center{inset:50% auto auto 50%;transform:translate(-50%, -50%)}body.swal2-toast-shown .swal2-container.swal2-center-end,body.swal2-toast-shown .swal2-container.swal2-center-right{inset:50% 0 auto auto;transform:translateY(-50%)}body.swal2-toast-shown .swal2-container.swal2-bottom-start,body.swal2-toast-shown .swal2-container.swal2-bottom-left{inset:auto auto 0 0}body.swal2-toast-shown .swal2-container.swal2-bottom{inset:auto auto 0 50%;transform:translateX(-50%)}body.swal2-toast-shown .swal2-container.swal2-bottom-end,body.swal2-toast-shown .swal2-container.swal2-bottom-right{inset:auto 0 0 auto}@media print{body.swal2-shown:not(.swal2-no-backdrop,.swal2-toast-shown){overflow-y:scroll !important}body.swal2-shown:not(.swal2-no-backdrop,.swal2-toast-shown)>[aria-hidden=true]{display:none}body.swal2-shown:not(.swal2-no-backdrop,.swal2-toast-shown) .swal2-container{position:static !important}}div:where(.swal2-container){display:grid;position:fixed;z-index:1060;inset:0;box-sizing:border-box;grid-template-areas:"top-start     top            top-end" "center-start  center         center-end" "bottom-start  bottom-center  bottom-end";grid-template-rows:minmax(min-content, auto) minmax(min-content, auto) minmax(min-content, auto);height:100%;padding:var(--swal2-container-padding);overflow-x:hidden;transition:var(--swal2-backdrop-transition);-webkit-overflow-scrolling:touch}div:where(.swal2-container).swal2-backdrop-show,
-pointer-events:auto !important;
-clip:auto !important;
-color-scheme:light !important;}#ifsov83tjads1749247338830.widget-hidden {display: none !important;}#ifsov83tjads1749247338830.widget-visible {display: block !important;}
-@media print{
- #ifsov83tjads1749247338830.widget-visible { 
-display: none !important;
- }
-}</style><style type="text/css">.tawk-button-hover[data-v-70fc860f]:focus,.tawk-button-hover[data-v-70fc860f]:hover{background-color:hsla(0,0%,100%,.2)!important;border-radius:5px!important}</style><style type="text/css">@keyframes tawkMaxOpen{0%{opacity:0;transform:translate(0, 30px);;}to{opacity:1;transform:translate(0, 0px);}}@-moz-keyframes tawkMaxOpen{0%{opacity:0;transform:translate(0, 30px);;}to{opacity:1;transform:translate(0, 0px);}}@-webkit-keyframes tawkMaxOpen{0%{opacity:0;transform:translate(0, 30px);;}to{opacity:1;transform:translate(0, 0px);}}#th7ibvg8jlbk1749247339053.open{animation : tawkMaxOpen .25s ease!important;}</style></head>
+</head>
 
 <body class="index-page">
     <div class="topa">                 <style>
@@ -68,7 +60,6 @@ display: none !important;
             </a>
           </li>
           <li>
-            <a href="https://darkdeep.shop" class="pages text-white">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-airplay sidebar-icon text-white"><path d="M5 17H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-1"></path><polygon points="12 15 17 21 7 21 12 15"></polygon></svg>
               <h3 class="text-white">Dashboard</h3>
             </a>
@@ -119,7 +110,6 @@ display: none !important;
 
 
           <li>
-            <form id="logout-form" action="https://darkdeep.shop/logout" method="POST" class="pages">
                 <input type="hidden" name="_token" value="eRtjYiTWjVSBJT0yfm3zqEbqnCyKxptUa0jPOlYj" autocomplete="off">                <button type="submit" class="flex items-center space-x-2" style="background: none; border: none; cursor: pointer;">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-log-out sidebar-icon" style="color:rgb(206, 80, 80) !important;"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
                   <h3 style="color:rgb(206, 80, 80) !important;">Log out</h3>
@@ -163,7 +153,6 @@ display: none !important;
                     <div class="product-card">
                         <!-- Product Image -->
                         <div class="product-image">
-                            <img src="https://darkdeep.shop/uploads/Logscategory/1697537237.jpg" alt="CASHAPP LOGIN">
                         </div>
 
                         <!-- Product Title -->
@@ -198,7 +187,6 @@ display: none !important;
                     <div class="product-card">
                         <!-- Product Image -->
                         <div class="product-image">
-                            <img src="https://darkdeep.shop/uploads/Logscategory/1697537237.jpg" alt="CASHAPP LOGIN">
                         </div>
 
                         <!-- Product Title -->
@@ -233,7 +221,6 @@ display: none !important;
                     <div class="product-card">
                         <!-- Product Image -->
                         <div class="product-image">
-                            <img src="https://darkdeep.shop/uploads/Logscategory/1697537237.jpg" alt="CASHAPP LOGIN">
                         </div>
 
                         <!-- Product Title -->
@@ -268,7 +255,6 @@ display: none !important;
                     <div class="product-card">
                         <!-- Product Image -->
                         <div class="product-image">
-                            <img src="https://darkdeep.shop/uploads/Logscategory/1697537237.jpg" alt="CASHAPP LOGIN">
                         </div>
 
                         <!-- Product Title -->
@@ -302,7 +288,6 @@ display: none !important;
                     <div class="product-card">
                         <!-- Product Image -->
                         <div class="product-image">
-                            <img src="https://darkdeep.shop/uploads/Logscategory/1697537237.jpg" alt="CASHAPP LOGIN">
                         </div>
 
                         <!-- Product Title -->
@@ -337,7 +322,6 @@ display: none !important;
                     <div class="product-card">
                         <!-- Product Image -->
                         <div class="product-image">
-                            <img src="https://darkdeep.shop/uploads/Logscategory/1697537237.jpg" alt="CASHAPP LOGIN">
                         </div>
 
                         <!-- Product Title -->
@@ -371,7 +355,6 @@ display: none !important;
                     <div class="product-card">
                         <!-- Product Image -->
                         <div class="product-image">
-                            <img src="https://darkdeep.shop/uploads/Logscategory/1697537237.jpg" alt="CASHAPP LOGIN">
                         </div>
 
                         <!-- Product Title -->
@@ -406,7 +389,6 @@ display: none !important;
                     <div class="product-card">
                         <!-- Product Image -->
                         <div class="product-image">
-                            <img src="https://darkdeep.shop/uploads/Logscategory/1697537237.jpg" alt="CASHAPP LOGIN">
                         </div>
 
                         <!-- Product Title -->
@@ -441,7 +423,6 @@ display: none !important;
                     <div class="product-card">
                         <!-- Product Image -->
                         <div class="product-image">
-                            <img src="https://darkdeep.shop/uploads/Logscategory/1697537237.jpg" alt="CASHAPP LOGIN">
                         </div>
 
                         <!-- Product Title -->
@@ -476,7 +457,6 @@ display: none !important;
                     <div class="product-card">
                         <!-- Product Image -->
                         <div class="product-image">
-                            <img src="https://darkdeep.shop/uploads/Logscategory/1697537237.jpg" alt="CASHAPP LOGIN">
                         </div>
 
                         <!-- Product Title -->
@@ -511,7 +491,6 @@ display: none !important;
                     <div class="product-card">
                         <!-- Product Image -->
                         <div class="product-image">
-                            <img src="https://darkdeep.shop/uploads/Logscategory/1697537237.jpg" alt="CASHAPP LOGIN">
                         </div>
 
                         <!-- Product Title -->
@@ -822,24 +801,16 @@ display: none !important;
 
 
     <!-- swiper js -->
-    <script src="https://darkdeep.shop/final/assets/js/swiper-bundle.min.js"></script>
-    <script src="https://darkdeep.shop/final/assets/js/custom-swiper.js"></script>
 
     <!-- feather js -->
-    <script src="https://darkdeep.shop/final/assets/js/feather.min.js"></script>
-    <script src="https://darkdeep.shop/final/assets/js/custom-feather.js"></script>
 
     <!-- iconsax js -->
-    <script src="https://darkdeep.shop/final/assets/js/iconsax.js"></script>
 
     <!-- bootstrap js -->
-    <script src="https://darkdeep.shop/final/assets/js/bootstrap.bundle.min.js"></script>
 
     <!-- homescreen popup js -->
-    <script src="https://darkdeep.shop/final/assets/js/homescreen-popup.js"></script>
 
     <!-- PWA offcanvas popup js -->
-    <script src="https://darkdeep.shop/final/assets/js/offcanvas-popup.js"></script>
 
     <!-- DataTables js -->
     <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
@@ -989,3 +960,5 @@ display: none !important;
 
 
 <div id="ifsov83tjads1749247338830" class="widget-visible"><iframe src="about:blank" frameborder="0" scrolling="no" width="67px" height="64px" style="outline:none !important; visibility:visible !important; resize:none !important; box-shadow:none !important; overflow:visible !important; background:none !important; opacity:1 !important; filter:alpha(opacity=100) !important; -ms-filter:progid:DXImageTransform.Microsoft.Alpha(Opacity 1}) !important; -mz-opacity:1 !important; -khtml-opacity:1 !important; top:auto !important; right:20px !important; bottom:20px !important; left:auto !important; position:fixed !important; border:0 !important; min-height:64px !important; min-width:67px !important; max-height:64px !important; max-width:67px !important; padding:0 !important; margin:0 !important; -moz-transition-property:none !important; -webkit-transition-property:none !important; -o-transition-property:none !important; transition-property:none !important; transform:none !important; -webkit-transform:none !important; -ms-transform:none !important; width:67px !important; height:64px !important; display:block !important; z-index:1000003 !important; background-color:transparent !important; cursor:none !important; float:none !important; border-radius:unset !important; pointer-events:auto !important; clip:auto !important; color-scheme:light !important;" id="vbpcfnq4igc41749247338929" class="" title="chat widget"></iframe><iframe src="about:blank" frameborder="0" scrolling="no" width="100%" height="100%" style="outline:none !important; visibility:visible !important; resize:none !important; box-shadow:none !important; overflow:visible !important; background:none !important; opacity:1 !important; filter:alpha(opacity=100) !important; -ms-filter:progid:DXImageTransform.Microsoft.Alpha(Opacity 1}) !important; -mz-opacity:1 !important; -khtml-opacity:1 !important; top:0px !important; right:0px !important; bottom:0px !important; left:0px !important; position:fixed !important; border:0 !important; min-height:100% !important; min-width:100% !important; max-height:100% !important; max-width:100% !important; padding:0 !important; margin:0 !important; -moz-transition-property:none !important; -webkit-transition-property:none !important; -o-transition-property:none !important; transition-property:none !important; transform:none !important; -webkit-transform:none !important; -ms-transform:none !important; width:100% !important; height:100% !important; display:none !important; z-index:1000002 !important; background-color:transparent !important; cursor:none !important; float:none !important; border-radius:0px !important; pointer-events:auto !important; clip:auto !important; color-scheme:light !important;" id="th7ibvg8jlbk1749247339053" class="" title="chat widget"></iframe><!----><iframe src="about:blank" frameborder="0" scrolling="no" width="360px" height="145px" style="outline:none !important; visibility:visible !important; resize:none !important; box-shadow:none !important; overflow:visible !important; background:none !important; opacity:1 !important; filter:alpha(opacity=100) !important; -ms-filter:progid:DXImageTransform.Microsoft.Alpha(Opacity 1}) !important; -mz-opacity:1 !important; -khtml-opacity:1 !important; top:auto !important; right:20px !important; bottom:90px; left:auto !important; position:fixed !important; border:0 !important; min-height:145px !important; min-width:360px !important; max-height:145px !important; max-width:360px !important; padding:0 !important; margin:0 !important; -moz-transition-property:none !important; -webkit-transition-property:none !important; -o-transition-property:none !important; transition-property:none !important; transform:none !important; -webkit-transform:none !important; -ms-transform:none !important; width:360px !important; height:145px !important; display:none !important; z-index:auto !important; background-color:transparent !important; cursor:none !important; float:none !important; border-radius:unset !important; pointer-events:auto !important; clip:auto !important; color-scheme:light !important;" id="evnivolhodec1749247338970" class="" title="chat widget"></iframe><div id="chat-bubble"></div></div></body></html>
+
+

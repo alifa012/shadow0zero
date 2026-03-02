@@ -1,0 +1,734 @@
+<html lang="en" class="fontawesome-i2svg-active fontawesome-i2svg-complete"><head><style type="text/css">:host,:root{--fa-font-solid:normal 900 1em/1 "Font Awesome 6 Solid";--fa-font-regular:normal 400 1em/1 "Font Awesome 6 Regular";--fa-font-light:normal 300 1em/1 "Font Awesome 6 Light";--fa-font-thin:normal 100 1em/1 "Font Awesome 6 Thin";--fa-font-duotone:normal 900 1em/1 "Font Awesome 6 Duotone";--fa-font-brands:normal 400 1em/1 "Font Awesome 6 Brands"}svg:not(:host).svg-inline--fa,svg:not(:root).svg-inline--fa{overflow:visible;-webkit-box-sizing:content-box;box-sizing:content-box}.svg-inline--fa{display:var(--fa-display,inline-block);height:1em;overflow:visible;vertical-align:-.125em}.svg-inline--fa.fa-2xs{vertical-align:.1em}.svg-inline--fa.fa-xs{vertical-align:0}.svg-inline--fa.fa-sm{vertical-align:-.0714285705em}.svg-inline--fa.fa-lg{vertical-align:-.2em}.svg-inline--fa.fa-xl{vertical-align:-.25em}.svg-inline--fa.fa-2xl{vertical-align:-.3125em}.svg-inline--fa.fa-pull-left{margin-right:var(--fa-pull-margin,.3em);width:auto}.svg-inline--fa.fa-pull-right{margin-left:var(--fa-pull-margin,.3em);width:auto}.svg-inline--fa.fa-li{width:var(--fa-li-width,2em);top:.25em}.svg-inline--fa.fa-fw{width:var(--fa-fw-width,1.25em)}.fa-layers svg.svg-inline--fa{bottom:0;left:0;margin:auto;position:absolute;right:0;top:0}.fa-layers-counter,.fa-layers-text{display:inline-block;position:absolute;text-align:center}.fa-layers{display:inline-block;height:1em;position:relative;text-align:center;vertical-align:-.125em;width:1em}.fa-layers svg.svg-inline--fa{-webkit-transform-origin:center center;transform-origin:center center}.fa-layers-text{left:50%;top:50%;-webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%);-webkit-transform-origin:center center;transform-origin:center center}.fa-layers-counter{background-color:var(--fa-counter-background-color,#ff253a);border-radius:var(--fa-counter-border-radius,1em);-webkit-box-sizing:border-box;box-sizing:border-box;color:var(--fa-inverse,#fff);line-height:var(--fa-counter-line-height,1);max-width:var(--fa-counter-max-width,5em);min-width:var(--fa-counter-min-width,1.5em);overflow:hidden;padding:var(--fa-counter-padding,.25em .5em);right:var(--fa-right,0);text-overflow:ellipsis;top:var(--fa-top,0);-webkit-transform:scale(var(--fa-counter-scale,.25));transform:scale(var(--fa-counter-scale,.25));-webkit-transform-origin:top right;transform-origin:top right}.fa-layers-bottom-right{bottom:var(--fa-bottom,0);right:var(--fa-right,0);top:auto;-webkit-transform:scale(var(--fa-layers-scale,.25));transform:scale(var(--fa-layers-scale,.25));-webkit-transform-origin:bottom right;transform-origin:bottom right}.fa-layers-bottom-left{bottom:var(--fa-bottom,0);left:var(--fa-left,0);right:auto;top:auto;-webkit-transform:scale(var(--fa-layers-scale,.25));transform:scale(var(--fa-layers-scale,.25));-webkit-transform-origin:bottom left;transform-origin:bottom left}.fa-layers-top-right{top:var(--fa-top,0);right:var(--fa-right,0);-webkit-transform:scale(var(--fa-layers-scale,.25));transform:scale(var(--fa-layers-scale,.25));-webkit-transform-origin:top right;transform-origin:top right}.fa-layers-top-left{left:var(--fa-left,0);right:auto;top:var(--fa-top,0);-webkit-transform:scale(var(--fa-layers-scale,.25));transform:scale(var(--fa-layers-scale,.25));-webkit-transform-origin:top left;transform-origin:top left}.fa-1x{font-size:1em}.fa-2x{font-size:2em}.fa-3x{font-size:3em}.fa-4x{font-size:4em}.fa-5x{font-size:5em}.fa-6x{font-size:6em}.fa-7x{font-size:7em}.fa-8x{font-size:8em}.fa-9x{font-size:9em}.fa-10x{font-size:10em}.fa-2xs{font-size:.625em;line-height:.1em;vertical-align:.225em}.fa-xs{font-size:.75em;line-height:.0833333337em;vertical-align:.125em}.fa-sm{font-size:.875em;line-height:.0714285718em;vertical-align:.0535714295em}.fa-lg{font-size:1.25em;line-height:.05em;vertical-align:-.075em}.fa-xl{font-size:1.5em;line-height:.0416666682em;vertical-align:-.125em}.fa-2xl{font-size:2em;line-height:.03125em;vertical-align:-.1875em}.fa-fw{text-align:center;width:1.25em}.fa-ul{list-style-type:none;margin-left:var(--fa-li-margin,2.5em);padding-left:0}.fa-ul>li{position:relative}.fa-li{left:calc(var(--fa-li-width,2em) * -1);position:absolute;text-align:center;width:var(--fa-li-width,2em);line-height:inherit}.fa-border{border-color:var(--fa-border-color,#eee);border-radius:var(--fa-border-radius,.1em);border-style:var(--fa-border-style,solid);border-width:var(--fa-border-width,.08em);padding:var(--fa-border-padding,.2em .25em .15em)}.fa-pull-left{float:left;margin-right:var(--fa-pull-margin,.3em)}.fa-pull-right{float:right;margin-left:var(--fa-pull-margin,.3em)}.fa-beat{-webkit-animation-name:fa-beat;animation-name:fa-beat;-webkit-animation-delay:var(--fa-animation-delay,0);animation-delay:var(--fa-animation-delay,0);-webkit-animation-direction:var(--fa-animation-direction,normal);animation-direction:var(--fa-animation-direction,normal);-webkit-animation-duration:var(--fa-animation-duration,1s);animation-duration:var(--fa-animation-duration,1s);-webkit-animation-iteration-count:var(--fa-animation-iteration-count,infinite);animation-iteration-count:var(--fa-animation-iteration-count,infinite);-webkit-animation-timing-function:var(--fa-animation-timing,ease-in-out);animation-timing-function:var(--fa-animation-timing,ease-in-out)}.fa-fade{-webkit-animation-name:fa-fade;animation-name:fa-fade;-webkit-animation-delay:var(--fa-animation-delay,0);animation-delay:var(--fa-animation-delay,0);-webkit-animation-direction:var(--fa-animation-direction,normal);animation-direction:var(--fa-animation-direction,normal);-webkit-animation-duration:var(--fa-animation-duration,1s);animation-duration:var(--fa-animation-duration,1s);-webkit-animation-iteration-count:var(--fa-animation-iteration-count,infinite);animation-iteration-count:var(--fa-animation-iteration-count,infinite);-webkit-animation-timing-function:var(--fa-animation-timing,cubic-bezier(.4,0,.6,1));animation-timing-function:var(--fa-animation-timing,cubic-bezier(.4,0,.6,1))}.fa-beat-fade{-webkit-animation-name:fa-beat-fade;animation-name:fa-beat-fade;-webkit-animation-delay:var(--fa-animation-delay,0);animation-delay:var(--fa-animation-delay,0);-webkit-animation-direction:var(--fa-animation-direction,normal);animation-direction:var(--fa-animation-direction,normal);-webkit-animation-duration:var(--fa-animation-duration,1s);animation-duration:var(--fa-animation-duration,1s);-webkit-animation-iteration-count:var(--fa-animation-iteration-count,infinite);animation-iteration-count:var(--fa-animation-iteration-count,infinite);-webkit-animation-timing-function:var(--fa-animation-timing,cubic-bezier(.4,0,.6,1));animation-timing-function:var(--fa-animation-timing,cubic-bezier(.4,0,.6,1))}.fa-flip{-webkit-animation-name:fa-flip;animation-name:fa-flip;-webkit-animation-delay:var(--fa-animation-delay,0);animation-delay:var(--fa-animation-delay,0);-webkit-animation-direction:var(--fa-animation-direction,normal);animation-direction:var(--fa-animation-direction,normal);-webkit-animation-duration:var(--fa-animation-duration,1s);animation-duration:var(--fa-animation-duration,1s);-webkit-animation-iteration-count:var(--fa-animation-iteration-count,infinite);animation-iteration-count:var(--fa-animation-iteration-count,infinite);-webkit-animation-timing-function:var(--fa-animation-timing,ease-in-out);animation-timing-function:var(--fa-animation-timing,ease-in-out)}.fa-spin{-webkit-animation-name:fa-spin;animation-name:fa-spin;-webkit-animation-delay:var(--fa-animation-delay,0);animation-delay:var(--fa-animation-delay,0);-webkit-animation-direction:var(--fa-animation-direction,normal);animation-direction:var(--fa-animation-direction,normal);-webkit-animation-duration:var(--fa-animation-duration,2s);animation-duration:var(--fa-animation-duration,2s);-webkit-animation-iteration-count:var(--fa-animation-iteration-count,infinite);animation-iteration-count:var(--fa-animation-iteration-count,infinite);-webkit-animation-timing-function:var(--fa-animation-timing,linear);animation-timing-function:var(--fa-animation-timing,linear)}.fa-spin-reverse{--fa-animation-direction:reverse}.fa-pulse,.fa-spin-pulse{-webkit-animation-name:fa-spin;animation-name:fa-spin;-webkit-animation-direction:var(--fa-animation-direction,normal);animation-direction:var(--fa-animation-direction,normal);-webkit-animation-duration:var(--fa-animation-duration,1s);animation-duration:var(--fa-animation-duration,1s);-webkit-animation-iteration-count:var(--fa-animation-iteration-count,infinite);animation-iteration-count:var(--fa-animation-iteration-count,infinite);-webkit-animation-timing-function:var(--fa-animation-timing,steps(8));animation-timing-function:var(--fa-animation-timing,steps(8))}@media (prefers-reduced-motion:reduce){.fa-beat,.fa-beat-fade,.fa-fade,.fa-flip,.fa-pulse,.fa-spin,.fa-spin-pulse{-webkit-animation-delay:-1ms;animation-delay:-1ms;-webkit-animation-duration:1ms;animation-duration:1ms;-webkit-animation-iteration-count:1;animation-iteration-count:1;-webkit-transition-delay:0s;transition-delay:0s;-webkit-transition-duration:0s;transition-duration:0s}}@-webkit-keyframes fa-beat{0%,90%{-webkit-transform:scale(1);transform:scale(1)}45%{-webkit-transform:scale(var(--fa-beat-scale,1.25));transform:scale(var(--fa-beat-scale,1.25))}}@keyframes fa-beat{0%,90%{-webkit-transform:scale(1);transform:scale(1)}45%{-webkit-transform:scale(var(--fa-beat-scale,1.25));transform:scale(var(--fa-beat-scale,1.25))}}@-webkit-keyframes fa-fade{50%{opacity:var(--fa-fade-opacity,.4)}}@keyframes fa-fade{50%{opacity:var(--fa-fade-opacity,.4)}}@-webkit-keyframes fa-beat-fade{0%,100%{opacity:var(--fa-beat-fade-opacity,.4);-webkit-transform:scale(1);transform:scale(1)}50%{opacity:1;-webkit-transform:scale(var(--fa-beat-fade-scale,1.125));transform:scale(var(--fa-beat-fade-scale,1.125))}}@keyframes fa-beat-fade{0%,100%{opacity:var(--fa-beat-fade-opacity,.4);-webkit-transform:scale(1);transform:scale(1)}50%{opacity:1;-webkit-transform:scale(var(--fa-beat-fade-scale,1.125));transform:scale(var(--fa-beat-fade-scale,1.125))}}@-webkit-keyframes fa-flip{50%{-webkit-transform:rotate3d(var(--fa-flip-x,0),var(--fa-flip-y,1),var(--fa-flip-z,0),var(--fa-flip-angle,-180deg));transform:rotate3d(var(--fa-flip-x,0),var(--fa-flip-y,1),var(--fa-flip-z,0),var(--fa-flip-angle,-180deg))}}@keyframes fa-flip{50%{-webkit-transform:rotate3d(var(--fa-flip-x,0),var(--fa-flip-y,1),var(--fa-flip-z,0),var(--fa-flip-angle,-180deg));transform:rotate3d(var(--fa-flip-x,0),var(--fa-flip-y,1),var(--fa-flip-z,0),var(--fa-flip-angle,-180deg))}}@-webkit-keyframes fa-spin{0%{-webkit-transform:rotate(0);transform:rotate(0)}100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}@keyframes fa-spin{0%{-webkit-transform:rotate(0);transform:rotate(0)}100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}.fa-rotate-90{-webkit-transform:rotate(90deg);transform:rotate(90deg)}.fa-rotate-180{-webkit-transform:rotate(180deg);transform:rotate(180deg)}.fa-rotate-270{-webkit-transform:rotate(270deg);transform:rotate(270deg)}.fa-flip-horizontal{-webkit-transform:scale(-1,1);transform:scale(-1,1)}.fa-flip-vertical{-webkit-transform:scale(1,-1);transform:scale(1,-1)}.fa-flip-both,.fa-flip-horizontal.fa-flip-vertical{-webkit-transform:scale(-1,-1);transform:scale(-1,-1)}.fa-rotate-by{-webkit-transform:rotate(var(--fa-rotate-angle,none));transform:rotate(var(--fa-rotate-angle,none))}.fa-stack{display:inline-block;vertical-align:middle;height:2em;position:relative;width:2.5em}.fa-stack-1x,.fa-stack-2x{bottom:0;left:0;margin:auto;position:absolute;right:0;top:0;z-index:var(--fa-stack-z-index,auto)}.svg-inline--fa.fa-stack-1x{height:1em;width:1.25em}.svg-inline--fa.fa-stack-2x{height:2em;width:2.5em}.fa-inverse{color:var(--fa-inverse,#fff)}.fa-sr-only,.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border-width:0}.fa-sr-only-focusable:not(:focus),.sr-only-focusable:not(:focus){position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border-width:0}.svg-inline--fa .fa-primary{fill:var(--fa-primary-color,currentColor);opacity:var(--fa-primary-opacity,1)}.svg-inline--fa .fa-secondary{fill:var(--fa-secondary-color,currentColor);opacity:var(--fa-secondary-opacity,.4)}.svg-inline--fa.fa-swap-opacity .fa-primary{opacity:var(--fa-secondary-opacity,.4)}.svg-inline--fa.fa-swap-opacity .fa-secondary{opacity:var(--fa-primary-opacity,1)}.svg-inline--fa mask .fa-primary,.svg-inline--fa mask .fa-secondary{fill:#000}.fa-duotone.fa-inverse,.fad.fa-inverse{color:var(--fa-inverse,#fff)}</style><style type="text/css">.swal-icon--error{border-color:#f27474;-webkit-animation:animateErrorIcon .5s;animation:animateErrorIcon .5s}.swal-icon--error__x-mark{position:relative;display:block;-webkit-animation:animateXMark .5s;animation:animateXMark .5s}.swal-icon--error__line{position:absolute;height:5px;width:47px;background-color:#f27474;display:block;top:37px;border-radius:2px}.swal-icon--error__line--left{-webkit-transform:rotate(45deg);transform:rotate(45deg);left:17px}.swal-icon--error__line--right{-webkit-transform:rotate(-45deg);transform:rotate(-45deg);right:16px}@-webkit-keyframes animateErrorIcon{0%{-webkit-transform:rotateX(100deg);transform:rotateX(100deg);opacity:0}to{-webkit-transform:rotateX(0deg);transform:rotateX(0deg);opacity:1}}@keyframes animateErrorIcon{0%{-webkit-transform:rotateX(100deg);transform:rotateX(100deg);opacity:0}to{-webkit-transform:rotateX(0deg);transform:rotateX(0deg);opacity:1}}@-webkit-keyframes animateXMark{0%{-webkit-transform:scale(.4);transform:scale(.4);margin-top:26px;opacity:0}50%{-webkit-transform:scale(.4);transform:scale(.4);margin-top:26px;opacity:0}80%{-webkit-transform:scale(1.15);transform:scale(1.15);margin-top:-6px}to{-webkit-transform:scale(1);transform:scale(1);margin-top:0;opacity:1}}@keyframes animateXMark{0%{-webkit-transform:scale(.4);transform:scale(.4);margin-top:26px;opacity:0}50%{-webkit-transform:scale(.4);transform:scale(.4);margin-top:26px;opacity:0}80%{-webkit-transform:scale(1.15);transform:scale(1.15);margin-top:-6px}to{-webkit-transform:scale(1);transform:scale(1);margin-top:0;opacity:1}}.swal-icon--warning{border-color:#f8bb86;-webkit-animation:pulseWarning .75s infinite alternate;animation:pulseWarning .75s infinite alternate}.swal-icon--warning__body{width:5px;height:47px;top:10px;border-radius:2px;margin-left:-2px}.swal-icon--warning__body,.swal-icon--warning__dot{position:absolute;left:50%;background-color:#f8bb86}.swal-icon--warning__dot{width:7px;height:7px;border-radius:50%;margin-left:-4px;bottom:-11px}@-webkit-keyframes pulseWarning{0%{border-color:#f8d486}to{border-color:#f8bb86}}@keyframes pulseWarning{0%{border-color:#f8d486}to{border-color:#f8bb86}}.swal-icon--success{border-color:#a5dc86}.swal-icon--success:after,.swal-icon--success:before{content:"";border-radius:50%;position:absolute;width:60px;height:120px;background:#fff;-webkit-transform:rotate(45deg);transform:rotate(45deg)}.swal-icon--success:before{border-radius:120px 0 0 120px;top:-7px;left:-33px;-webkit-transform:rotate(-45deg);transform:rotate(-45deg);-webkit-transform-origin:60px 60px;transform-origin:60px 60px}.swal-icon--success:after{border-radius:0 120px 120px 0;top:-11px;left:30px;-webkit-transform:rotate(-45deg);transform:rotate(-45deg);-webkit-transform-origin:0 60px;transform-origin:0 60px;-webkit-animation:rotatePlaceholder 4.25s ease-in;animation:rotatePlaceholder 4.25s ease-in}.swal-icon--success__ring{width:80px;height:80px;border:4px solid hsla(98,55%,69%,.2);border-radius:50%;box-sizing:content-box;position:absolute;left:-4px;top:-4px;z-index:2}.swal-icon--success__hide-corners{width:5px;height:90px;background-color:#fff;padding:1px;position:absolute;left:28px;top:8px;z-index:1;-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}.swal-icon--success__line{height:5px;background-color:#a5dc86;display:block;border-radius:2px;position:absolute;z-index:2}.swal-icon--success__line--tip{width:25px;left:14px;top:46px;-webkit-transform:rotate(45deg);transform:rotate(45deg);-webkit-animation:animateSuccessTip .75s;animation:animateSuccessTip .75s}.swal-icon--success__line--long{width:47px;right:8px;top:38px;-webkit-transform:rotate(-45deg);transform:rotate(-45deg);-webkit-animation:animateSuccessLong .75s;animation:animateSuccessLong .75s}@-webkit-keyframes rotatePlaceholder{0%{-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}5%{-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}12%{-webkit-transform:rotate(-405deg);transform:rotate(-405deg)}to{-webkit-transform:rotate(-405deg);transform:rotate(-405deg)}}@keyframes rotatePlaceholder{0%{-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}5%{-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}12%{-webkit-transform:rotate(-405deg);transform:rotate(-405deg)}to{-webkit-transform:rotate(-405deg);transform:rotate(-405deg)}}@-webkit-keyframes animateSuccessTip{0%{width:0;left:1px;top:19px}54%{width:0;left:1px;top:19px}70%{width:50px;left:-8px;top:37px}84%{width:17px;left:21px;top:48px}to{width:25px;left:14px;top:45px}}@keyframes animateSuccessTip{0%{width:0;left:1px;top:19px}54%{width:0;left:1px;top:19px}70%{width:50px;left:-8px;top:37px}84%{width:17px;left:21px;top:48px}to{width:25px;left:14px;top:45px}}@-webkit-keyframes animateSuccessLong{0%{width:0;right:46px;top:54px}65%{width:0;right:46px;top:54px}84%{width:55px;right:0;top:35px}to{width:47px;right:8px;top:38px}}@keyframes animateSuccessLong{0%{width:0;right:46px;top:54px}65%{width:0;right:46px;top:54px}84%{width:55px;right:0;top:35px}to{width:47px;right:8px;top:38px}}.swal-icon--info{border-color:#c9dae1}.swal-icon--info:before{width:5px;height:29px;bottom:17px;border-radius:2px;margin-left:-2px}.swal-icon--info:after,.swal-icon--info:before{content:"";position:absolute;left:50%;background-color:#c9dae1}.swal-icon--info:after{width:7px;height:7px;border-radius:50%;margin-left:-3px;top:19px}.swal-icon{width:80px;height:80px;border-width:4px;border-style:solid;border-radius:50%;padding:0;position:relative;box-sizing:content-box;margin:20px auto}.swal-icon:first-child{margin-top:32px}.swal-icon--custom{width:auto;height:auto;max-width:100%;border:none;border-radius:0}.swal-icon img{max-width:100%;max-height:100%}.swal-title{color:rgba(0,0,0,.65);font-weight:600;text-transform:none;position:relative;display:block;padding:13px 16px;font-size:27px;line-height:normal;text-align:center;margin-bottom:0}.swal-title:first-child{margin-top:26px}.swal-title:not(:first-child){padding-bottom:0}.swal-title:not(:last-child){margin-bottom:13px}.swal-text{font-size:16px;position:relative;float:none;line-height:normal;vertical-align:top;text-align:left;display:inline-block;margin:0;padding:0 10px;font-weight:400;color:rgba(0,0,0,.64);max-width:calc(100% - 20px);overflow-wrap:break-word;box-sizing:border-box}.swal-text:first-child{margin-top:45px}.swal-text:last-child{margin-bottom:45px}.swal-footer{text-align:right;padding-top:13px;margin-top:13px;padding:13px 16px;border-radius:inherit;border-top-left-radius:0;border-top-right-radius:0}.swal-button-container{margin:5px;display:inline-block;position:relative}.swal-button{background-color:#7cd1f9;color:#fff;border:none;box-shadow:none;border-radius:5px;font-weight:600;font-size:14px;padding:10px 24px;margin:0;cursor:pointer}.swal-button:not([disabled]):hover{background-color:#78cbf2}.swal-button:active{background-color:#70bce0}.swal-button:focus{outline:none;box-shadow:0 0 0 1px #fff,0 0 0 3px rgba(43,114,165,.29)}.swal-button[disabled]{opacity:.5;cursor:default}.swal-button::-moz-focus-inner{border:0}.swal-button--cancel{color:#555;background-color:#efefef}.swal-button--cancel:not([disabled]):hover{background-color:#e8e8e8}.swal-button--cancel:active{background-color:#d7d7d7}.swal-button--cancel:focus{box-shadow:0 0 0 1px #fff,0 0 0 3px rgba(116,136,150,.29)}.swal-button--danger{background-color:#e64942}.swal-button--danger:not([disabled]):hover{background-color:#df4740}.swal-button--danger:active{background-color:#cf423b}.swal-button--danger:focus{box-shadow:0 0 0 1px #fff,0 0 0 3px rgba(165,43,43,.29)}.swal-content{padding:0 20px;margin-top:20px;font-size:medium}.swal-content:last-child{margin-bottom:20px}.swal-content__input,.swal-content__textarea{-webkit-appearance:none;background-color:#fff;border:none;font-size:14px;display:block;box-sizing:border-box;width:100%;border:1px solid rgba(0,0,0,.14);padding:10px 13px;border-radius:2px;transition:border-color .2s}.swal-content__input:focus,.swal-content__textarea:focus{outline:none;border-color:#6db8ff}.swal-content__textarea{resize:vertical}.swal-button--loading{color:transparent}.swal-button--loading~.swal-button__loader{opacity:1}.swal-button__loader{position:absolute;height:auto;width:43px;z-index:2;left:50%;top:50%;-webkit-transform:translateX(-50%) translateY(-50%);transform:translateX(-50%) translateY(-50%);text-align:center;pointer-events:none;opacity:0}.swal-button__loader div{display:inline-block;float:none;vertical-align:baseline;width:9px;height:9px;padding:0;border:none;margin:2px;opacity:.4;border-radius:7px;background-color:hsla(0,0%,100%,.9);transition:background .2s;-webkit-animation:swal-loading-anim 1s infinite;animation:swal-loading-anim 1s infinite}.swal-button__loader div:nth-child(3n+2){-webkit-animation-delay:.15s;animation-delay:.15s}.swal-button__loader div:nth-child(3n+3){-webkit-animation-delay:.3s;animation-delay:.3s}@-webkit-keyframes swal-loading-anim{0%{opacity:.4}20%{opacity:.4}50%{opacity:1}to{opacity:.4}}@keyframes swal-loading-anim{0%{opacity:.4}20%{opacity:.4}50%{opacity:1}to{opacity:.4}}.swal-overlay{position:fixed;top:0;bottom:0;left:0;right:0;text-align:center;font-size:0;overflow-y:auto;background-color:rgba(0,0,0,.4);z-index:10000;pointer-events:none;opacity:0;transition:opacity .3s}.swal-overlay:before{content:" ";display:inline-block;vertical-align:middle;height:100%}.swal-overlay--show-modal{opacity:1;pointer-events:auto}.swal-overlay--show-modal .swal-modal{opacity:1;pointer-events:auto;box-sizing:border-box;-webkit-animation:showSweetAlert .3s;animation:showSweetAlert .3s;will-change:transform}.swal-modal{width:478px;opacity:0;pointer-events:none;background-color:#fff;text-align:center;border-radius:5px;position:static;margin:20px auto;display:inline-block;vertical-align:middle;-webkit-transform:scale(1);transform:scale(1);-webkit-transform-origin:50% 50%;transform-origin:50% 50%;z-index:10001;transition:opacity .2s,-webkit-transform .3s;transition:transform .3s,opacity .2s;transition:transform .3s,opacity .2s,-webkit-transform .3s}@media (max-width:500px){.swal-modal{width:calc(100% - 20px)}}@-webkit-keyframes showSweetAlert{0%{-webkit-transform:scale(1);transform:scale(1)}1%{-webkit-transform:scale(.5);transform:scale(.5)}45%{-webkit-transform:scale(1.05);transform:scale(1.05)}80%{-webkit-transform:scale(.95);transform:scale(.95)}to{-webkit-transform:scale(1);transform:scale(1)}}@keyframes showSweetAlert{0%{-webkit-transform:scale(1);transform:scale(1)}1%{-webkit-transform:scale(.5);transform:scale(.5)}45%{-webkit-transform:scale(1.05);transform:scale(1.05)}80%{-webkit-transform:scale(.95);transform:scale(.95)}to{-webkit-transform:scale(1);transform:scale(1)}}</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Crypto Gateway</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+
+    <style>
+        .main-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .animated-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .crypto-card {
+            background: linear-gradient(45deg, #ffffff, #f8f9fa);
+            border-radius: 15px;
+            border: 1px solid rgba(13, 110, 253, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .crypto-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .particle {
+            position: absolute;
+            pointer-events: none;
+            background: rgba(13, 110, 253, 0.3);
+            border-radius: 50%;
+        }
+
+        .neo-glass {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+    
+        <style>
+        .payment-container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        .payment-container h2 {
+            color: #333;
+        }
+
+        .payment-container p {
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .payment-container form {
+            display: inline-block;
+            text-align: left;
+        }
+
+        .payment-container input[type="file"] {
+            margin-bottom: 10px;
+        }
+
+        .payment-container input[type="submit"] {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .payment-container input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+<style>.coin-marquee{-webkit-text-size-adjust:none}.coin-marquee div{box-sizing:border-box}.coin-marquee-wrapper{display:flex;align-items:center;background:#fff;border-top:1px solid #eff2f5;border-bottom:1px solid #eff2f5;overflow:hidden}.coin-marquee-wrapper--dark{background:#171924;border-top:1px solid #222531;border-bottom:1px solid #222531}.coin-marquee-wrapper--dark .coin-marquee-header-signature{border-right:1px solid #40424e}.coin-marquee-wrapper--dark .coin-marquee-header-signature__power-by{color:#808a9d}.coin-marquee-wrapper--dark .coin-marquee-item::after{background-color:#40424e}.coin-marquee-wrapper--dark .coin-marquee-item-inner{color:#fff}.coin-marquee-wrapper--dark .coin-marquee-item-symbol{color:#a1a7bb}.coin-marquee-wrapper--dark .coin-marquee-item .coin-marquee-item--skeleton .coin-marquee-item__icon,.coin-marquee-wrapper--dark .coin-marquee-item .coin-marquee-item--skeleton .coin-marquee-item-info__row{background-color:#323546}.coin-marquee-wrapper--transparent{background:transparent !important}.coin-marquee-header{float:left;width:141px}.coin-marquee-header-signature{overflow:hidden;width:141px;padding:12px 16px;box-sizing:border-box;border-right:1px solid #eff2f5}.coin-marquee-header-signature svg,.coin-marquee-header-signature div{float:left}.coin-marquee-header-signature svg{height:18px}.coin-marquee-header-signature div{height:17px;display:inline-block;line-height:18x;font-weight:400;font-size:9px;line-height:18px;color:#808a9d}.coin-marquee-container{display:flex;width:calc(100% - 141px);overflow:hidden;white-space:nowrap}.coin-marquee-container__inner{position:relative;display:inline-block;font-size:0;line-height:0;-webkit-animation-play-state:running;animation-play-state:running}.coin-marquee-container__inner:hover{-webkit-animation-play-state:paused;animation-play-state:paused}.coin-marquee-item{position:relative;min-width:220px;display:inline-block;box-sizing:border-box;padding:0 16px}.coin-marquee-item:hover,.coin-marquee-item:focus{color:inherit}.coin-marquee-item::after{content:"";position:absolute;top:20px;right:0;display:inline-block;background-color:#eff2f5;width:1px;height:20px}.coin-marquee-item-inner{padding:16px 0;display:flex;width:100%;align-items:center;text-decoration:none;color:#000}.coin-marquee-item-inner:hover{color:inherit}.coin-marquee-item-inner:hover .coin-marquee-item-name{opacity:.6}.coin-marquee-item__icon{margin-right:8px;display:inline-block;line-height:1;min-width:20px;max-width:20px;height:20px}.coin-marquee-item__icon img{width:100%;height:100%}.coin-marquee-item-info{width:100%}.coin-marquee-item-info__row{display:flex;align-items:center;justify-content:space-between;line-height:1}.coin-marquee-item-info__row:last-of-type{margin-top:2px}.coin-marquee-item-name{margin-right:12px;transition:.1s}.coin-marquee-item-name,.coin-marquee-item-price{font-size:12px;line-height:1;font-weight:600}.coin-marquee-item-symbol{font-size:11px;color:#58667e;transform-origin:left;transform:scale(0.9)}.coin-marquee-item-changes{font-size:11px;font-weight:600}.coin-marquee-item-changes__icon{width:0;height:0;position:relative;margin-right:3px;border-left:4px solid transparent;border-right:4px solid transparent}.coin-marquee-item-changes--up{color:#16c784}.coin-marquee-item-changes--up .coin-marquee-item-changes__icon{top:-8px;border-bottom:5px solid #16c784}.coin-marquee-item-changes--down{color:#ea3943}.coin-marquee-item-changes--down .coin-marquee-item-changes__icon{top:10px;border-top:5px solid #ea3943}.coin-marquee-item--skeleton .coin-marquee-item__icon{background-color:#eaeff5;border-radius:50%}.coin-marquee-item--skeleton .coin-marquee-item-info__row{width:40px;height:10px;background-color:#eaeff5}.coin-marquee-item--skeleton .coin-marquee-item-info__row:first-of-type{width:80px}@-webkit-keyframes marquee-scroll{from{transform:translateX(0%)}to{transform:translateX(-50%)}}@keyframes marquee-scroll{from{transform:translateX(0%)}to{transform:translateX(-50%)}}</style></head>
+
+<body class="bg-dark">
+    <canvas class="animated-background" id="canvasBackground" width="718" height="642"></canvas>
+
+  
+  <a href="/home.html" class="btn btn-danger position-fixed top-0 start-0 neo-glass" style="z-index:1000; background:black;">
+    Back
+  </a>
+
+
+
+    <div class="main-container" style="background:black;color:white">
+        <!-- Header Section -->
+        <div class="text-center mb-5">
+            <script type="text/javascript" src="https://files.coinmarketcap.com/static/widget/coinMarquee.js"></script><div id="coinmarketcap-widget-marquee" coins="1,1027,825" currency="USD" theme="light" transparent="false" show-symbol-logo="true"><div class="coin-marquee-wrapper coin-marquee-wrapper--light ">
+    <div class="coin-marquee-header">
+      <div class="coin-marquee-header-signature">
+        <a href="https://coinmarketcap.com/" target="_blank">
+            <div class="coin-marquee-signature__power-by">Powered by</div>
+            <svg width="94" height="16" viewBox="0 0 94 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M13.7573 9.56098C13.4773 9.73737 13.1475 9.75922 12.8968 9.61834C12.5784 9.43922 12.4033 9.01971 12.4033 8.43629V6.69073C12.4033 5.84781 12.0688 5.248 11.5095 5.08605C10.5616 4.81093 9.84878 5.96644 9.58087 6.40039L7.90918 9.10088V5.8002C7.89038 5.04078 7.64284 4.58654 7.17283 4.44956C6.86183 4.35902 6.39652 4.39532 5.94452 5.08449L2.19928 11.0763C1.69788 10.1279 1.4365 9.0719 1.43785 8C1.43785 4.39063 4.34098 1.45444 7.90918 1.45444C11.4774 1.45444 14.3801 4.39063 14.3801 8C14.3801 8.00624 14.3817 8.01171 14.3821 8.01756C14.3821 8.0238 14.3809 8.02927 14.3813 8.03551C14.415 8.73444 14.1878 9.29054 13.7573 9.56137V9.56098ZM15.818 8.00039V8V7.98205L15.8176 7.9641C15.7976 3.56839 12.258 0 7.90879 0C3.54822 0 0 3.58868 0 8C0 12.4109 3.54822 16 7.90918 16C9.91027 16 11.8201 15.2421 13.2862 13.8665C13.5776 13.5934 13.5948 13.1333 13.3245 12.839C13.196 12.6978 13.0159 12.6141 12.8248 12.6068C12.6336 12.5995 12.4476 12.6691 12.3085 12.8C11.1202 13.9212 9.54576 14.5459 7.90918 14.5456C5.99857 14.5456 4.27949 13.703 3.09388 12.3668L6.47133 6.96351V9.45444C6.47133 10.6509 6.93704 11.0377 7.32754 11.1508C7.71844 11.264 8.31575 11.1867 8.94283 10.1721L10.8006 7.17151C10.8601 7.07473 10.9149 6.99122 10.9651 6.91902V8.43629C10.9651 9.55473 11.4147 10.4492 12.1985 10.8898C12.9051 11.287 13.7934 11.2511 14.5172 10.7961C15.3946 10.2439 15.8673 9.22654 15.818 8.00039ZM26.8293 5.26712C27.0192 5.38224 27.1837 5.63824 27.1837 5.86888C27.1837 6.24 26.8673 6.54712 26.5128 6.54712C26.4243 6.54712 26.3357 6.52176 26.2598 6.496C25.8418 6.18888 25.3103 5.984 24.7534 5.984C23.4373 5.984 22.5259 7.05912 22.5259 8.39024C22.5259 9.72176 23.4373 10.784 24.7534 10.784C25.4114 10.784 25.9938 10.5151 26.4368 10.1058C26.5512 10.0238 26.6883 9.97908 26.8293 9.97776C27.1837 9.97776 27.4622 10.2591 27.4622 10.6178C27.4622 10.848 27.3228 11.0529 27.1457 11.168C26.5128 11.7058 25.6523 12.064 24.7663 12.064C22.7413 12.064 21.0955 10.4 21.0955 8.352C21.0955 6.304 22.7409 4.64 24.7663 4.64C25.5258 4.64 26.2468 4.87024 26.8293 5.26712ZM30.5322 6.816C31.9117 6.816 33.0762 7.98088 33.0762 9.41424C33.0762 10.848 31.9117 12.064 30.5322 12.064C29.0893 12.064 27.8868 10.848 27.8868 9.41424C27.8868 7.98088 29.0893 6.816 30.5322 6.816ZM30.5193 10.784C31.1272 10.784 31.6457 10.208 31.6457 9.42712C31.6457 8.64663 31.1272 8.16 30.5193 8.16C29.8613 8.16 29.3168 8.63376 29.3168 9.42712C29.3168 10.208 29.8613 10.784 30.5193 10.784ZM33.9437 11.2702V7.60976C33.9437 7.21288 34.2602 6.88 34.6527 6.88C35.0451 6.88 35.3741 7.21288 35.3741 7.60976V11.2702C35.3741 11.6671 35.0451 12 34.6527 12C34.2602 12 33.9437 11.6671 33.9437 11.2702ZM33.8301 5.49776C33.8301 5.024 34.1968 4.64 34.6527 4.64C35.1207 4.64 35.5007 5.024 35.5007 5.49776C35.5007 5.95824 35.1207 6.32976 34.6527 6.32976C34.1968 6.32976 33.8301 5.95824 33.8301 5.49776ZM38.1151 9.28624V11.2702C38.1151 11.6671 37.7861 12 37.3932 12C37.0012 12 36.6843 11.6671 36.6843 11.2702V7.44312C36.6843 7.136 36.9377 6.88 37.2417 6.88C37.5452 6.88 37.7861 7.136 37.7861 7.44312C38.3681 6.90576 38.8742 6.816 39.3552 6.816C40.7856 6.816 41.4185 7.89112 41.4185 9.10712V11.2702C41.4185 11.6671 41.0895 12 40.6971 12C40.3046 12 39.9881 11.6671 39.9881 11.2702V9.28624C39.9881 8.65912 39.9121 8.13424 39.0136 8.13424C38.3807 8.13424 38.1147 8.65912 38.1147 9.28624H38.1151ZM46.0705 10.0418C45.906 10.0418 45.7924 9.96488 45.7035 9.86224L44.0326 8.05776V11.2702C44.0326 11.6671 43.7036 12 43.3111 12C42.9187 12 42.6022 11.6671 42.6022 11.2702V4.90927C42.6441 4.79948 42.7506 4.72767 42.8685 4.72971C42.9947 4.72971 43.0957 4.83239 43.1721 4.90927L45.83 7.89151C45.906 7.98127 46.0071 8.03239 46.058 8.03239C46.1085 8.03239 46.2096 7.98127 46.2855 7.8919L48.9439 4.90927C49.0199 4.83239 49.1209 4.72971 49.2474 4.72971C49.3739 4.72971 49.4754 4.80663 49.5134 4.90927V11.2702C49.5134 11.6671 49.1969 12 48.8044 12C48.412 12 48.083 11.6671 48.083 11.2702V8.05776L46.4125 9.86224C46.3235 9.96488 46.2096 10.0418 46.0705 10.0418ZM52.9504 10.784C53.5959 10.784 54.1399 10.208 54.1399 9.42712C54.1399 8.64663 53.5833 8.13424 52.9504 8.13424C52.3174 8.13424 51.811 8.65912 51.811 9.42712C51.811 10.1822 52.3174 10.784 52.9504 10.784ZM54.4693 11.4369L54.4434 11.2702C54.1654 11.8205 53.279 12.064 52.7095 12.064C51.3676 12.064 50.3806 10.848 50.3806 9.41424C50.3806 7.98088 51.393 6.816 52.7855 6.816C53.026 6.816 53.8234 6.88 54.4434 7.60976L54.4689 7.44312C54.4689 7.136 54.7094 6.88 55.0133 6.88C55.3169 6.88 55.5699 7.136 55.5699 7.44312V11.4369C55.5699 11.744 55.3169 12 55.0129 12C54.7094 12 54.4685 11.744 54.4685 11.4369H54.4693ZM59.5388 8.13424H59.3872C58.4883 8.18576 58.3113 8.69776 58.3113 9.28624V11.2702C58.3113 11.6671 57.9823 12 57.5898 12C57.1973 12 56.8809 11.6671 56.8809 11.2702V7.44312C56.8809 7.136 57.1339 6.88 57.4378 6.88C57.7418 6.88 57.9823 7.136 57.9823 7.44312C58.5138 6.944 58.9442 6.84176 59.3872 6.816H59.5263C59.8682 6.816 60.1843 7.11024 60.1843 7.48176C60.1843 7.82712 59.8807 8.13424 59.5388 8.13424ZM65.0517 10.9378C65.1152 11.04 65.1531 11.1551 65.1531 11.2831C65.1531 11.6542 64.8112 12 64.4442 12C64.1912 12 63.9757 11.808 63.8112 11.6031L62.1662 9.696V11.2702C62.1662 11.6671 61.8368 12 61.4443 12C61.0519 12 60.7354 11.6671 60.7354 11.2702V5.45951C60.7354 5.06224 61.0519 4.72976 61.4443 4.72976C61.8368 4.72976 62.1658 5.06224 62.1658 5.45951V9.08176L63.8112 7.264C63.9757 7.072 64.1782 6.88 64.4317 6.88C64.7861 6.88 65.1152 7.21288 65.1152 7.584C65.1152 7.69912 65.0897 7.81424 65.0262 7.91688L63.7227 9.33737L65.0517 10.9374V10.9378ZM66.8307 8.99592H68.8937C68.8937 8.3849 68.4093 8.08163 67.8622 8.08163C67.315 8.08163 66.8307 8.39771 66.8307 8.99592ZM69.7291 9.87512H66.8307C66.8307 10.7329 67.6532 10.8609 68.0202 10.8609C68.2866 10.8609 68.6661 10.8098 68.9571 10.6814C69.0456 10.6178 69.1976 10.5662 69.3241 10.5662C69.6406 10.5662 69.9062 10.8355 69.9062 11.1555C69.9062 11.3729 69.7671 11.5649 69.5901 11.6671C69.1471 11.9871 68.5772 12.064 68.0332 12.064C66.5902 12.064 65.3878 11.2835 65.3878 9.47824C65.3878 8.05776 66.1218 6.816 67.8307 6.816C69.2102 6.816 70.2606 7.712 70.2861 9.312C70.2861 9.61912 70.0331 9.87512 69.7291 9.87512ZM73.7105 12.064H73.3181C72.2292 12.064 71.5967 11.5902 71.5967 9.888V8.13424H71.2297C70.8877 8.13424 70.5842 7.82712 70.5842 7.48176C70.5842 7.11024 70.8877 6.816 71.2297 6.816H71.5967V5.45912C71.5967 5.06224 71.9131 4.72937 72.3056 4.72937C72.6977 4.72937 73.0271 5.06224 73.0271 5.45912V6.816H73.6216C73.9636 6.816 74.2675 7.11024 74.2675 7.48176C74.2675 7.82712 73.9636 8.13424 73.6216 8.13424H73.0271V9.60624C73.0271 10.5791 73.0776 10.784 73.5081 10.784H73.7105C74.0521 10.784 74.3431 11.0658 74.3431 11.424C74.3431 11.7698 74.0521 12.064 73.7105 12.064ZM80.6409 5.26712C80.8305 5.38224 80.9954 5.63824 80.9954 5.86888C80.9954 6.24 80.6789 6.54712 80.3244 6.54712C80.2359 6.54712 80.147 6.52176 80.0714 6.496C79.6535 6.18888 79.122 5.984 78.565 5.984C77.249 5.984 76.3372 7.05912 76.3372 8.39024C76.3372 9.72176 77.2486 10.784 78.565 10.784C79.223 10.784 79.8055 10.5151 80.2485 10.1058C80.3629 10.0238 80.5 9.97908 80.6409 9.97776C80.9954 9.97776 81.2735 10.2591 81.2735 10.6178C81.2735 10.848 81.1344 11.0529 80.9574 11.168C80.3245 11.7058 79.4635 12.064 78.5776 12.064C76.5526 12.064 74.9071 10.4 74.9071 8.352C74.9071 6.304 76.5522 4.64 78.5776 4.64C79.3374 4.64 80.0585 4.87024 80.6409 5.26712ZM84.2679 10.784C84.9134 10.784 85.4574 10.208 85.4574 9.42712C85.4574 8.64663 84.9004 8.13424 84.2675 8.13424C83.6349 8.13424 83.1285 8.65912 83.1285 9.42712C83.1285 10.1822 83.6349 10.784 84.2675 10.784H84.2679ZM85.7864 11.4369L85.7614 11.2702C85.4829 11.8205 84.5969 12.064 84.027 12.064C82.6855 12.064 81.6981 10.848 81.6981 9.41424C81.6981 7.98088 82.711 6.816 84.103 6.816C84.3435 6.816 85.1409 6.88 85.7614 7.60976L85.7864 7.44312C85.7864 7.136 86.0269 6.88 86.3309 6.88C86.6344 6.88 86.8878 7.136 86.8878 7.44312V11.4369C86.8878 11.744 86.6344 12 86.3309 12C86.0269 12 85.7864 11.744 85.7864 11.4369ZM90.8183 10.784C91.4513 10.784 91.9573 10.1822 91.9573 9.42712C91.9573 8.65912 91.4513 8.13424 90.8183 8.13424C90.1854 8.13424 89.6284 8.64624 89.6284 9.42712C89.6284 10.208 90.1728 10.784 90.8183 10.784ZM89.6284 11.6418V13.4591C89.6284 13.856 89.2994 14.1889 88.9069 14.1889C88.5149 14.1889 88.198 13.856 88.198 13.4591V7.44312C88.198 7.136 88.4514 6.88 88.7553 6.88C89.0589 6.88 89.2998 7.136 89.2998 7.49424C89.8309 6.944 90.4893 6.816 90.9828 6.816C92.3753 6.816 93.3877 7.98088 93.3877 9.41424C93.3877 10.848 92.4007 12.064 91.0588 12.064C90.6413 12.064 90.0209 11.936 89.6284 11.6418Z" fill="black"></path>
+  </svg>
+        </a>
+      </div>
+    </div>
+    <div id="coin-marquee-container" class="coin-marquee-container">
+      
+    <div class="coin-marquee-container__inner" style="animation-duration: 6.6s; animation-name: marquee-scroll; animation-timing-function: linear; animation-iteration-count: infinite;"><div class="coin-marquee-item">
+    <a class="coin-marquee-item-inner" href="https://coinmarketcap.com/currencies/bitcoin" title="Bitcoin" target="_blank">
+      
+    <div class="coin-marquee-item__icon">
+      <img src="https://s2.coinmarketcap.com/static/img/coins/32x32/1.png">
+    </div>
+  
+      <div class="coin-marquee-item-info">
+        <div class="coin-marquee-item-info__row">
+          <div class="coin-marquee-item-name">Bitcoin</div>
+          <div class="coin-marquee-item-price">$107,634.49</div>
+        </div>
+        <div class="coin-marquee-item-info__row">
+          <div class="coin-marquee-item-symbol">BTC</div>
+          <div class="coin-marquee-item-changes coin-marquee-item-changes--down">
+            <span class="coin-marquee-item-changes__icon"></span>-1.61%
+          </div>
+        </div>
+      </div>
+    </a>
+  </div><div class="coin-marquee-item">
+    <a class="coin-marquee-item-inner" href="https://coinmarketcap.com/currencies/tether" title="Tether USDt" target="_blank">
+      
+    <div class="coin-marquee-item__icon">
+      <img src="https://s2.coinmarketcap.com/static/img/coins/32x32/825.png">
+    </div>
+  
+      <div class="coin-marquee-item-info">
+        <div class="coin-marquee-item-info__row">
+          <div class="coin-marquee-item-name">Tether USDt</div>
+          <div class="coin-marquee-item-price">$1.00</div>
+        </div>
+        <div class="coin-marquee-item-info__row">
+          <div class="coin-marquee-item-symbol">USDT</div>
+          <div class="coin-marquee-item-changes coin-marquee-item-changes--down">
+            <span class="coin-marquee-item-changes__icon"></span>-0.01%
+          </div>
+        </div>
+      </div>
+    </a>
+  </div><div class="coin-marquee-item">
+    <a class="coin-marquee-item-inner" href="https://coinmarketcap.com/currencies/ethereum" title="Ethereum" target="_blank">
+      
+    <div class="coin-marquee-item__icon">
+      <img src="https://s2.coinmarketcap.com/static/img/coins/32x32/1027.png">
+    </div>
+  
+      <div class="coin-marquee-item-info">
+        <div class="coin-marquee-item-info__row">
+          <div class="coin-marquee-item-name">Ethereum</div>
+          <div class="coin-marquee-item-price">$2,636.31</div>
+        </div>
+        <div class="coin-marquee-item-info__row">
+          <div class="coin-marquee-item-symbol">ETH</div>
+          <div class="coin-marquee-item-changes coin-marquee-item-changes--down">
+            <span class="coin-marquee-item-changes__icon"></span>-0.56%
+          </div>
+        </div>
+      </div>
+    </a>
+  </div><div class="coin-marquee-item">
+    <a class="coin-marquee-item-inner" href="https://coinmarketcap.com/currencies/bitcoin" title="Bitcoin" target="_blank">
+      
+    <div class="coin-marquee-item__icon">
+      <img src="https://s2.coinmarketcap.com/static/img/coins/32x32/1.png">
+    </div>
+  
+      <div class="coin-marquee-item-info">
+        <div class="coin-marquee-item-info__row">
+          <div class="coin-marquee-item-name">Bitcoin</div>
+          <div class="coin-marquee-item-price">$107,634.49</div>
+        </div>
+        <div class="coin-marquee-item-info__row">
+          <div class="coin-marquee-item-symbol">BTC</div>
+          <div class="coin-marquee-item-changes coin-marquee-item-changes--down">
+            <span class="coin-marquee-item-changes__icon"></span>-1.61%
+          </div>
+        </div>
+      </div>
+    </a>
+  </div><div class="coin-marquee-item">
+    <a class="coin-marquee-item-inner" href="https://coinmarketcap.com/currencies/tether" title="Tether USDt" target="_blank">
+      
+    <div class="coin-marquee-item__icon">
+      <img src="https://s2.coinmarketcap.com/static/img/coins/32x32/825.png">
+    </div>
+  
+      <div class="coin-marquee-item-info">
+        <div class="coin-marquee-item-info__row">
+          <div class="coin-marquee-item-name">Tether USDt</div>
+          <div class="coin-marquee-item-price">$1.00</div>
+        </div>
+        <div class="coin-marquee-item-info__row">
+          <div class="coin-marquee-item-symbol">USDT</div>
+          <div class="coin-marquee-item-changes coin-marquee-item-changes--down">
+            <span class="coin-marquee-item-changes__icon"></span>-0.01%
+          </div>
+        </div>
+      </div>
+    </a>
+  </div><div class="coin-marquee-item">
+    <a class="coin-marquee-item-inner" href="https://coinmarketcap.com/currencies/ethereum" title="Ethereum" target="_blank">
+      
+    <div class="coin-marquee-item__icon">
+      <img src="https://s2.coinmarketcap.com/static/img/coins/32x32/1027.png">
+    </div>
+  
+      <div class="coin-marquee-item-info">
+        <div class="coin-marquee-item-info__row">
+          <div class="coin-marquee-item-name">Ethereum</div>
+          <div class="coin-marquee-item-price">$2,636.31</div>
+        </div>
+        <div class="coin-marquee-item-info__row">
+          <div class="coin-marquee-item-symbol">ETH</div>
+          <div class="coin-marquee-item-changes coin-marquee-item-changes--down">
+            <span class="coin-marquee-item-changes__icon"></span>-0.56%
+          </div>
+        </div>
+      </div>
+    </a>
+  </div></div></div>
+  </div></div>
+            <h1 class="h2 font-weight-bold text-primary mb-3">Thank you for Your Continued Support</h1>
+            <div class="d-flex justify-content-center align-items-center">
+                <div class="neo-glass p-3 rounded-pill">
+                    <span class="badge bg-primary mr-2">BTC</span>
+                    <span class="badge bg-success mr-2">ETH</span>
+                    <span class="badge bg-warning">USDT</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Methods Accordion -->
+        <div class="accordion-group">
+                        <div class="card mb-3 crypto-card">
+                <div class="card-header d-flex justify-content-between align-items-center collapsed" data-bs-toggle="collapse" data-bs-target="#collapse-1" aria-expanded="false">
+                    <div class="d-flex align-items-center">
+                    
+                        <h5 class="mb-0">DEPOSIT BITCOIN - (BTC) ₿ Payment</h5>
+                    </div>
+                    <svg class="svg-inline--fa fa-chevron-down transition-rotate" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-down" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M224 416c-8.188 0-16.38-3.125-22.62-9.375l-192-192c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L224 338.8l169.4-169.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-192 192C240.4 412.9 232.2 416 224 416z"></path></svg><!-- <i class="fas fa-chevron-down transition-rotate"></i> Font Awesome fontawesome.com -->
+                </div>
+                
+                <div id="collapse-1" class="collapse" style="">
+                    <div class="card-body">
+                        <div class="alert alert-primary d-flex align-items-center">
+                            <svg class="svg-inline--fa fa-circle-info me-2" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle-info" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256s256-114.6 256-256S397.4 0 256 0zM256 128c17.67 0 32 14.33 32 32c0 17.67-14.33 32-32 32S224 177.7 224 160C224 142.3 238.3 128 256 128zM296 384h-80C202.8 384 192 373.3 192 360s10.75-24 24-24h16v-64H224c-13.25 0-24-10.75-24-24S210.8 224 224 224h32c13.25 0 24 10.75 24 24v88h16c13.25 0 24 10.75 24 24S309.3 384 296 384z"></path></svg><!-- <i class="fas fa-info-circle me-2"></i> Font Awesome fontawesome.com -->
+                            Send exactly <span class="amount fw-bold mx-1"></span> to the address below
+                        </div>
+
+                        <!-- Address Box -->
+                        <div class="neo-glass p-3 mb-4 rounded">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <code class="text-break">bc1q00pkt7hhzwp2fp03vrknt0q6ls3sfslxh6f792</code>
+                                <button class="btn btn-sm btn-outline-primary" onclick="copyAddress('')">
+                                    <svg class="svg-inline--fa fa-copy" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="copy" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M384 96L384 0h-112c-26.51 0-48 21.49-48 48v288c0 26.51 21.49 48 48 48H464c26.51 0 48-21.49 48-48V128h-95.1C398.4 128 384 113.6 384 96zM416 0v96h96L416 0zM192 352V128h-144c-26.51 0-48 21.49-48 48v288c0 26.51 21.49 48 48 48h192c26.51 0 48-21.49 48-48L288 416h-32C220.7 416 192 387.3 192 352z"></path></svg><!-- <i class="fas fa-copy"></i> Font Awesome fontawesome.com --> Copy
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- QR Code & Amount -->
+                        <div class="row align-items-center">
+                            <div class="col-md-12 text-center">
+                                <div class="qr-container neo-glass p-2 rounded" style="display:flex;justify-content:center;align-items:center">
+                                    <img src="btc.jpg" alt="QR Code " class="img-fluid" style="max-width: 200px;">
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-3 mt-md-0">
+                            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                        <div class="card mb-3 crypto-card">
+                <div class="card-header d-flex justify-content-between align-items-center collapsed" data-bs-toggle="collapse" data-bs-target="#collapse-2" aria-expanded="false">
+                    <div class="d-flex align-items-center">
+                    
+                        <h5 class="mb-0">DEPOSIT USTD -  (TRC-20) Payment</h5>
+                    </div>
+                    <svg class="svg-inline--fa fa-chevron-down transition-rotate" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-down" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M224 416c-8.188 0-16.38-3.125-22.62-9.375l-192-192c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L224 338.8l169.4-169.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-192 192C240.4 412.9 232.2 416 224 416z"></path></svg><!-- <i class="fas fa-chevron-down transition-rotate"></i> Font Awesome fontawesome.com -->
+                </div>
+                
+                <div id="collapse-2" class="collapse" style="">
+                    <div class="card-body">
+                        <div class="alert alert-primary d-flex align-items-center">
+                            <svg class="svg-inline--fa fa-circle-info me-2" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle-info" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256s256-114.6 256-256S397.4 0 256 0zM256 128c17.67 0 32 14.33 32 32c0 17.67-14.33 32-32 32S224 177.7 224 160C224 142.3 238.3 128 256 128zM296 384h-80C202.8 384 192 373.3 192 360s10.75-24 24-24h16v-64H224c-13.25 0-24-10.75-24-24S210.8 224 224 224h32c13.25 0 24 10.75 24 24v88h16c13.25 0 24 10.75 24 24S309.3 384 296 384z"></path></svg><!-- <i class="fas fa-info-circle me-2"></i> Font Awesome fontawesome.com -->
+                            Send exactly <span class="amount fw-bold mx-1"></span> to the address below
+                        </div>
+
+                        <!-- Address Box -->
+                        <div class="neo-glass p-3 mb-4 rounded">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <code class="text-break">0xD99Dcc4163D0161E5c65BB9E138FC3c13Ae73F5a</code>
+                                <button class="btn btn-sm btn-outline-primary" onclick="copyAddress('')">
+                                    <svg class="svg-inline--fa fa-copy" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="copy" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M384 96L384 0h-112c-26.51 0-48 21.49-48 48v288c0 26.51 21.49 48 48 48H464c26.51 0 48-21.49 48-48V128h-95.1C398.4 128 384 113.6 384 96zM416 0v96h96L416 0zM192 352V128h-144c-26.51 0-48 21.49-48 48v288c0 26.51 21.49 48 48 48h192c26.51 0 48-21.49 48-48L288 416h-32C220.7 416 192 387.3 192 352z"></path></svg><!-- <i class="fas fa-copy"></i> Font Awesome fontawesome.com --> Copy
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- QR Code & Amount -->
+                        <div class="row align-items-center">
+                            <div class="col-md-12 text-center">
+                                <div class="-container neo-glass p-2 rounded" style="display:flex;justify-content:center;align-items:center">
+                                    <img src="usdt.jpg" alt="QR Code unavailable" class="img-fluid" style="max-width: 200px;">
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-3 mt-md-0">
+                            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                        <div class="card mb-3 crypto-card">
+                <div class="card-header d-flex justify-content-between align-items-center collapsed" data-bs-toggle="collapse" data-bs-target="#collapse-3" aria-expanded="false">
+                    <div class="d-flex align-items-center">
+                    
+                        <h5 class="mb-0">DEPOSIT ETHEREUM - ETH (ERC20) Payment</h5>
+                    </div>
+                    <svg class="svg-inline--fa fa-chevron-down transition-rotate" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-down" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M224 416c-8.188 0-16.38-3.125-22.62-9.375l-192-192c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L224 338.8l169.4-169.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-192 192C240.4 412.9 232.2 416 224 416z"></path></svg><!-- <i class="fas fa-chevron-down transition-rotate"></i> Font Awesome fontawesome.com -->
+                </div>
+                
+                <div id="collapse-3" class="collapse" style="">
+                    <div class="card-body">
+                        <div class="alert alert-primary d-flex align-items-center">
+                            <svg class="svg-inline--fa fa-circle-info me-2" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle-info" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256s256-114.6 256-256S397.4 0 256 0zM256 128c17.67 0 32 14.33 32 32c0 17.67-14.33 32-32 32S224 177.7 224 160C224 142.3 238.3 128 256 128zM296 384h-80C202.8 384 192 373.3 192 360s10.75-24 24-24h16v-64H224c-13.25 0-24-10.75-24-24S210.8 224 224 224h32c13.25 0 24 10.75 24 24v88h16c13.25 0 24 10.75 24 24S309.3 384 296 384z"></path></svg><!-- <i class="fas fa-info-circle me-2"></i> Font Awesome fontawesome.com -->
+                            Send exactly <span class="amount fw-bold mx-1"></span> to the address below
+                        </div>
+
+                        <!-- Address Box -->
+                        <div class="neo-glass p-3 mb-4 rounded">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <code class="text-break">0xD99Dcc4163D0161E5c65BB9E138FC3c13Ae73F5a</code>
+                                <button class="btn btn-sm btn-outline-primary" onclick="copyAddress('')">
+                                    <svg class="svg-inline--fa fa-copy" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="copy" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M384 96L384 0h-112c-26.51 0-48 21.49-48 48v288c0 26.51 21.49 48 48 48H464c26.51 0 48-21.49 48-48V128h-95.1C398.4 128 384 113.6 384 96zM416 0v96h96L416 0zM192 352V128h-144c-26.51 0-48 21.49-48 48v288c0 26.51 21.49 48 48 48h192c26.51 0 48-21.49 48-48L288 416h-32C220.7 416 192 387.3 192 352z"></path></svg><!-- <i class="fas fa-copy"></i> Font Awesome fontawesome.com --> Copy
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- QR Code & Amount -->
+                        <div class="row align-items-center">
+                            <div class="col-md-12 text-center">
+                                <div class="qr-container neo-glass p-2 rounded" style="display:flex;justify-content:center;align-items:center">
+                                    <img src="eth.jpg" alt="QR Code unavailable" class="img-fluid" style="max-width: 200px;">
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-3 mt-md-0">
+                            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                        <div class="card mb-3 crypto-card">
+                <div class="card-header d-flex justify-content-between align-items-center collapsed" data-bs-toggle="collapse" data-bs-target="#collapse-4" aria-expanded="false">
+                    <div class="d-flex align-items-center">
+                    
+                        <h5 class="mb-0">DEPOSIT LITECOIN [ LTC] Wallet Payment</h5>
+                    </div>
+                    <svg class="svg-inline--fa fa-chevron-down transition-rotate" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-down" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M224 416c-8.188 0-16.38-3.125-22.62-9.375l-192-192c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L224 338.8l169.4-169.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-192 192C240.4 412.9 232.2 416 224 416z"></path></svg><!-- <i class="fas fa-chevron-down transition-rotate"></i> Font Awesome fontawesome.com -->
+                </div>
+                
+                <div id="collapse-4" class="collapse" style="">
+                    <div class="card-body">
+                        <div class="alert alert-primary d-flex align-items-center">
+                            <svg class="svg-inline--fa fa-circle-info me-2" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle-info" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256s256-114.6 256-256S397.4 0 256 0zM256 128c17.67 0 32 14.33 32 32c0 17.67-14.33 32-32 32S224 177.7 224 160C224 142.3 238.3 128 256 128zM296 384h-80C202.8 384 192 373.3 192 360s10.75-24 24-24h16v-64H224c-13.25 0-24-10.75-24-24S210.8 224 224 224h32c13.25 0 24 10.75 24 24v88h16c13.25 0 24 10.75 24 24S309.3 384 296 384z"></path></svg><!-- <i class="fas fa-info-circle me-2"></i> Font Awesome fontawesome.com -->
+                            Send exactly <span class="amount fw-bold mx-1"></span> to the address below
+                        </div>
+
+                        <!-- Address Box -->
+                        <div class="neo-glass p-3 mb-4 rounded">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <code class="text-break">ltc1qn2zsewxktd2f2xvzjdgcj5eftclnkjp2spwfw9</code>
+                                <button class="btn btn-sm btn-outline-primary" onclick="copyAddress('')">
+                                    <svg class="svg-inline--fa fa-copy" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="copy" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M384 96L384 0h-112c-26.51 0-48 21.49-48 48v288c0 26.51 21.49 48 48 48H464c26.51 0 48-21.49 48-48V128h-95.1C398.4 128 384 113.6 384 96zM416 0v96h96L416 0zM192 352V128h-144c-26.51 0-48 21.49-48 48v288c0 26.51 21.49 48 48 48h192c26.51 0 48-21.49 48-48L288 416h-32C220.7 416 192 387.3 192 352z"></path></svg><!-- <i class="fas fa-copy"></i> Font Awesome fontawesome.com --> Copy
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- QR Code & Amount -->
+                        <div class="row align-items-center">
+                            <div class="col-md-12 text-center">
+                                <div class="qr-container neo-glass p-2 rounded" style="display:flex;justify-content:center;align-items:center">
+                                    <img src="ltc.jpg" alt="QR Code unavailable" class="img-fluid" style="max-width: 200px;">
+                                </div>
+                            </div>
+                            <div class="col-md-6 mt-3 mt-md-0">
+                            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                    </div>
+   <div class="payment-container text-white" style="color:white">
+    <h2 style="color:white">Payment Confirmation</h2>
+    <p style="color:white">
+        If your payment doesn't reflect in 10 minutes, please upload your payment screenshot here for manual confirmation.
+    </p>
+    <form id="whatsappForm">
+        <input type="file" id="screenshot" accept="image/*" required="">
+        <br><br>
+        <input type="submit" value="Send via WhatsApp">
+    </form>
+    <p id="uploadStatus" style="color: lime; margin-top: 10px;"></p>
+</div>
+
+<script>
+    document.getElementById('whatsappForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        const fileInput = document.getElementById('screenshot');
+        const statusText = document.getElementById('uploadStatus');
+        const file = fileInput.files[0];
+
+        if (!file) {
+            alert("Please select a file.");
+            return;
+        }
+
+        statusText.innerText = "Uploading screenshot...";
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        try {
+            const response = await fetch('https://store2.gofile.io/uploadFile', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`HTTP ${response.status}: ${errorText}`);
+            }
+
+            const data = await response.json();
+
+            if (!data || !data.data || !data.data.downloadPage) {
+                console.log("Unexpected response:", data);
+                statusText.innerText = "Upload failed. Invalid response.";
+                return;
+            }
+
+            const imageLink = data.data.downloadPage;
+            statusText.innerText = "Uploaded! Opening WhatsApp...";
+
+            const message = `Hi, here is my payment screenshot: ${imageLink}`;
+            const whatsappURL = `https://wa.me/?text=${encodeURIComponent(message)}`;
+            window.open(whatsappURL, '_blank');
+
+            statusText.innerText = "WhatsApp opened. Please send your message.";
+        } catch (error) {
+            console.error("Upload error:", error);
+            statusText.innerText = "Upload failed. Check the console for details.";
+        }
+    });
+</script>
+
+
+                      <div class="neo-glass p-6 rounded-xl mt-8">
+            <h3 class="text-xl font-bold  mb-6 text-center" style="color:white">Withdraw Funds</h3>
+            <form>
+                <div class="mb-4">
+                    <select id="crypto-type" class="form-select">
+                        <option value="Bitcoin">Bitcoin</option>
+                        <option value="USDT">USDT (TRC20)</option>
+                        <option value="Ethereum">Ethereum</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <input type="text" id="txn-code" class="form-control" placeholder="Transaction Hash">
+                </div>
+                <div class="mb-4">
+                    <input type="text" id="crypto-address" class="form-control" placeholder="USDT (TRC20) Address">
+                </div>
+                <div class="mb-4">
+                    <input type="text" id="crypto-amount" class="form-control" placeholder="Amount in USDT">
+                </div>
+                <button type="button" id="withdraw-button" class="btn btn-primary w-full py-3">
+                    <svg class="svg-inline--fa fa-paper-plane mr-2" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="paper-plane" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M511.6 36.86l-64 415.1c-1.5 9.734-7.375 18.22-15.97 23.05c-4.844 2.719-10.27 4.097-15.68 4.097c-4.188 0-8.319-.8154-12.29-2.472l-122.6-51.1l-50.86 76.29C226.3 508.5 219.8 512 212.8 512C201.3 512 192 502.7 192 491.2v-96.18c0-7.115 2.372-14.03 6.742-19.64L416 96l-293.7 264.3L19.69 317.5C8.438 312.8 .8125 302.2 .0625 289.1s5.469-23.72 16.06-29.77l448-255.1c10.69-6.109 23.88-5.547 34 1.406S513.5 24.72 511.6 36.86z"></path></svg><!-- <i class="fas fa-paper-plane mr-2"></i> Font Awesome fontawesome.com -->Initiate Withdrawal
+                </button>
+            </form>
+        </div>
+
+        <!-- Informative Payment Notice -->
+        <div class="neo-glass p-6 rounded-xl mt-8">
+            <h2 class="text-2xl font-bold text-center mb-6 text-gray-800">Transaction Guidelines</h2>
+            
+            <div class="space-y-6">
+                <!-- Bitcoin Section -->
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <div class="flex items-center mb-3">
+                        <svg class="svg-inline--fa fa-bitcoin text-yellow-500 text-2xl mr-3" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="bitcoin" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M504 256c0 136.1-111 248-248 248S8 392.1 8 256 119 8 256 8s248 111 248 248zm-141.7-35.33c4.937-32.1-20.19-50.74-54.55-62.57l11.15-44.7-27.21-6.781-10.85 43.52c-7.154-1.783-14.5-3.464-21.8-5.13l10.93-43.81-27.2-6.781-11.15 44.69c-5.922-1.349-11.73-2.682-17.38-4.084l.031-.14-37.53-9.37-7.239 29.06s20.19 4.627 19.76 4.913c11.02 2.751 13.01 10.04 12.68 15.82l-12.7 50.92c.76 .194 1.744 .473 2.829 .907-.907-.225-1.876-.473-2.876-.713l-17.8 71.34c-1.349 3.348-4.767 8.37-12.47 6.464 .271 .395-19.78-4.937-19.78-4.937l-13.51 31.15 35.41 8.827c6.588 1.651 13.05 3.379 19.4 5.006l-11.26 45.21 27.18 6.781 11.15-44.73a1038 1038 0 0 0 21.69 5.627l-11.11 44.52 27.21 6.781 11.26-45.13c46.4 8.781 81.3 5.239 95.99-36.73 11.84-33.79-.589-53.28-25-65.99 17.78-4.098 31.17-15.79 34.75-39.95zm-62.18 87.18c-8.41 33.79-65.31 15.52-83.75 10.94l14.94-59.9c18.45 4.603 77.6 13.72 68.81 48.96zm8.417-87.67c-7.673 30.74-55.03 15.12-70.39 11.29l13.55-54.33c15.36 3.828 64.84 10.97 56.85 43.03z"></path></svg><!-- <i class="fab fa-bitcoin text-yellow-500 text-2xl mr-3"></i> Font Awesome fontawesome.com -->
+                        <h3 class="text-lg font-semibold text-blue-800">Bitcoin (BTC) Payments</h3>
+                    </div>
+                    <p class="text-gray-700">
+                        Processing time: <span class="font-medium">10-60 minutes</span><br>
+                        Recommended fee: <span class="text-blue-600">≥ 50 sat/vB</span>
+                    </p>
+                </div>
+
+                <!-- USDT Section -->
+                <div class="bg-green-50 p-4 rounded-lg">
+                    <div class="flex items-center mb-3">
+                        <svg class="svg-inline--fa fa-coins text-green-500 text-2xl mr-3" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="coins" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M512 80C512 98.01 497.7 114.6 473.6 128C444.5 144.1 401.2 155.5 351.3 158.9C347.7 157.2 343.9 155.5 340.1 153.9C300.6 137.4 248.2 128 192 128C183.7 128 175.6 128.2 167.5 128.6L166.4 128C142.3 114.6 128 98.01 128 80C128 35.82 213.1 0 320 0C426 0 512 35.82 512 80V80zM160.7 161.1C170.9 160.4 181.3 160 192 160C254.2 160 309.4 172.3 344.5 191.4C369.3 204.9 384 221.7 384 240C384 243.1 383.3 247.9 381.9 251.7C377.3 264.9 364.1 277 346.9 287.3C346.9 287.3 346.9 287.3 346.9 287.3C346.8 287.3 346.6 287.4 346.5 287.5L346.5 287.5C346.2 287.7 345.9 287.8 345.6 288C310.6 307.4 254.8 320 192 320C132.4 320 79.06 308.7 43.84 290.9C41.97 289.9 40.15 288.1 38.39 288C14.28 274.6 0 258 0 240C0 205.2 53.43 175.5 128 164.6C138.5 163 149.4 161.8 160.7 161.1L160.7 161.1zM391.9 186.6C420.2 182.2 446.1 175.2 468.1 166.1C484.4 159.3 499.5 150.9 512 140.6V176C512 195.3 495.5 213.1 468.2 226.9C453.5 234.3 435.8 240.5 415.8 245.3C415.9 243.6 416 241.8 416 240C416 218.1 405.4 200.1 391.9 186.6V186.6zM384 336C384 354 369.7 370.6 345.6 384C343.8 384.1 342 385.9 340.2 386.9C304.9 404.7 251.6 416 192 416C129.2 416 73.42 403.4 38.39 384C14.28 370.6 .0003 354 .0003 336V300.6C12.45 310.9 27.62 319.3 43.93 326.1C83.44 342.6 135.8 352 192 352C248.2 352 300.6 342.6 340.1 326.1C347.9 322.9 355.4 319.2 362.5 315.2C368.6 311.8 374.3 308 379.7 304C381.2 302.9 382.6 301.7 384 300.6L384 336zM416 278.1C434.1 273.1 452.5 268.6 468.1 262.1C484.4 255.3 499.5 246.9 512 236.6V272C512 282.5 507 293 497.1 302.9C480.8 319.2 452.1 332.6 415.8 341.3C415.9 339.6 416 337.8 416 336V278.1zM192 448C248.2 448 300.6 438.6 340.1 422.1C356.4 415.3 371.5 406.9 384 396.6V432C384 476.2 298 512 192 512C85.96 512 .0003 476.2 .0003 432V396.6C12.45 406.9 27.62 415.3 43.93 422.1C83.44 438.6 135.8 448 192 448z"></path></svg><!-- <i class="fas fa-coins text-green-500 text-2xl mr-3"></i> Font Awesome fontawesome.com -->
+                        <h3 class="text-lg font-semibold text-green-800">USDT Transactions</h3>
+                    </div>
+                    <p class="text-gray-700">
+                        Network: <span class="font-medium">TRC20 recommended</span><br>
+                        Confirmation: <span class="text-green-600">5-15 minutes</span>
+                    </p>
+                </div>
+
+                <!-- Ethereum Section -->
+                <div class="bg-purple-50 p-4 rounded-lg">
+                    <div class="flex items-center mb-3">
+                        <svg class="svg-inline--fa fa-ethereum text-purple-500 text-2xl mr-3" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="ethereum" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg=""><path fill="currentColor" d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg><!-- <i class="fab fa-ethereum text-purple-500 text-2xl mr-3"></i> Font Awesome fontawesome.com -->
+                        <h3 class="text-lg font-semibold text-purple-800">Ethereum (ETH)</h3>
+                    </div>
+                    <p class="text-gray-700">
+                        Gas fee: <span class="font-medium">Dynamic pricing</span><br>
+                        Priority tip: <span class="text-purple-600">≥ 20 Gwei</span>
+                    </p>
+                </div>
+
+                <!-- Important Notes -->
+                <div class="bg-red-50 p-4 rounded-lg">
+                    <h4 class="text-lg font-semibold text-red-800 mb-3">
+                        <svg class="svg-inline--fa fa-triangle-exclamation mr-2" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="triangle-exclamation" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M506.3 417l-213.3-364c-16.33-28-57.54-28-73.98 0l-213.2 364C-10.59 444.9 9.849 480 42.74 480h426.6C502.1 480 522.6 445 506.3 417zM232 168c0-13.25 10.75-24 24-24S280 154.8 280 168v128c0 13.25-10.75 24-23.1 24S232 309.3 232 296V168zM256 416c-17.36 0-31.44-14.08-31.44-31.44c0-17.36 14.07-31.44 31.44-31.44s31.44 14.08 31.44 31.44C287.4 401.9 273.4 416 256 416z"></path></svg><!-- <i class="fas fa-exclamation-triangle mr-2"></i> Font Awesome fontawesome.com -->Critical Reminders
+                    </h4>
+                    <ul class="list-disc pl-6 space-y-2 text-gray-700">
+                        <li>Verify wallet addresses before sending</li>
+                        <li>Transactions are irreversible once confirmed</li>
+                        <li>Maintain sufficient balance for network fees</li>
+                        <li>Contact support for transactions older than 2 hours</li>
+                    </ul>
+                </div>
+            </div>
+        </div>  
+
+        <!-- Order Status -->
+    
+
+        <!-- Existing withdrawal form and other sections remain unchanged -->
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+
+    <script>
+        // Canvas Animation
+        const canvas = document.getElementById('canvasBackground');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        function createParticles(e) {
+            for(let i = 0; i < 3; i++) {
+                particles.push({
+                    x: e.clientX || e.touches[0].clientX,
+                    y: e.clientY || e.touches[0].clientY,
+                    size: Math.random() * 5 + 2,
+                    speedX: Math.random() * 3 - 1.5,
+                    speedY: Math.random() * 3 - 1.5,
+                    alpha: 1
+                });
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Animated background lines
+            ctx.beginPath();
+            ctx.strokeStyle = 'rgba(13, 110, 253, 0.08)';
+            for(let y = 0; y < canvas.height; y += 40) {
+                ctx.moveTo(0, y + Math.sin(Date.now()/800 + y)*15);
+                ctx.lineTo(canvas.width, y + Math.cos(Date.now()/800 + y)*15);
+            }
+            ctx.stroke();
+
+            // Particle animation
+            particles.forEach((particle, index) => {
+                particle.x += particle.speedX;
+                particle.y += particle.speedY;
+                particle.alpha -= 0.01;
+
+                ctx.fillStyle = `rgba(13, 110, 253, ${particle.alpha})`;
+                ctx.beginPath();
+                ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+                ctx.fill();
+
+                if(particle.alpha <= 0) particles.splice(index, 1);
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        // Initialize canvas
+        window.addEventListener('resize', resizeCanvas);
+        canvas.addEventListener('mousemove', createParticles);
+        canvas.addEventListener('touchmove', createParticles);
+        resizeCanvas();
+        animate();
+
+        // Calculate crypto amounts
+        document.addEventListener('DOMContentLoaded', function() {
+            const usdAmount = 0;
+            const addresses = [{"id":1,"name":"DEPOSIT BITCOIN - (BTC) \u20bf","image":"1748433779.jpeg","address":"bc1qayv5x4rd5h0t48kmk7xuqn9rknew45dvxtxvsw0lmmydskw788jshl9r0r","created_at":"2023-10-05T06:52:02.000000Z","updated_at":"2025-05-28T12:02:59.000000Z","icon":"btc_icon.png"},{"id":2,"name":"DEPOSIT USTD -  (TRC-20)","image":"1744289402.jpeg","address":"TMFKxbiZtxwSGEtYP6DR9y3HXAhGeJdvU5","created_at":null,"updated_at":"2025-04-10T12:50:02.000000Z","icon":"usdt_icon.jfif"},{"id":3,"name":"DEPOSIT ETHEREUM - ETH (ERC20)","image":"1744289327.jpeg","address":"0x5082391cD32897B3aC774846EbC1667E1de31478","created_at":null,"updated_at":"2025-04-10T12:48:47.000000Z","icon":"ethereum_icon.jfif"},{"id":4,"name":"DEPOSIT LITECOIN [ LTC] Wallet","image":"1744061920.jpeg","address":"LKvNuDnbbQhxZLsabNim7Gu63WMNYCmRK9","created_at":null,"updated_at":"2025-04-07T21:39:36.000000Z","icon":"test.jpg"}];
+
+            addresses.forEach((addr, index) => {
+                calculateCryptoAmount(usdAmount, addr.coin_type, addr.id);
+            });
+        });
+
+        async function fetchCryptoPrice(crypto) {
+            const apiEndpoints = {
+                'BTC': 'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd',
+                'ETH': 'https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd',
+                'USDT': 'https://api.coingecko.com/api/v3/simple/price?ids=tether&vs_currencies=usd'
+            };
+
+            try {
+                const response = await fetch(apiEndpoints[crypto]);
+                const data = await response.json();
+                return data[crypto.toLowerCase()].usd;
+            } catch (error) {
+                console.error(`Error fetching ${crypto} price:`, error);
+                return null;
+            }
+        }
+
+        async function calculateCryptoAmount(usdAmount, crypto, elementId) {
+            const price = await fetchCryptoPrice(crypto);
+            if (price) {
+                const amount = (usdAmount / price).toFixed(6);
+                document.querySelectorAll(`#collapse-${elementId} .amount`).forEach(el => {
+                    el.textContent = `${amount} ${crypto}`;
+                });
+            }
+        }
+
+        function copyAddress(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                swal({
+                    title: "Copied!",
+                    text: "Address copied to clipboard",
+                    icon: "success",
+                    button: "OK"
+                });
+            });
+        }
+
+        function goBack() {
+            window.history.back();
+        }
+// Withdrawal Form Handling
+        const cryptoType = document.getElementById('crypto-type');
+        const cryptoAddress = document.getElementById('crypto-address');
+        const cryptoAmount = document.getElementById('crypto-amount');
+
+        cryptoType.addEventListener('change', function() {
+            const placeholders = {
+                'Bitcoin': ['Bitcoin Address', 'Amount in BTC'],
+                'USDT': ['USDT (TRC20) Address', 'Amount in USDT'],
+                'Ethereum': ['Ethereum Address', 'Amount in ETH']
+            };
+            [cryptoAddress.placeholder, cryptoAmount.placeholder] = placeholders[this.value];
+        });
+
+        document.getElementById('withdraw-button').addEventListener('click', function() {
+            const modal = document.createElement('div');
+            modal.innerHTML = `
+                <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                    <div class="neo-glass p-6 rounded-lg text-center w-96">
+                        <div class="spinner-border text-primary animate-spin mb-4"></div>
+                        <p class="text-gray-800 font-medium">Processing Transaction...</p>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+
+            setTimeout(() => {
+                document.body.removeChild(modal);
+                swal({
+                    title: "Complete Verification",
+                    text: "Please check your email to confirm withdrawal",
+                    icon: "warning",
+                    buttons: ["Cancel", "Confirm"]
+                });
+            }, 3000);
+        });
+
+
+
+    </script>
+
+</body></html>

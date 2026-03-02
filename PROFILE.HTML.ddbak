@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SHADOWLOGS - Home</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-dark-5@1.1.3/dist/css/bootstrap-dark.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
+  <style>
+    :root {
+      --square-size: 30px;
+      --square-color: rgba(255, 255, 255, 0.05);
+      --main-bg: #121212;
+      --container-bg: rgba(32, 32, 32, 0.9);
+      --accent-color: #28a745;
+      --error-color: #dc3545;
+    }
+    body {
+      min-height: 100vh;
+      background-color: var(--main-bg);
+      color: #ffffff;
+      position: relative;
+      overflow-x: hidden;
+    }
+    .squares-bg {
+      position: fixed;
+      width: 100vw;
+      height: 100vh;
+      background: linear-gradient(90deg, var(--square-color) 1px, transparent 1px),
+                  linear-gradient(180deg, var(--square-color) 1px, transparent 1px);
+      background-size: var(--square-size) var(--square-size);
+      z-index: 0;
+      top: 0;
+      left: 0;
+    }
+    .profile-container {
+      background: var(--container-bg);
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+      max-width: 500px;
+      margin: 2rem auto;
+      padding: 2rem;
+    }
+    .profile-avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      font-weight: bold;
+      color: white;
+      margin: 0 auto 1.5rem;
+      border: 3px solid var(--accent-color);
+      box-shadow: 0 0 20px rgba(40, 167, 69, 0.3);
+    }
+    .profile-info {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .profile-email {
+      font-size: 1.1rem;
+      color: #adb5bd;
+      word-break: break-all;
+      margin-top: 0.5rem;
+    }
+    .profile-meta {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+    .meta-item {
+      display: flex;
+      align-items: center;
+      margin: 0.5rem 0;
+      font-size: 0.9rem;
+      color: #adb5bd;
+    }
+    .meta-item i {
+      width: 20px;
+      text-align: center;
+      margin-right: 8px;
+    }
+    .profile-balance {
+      font-size: 1.8rem;
+      font-weight: bold;
+      margin: 1rem 0;
+      color: var(--accent-color);
+    }
+    .profile-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .btn-profile {
+      padding: 12px;
+      font-weight: 600;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+    .btn-topup {
+      background: var(--accent-color);
+      border: none;
+    }
+    .btn-topup:hover {
+      background: #218838;
+      transform: translateY(-2px);
+    }
+    .btn-balance {
+      background: #6c757d;
+      border: none;
+    }
+    .btn-balance:hover {
+      background: #5a6268;
+      transform: translateY(-2px);
+    }
+    .btn-logout {
+      background: var(--error-color);
+      border: none;
+    }
+    .btn-logout:hover {
+      background: #c82333;
+      transform: translateY(-2px);
+    }
+    .nav-brand {
+      color: var(--accent-color);
+      font-weight: bold;
+      font-size: 1.5rem;
+      text-decoration: none;
+    }
+    .loading-spinner {
+      display: none;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+      margin-left: 10px;
+      vertical-align: middle;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .alert {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      max-width: 400px;
+    }
+    .email-verified-badge {
+      color: var(--accent-color);
+      margin-left: 5px;
+      font-size: 0.8em;
+    }
+    .verify-email-btn {
+      margin-top: 10px;
+    }
+    #loginRedirect {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      z-index: 9999;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    #loginRedirect .content {
+      background: var(--container-bg);
+      padding: 2rem;
+      border-radius: 10px;
+      text-align: center;
+      max-width: 500px;
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="squares-bg"></div>
+  
+  <div id="alertContainer" style="position: fixed; top: 20px; right: 20px; z-index: 1000;"></div>
+
+  <div id="loginRedirect">
+    <div class="content">
+      <h3><i class="fas fa-exclamation-triangle text-warning me-2"></i>Authentication Required</h3>
+      <p class="my-3">You need to be logged in to view this page. Redirecting to login page...</p>
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="mt-3">If you are not redirected automatically, <a href="/login.html" class="text-primary">click here</a>.</p>
+    </div>
+  </div>
+
+  <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: rgba(0,0,0,0.2); backdrop-filter: blur(5px);">
+    <div class="container">
+      <a class="nav-brand" href="/home.html">
+        <a href="#" class="btn btn-danger neo-glass" style="z-index:1000;background:black;border-left:;;" onclick="goBack(event)">
+  <i class="fas fa-arrow-left" aria-hidden="true"></i> Back
+</a>
+
+<script>
+function goBack(event) {
+  event.preventDefault();
+  window.history.back();
+}
+</script>
+        <img src="SHADOWLOGS.png" alt="Logo" style="height: 40px; margin-right: 10px;" />
+        SHADOWLOGS
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+     
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link active" href="#profileSection"><i class="fas fa-user me-1"></i> Profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/home.html"><i class="fas fa-tachometer-alt me-1"></i> Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://t.me/Bryegon" id="supportLink"><i class="fas fa-question-circle me-1"></i> Support</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="profile-container" id="profileSection" style="display: none;">
+      <div class="profile-info">
+        <div class="profile-avatar" id="userAvatar">SL</div>
+        <h3 id="userName">User Profile</h3>
+        <div class="profile-email" id="userEmailContainer">
+          <span id="userEmail">loading...</span>
+          <span id="emailVerifiedBadge" class="email-verified-badge" style="display: none;">
+            <i class="fas fa-check-circle"></i> Verified
+          </span>
+        </div>
+        <div id="verifyEmailSection" style="display: none;">
+          <div class="alert alert-warning mt-2 p-2">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            <span id="verifyEmailText">Email not verified</span>
+            <button class="btn btn-sm btn-warning verify-email-btn" id="verifyEmailBtn">
+              <i class="fas fa-paper-plane me-1"></i> Send Verification Email
+            </button>
+          </div>
+        </div>
+        
+        <div class="profile-meta">
+          <div class="meta-item">
+            <i class="fas fa-user-clock"></i>
+            <span id="memberSince"></span>
+          </div>
+          <div class="meta-item">
+            <i class="fas fa-sign-in-alt"></i>
+            <span id="lastLogin"></span>
+          </div>
+        </div>
+        
+        <div class="profile-balance">
+          $<span id="userBalance">0.00</span>
+        </div>
+      </div>
+      
+      <div class="profile-actions">
+        <button class="btn btn-profile btn-topup" id="topUpBtn">
+          <i class="fas fa-wallet me-2"></i> Top Up Balance
+          <span class="loading-spinner" id="topupSpinner"></span>
+        </button>
+        <button class="btn btn-profile btn-balance" id="refreshBalanceBtn">
+          <i class="fas fa-sync-alt me-2"></i> Refresh Balance
+          <span class="loading-spinner" id="refreshSpinner"></span>
+        </button>
+        <button class="btn btn-profile btn-logout" id="logoutBtn">
+          <i class="fas fa-sign-out-alt me-2"></i> Logout
+          <span class="loading-spinner" id="logoutSpinner"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-app.js";
+    import { 
+      getAuth, 
+      signOut,
+      onAuthStateChanged,
+      sendEmailVerification
+    } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-auth.js";
+    import { 
+      getDatabase, 
+      ref, 
+      onValue, 
+      off, 
+      get,
+      set,
+      update
+    } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBXC6A6NaL1WSHrfCNAuMeYZqx9DFZyToY",
+      authDomain: "shadowlogsshop-ec4ca.firebaseapp.com",
+      databaseURL: "https://shadowlogsshop-ec4ca-default-rtdb.firebaseio.com",
+      projectId: "shadowlogsshop-ec4ca",
+      storageBucket: "shadowlogsshop-ec4ca.appspot.com",
+      messagingSenderId: "709594271975",
+      appId: "1:709594271975:web:6a4bfc8bdcbc51c2859242",
+      measurementId: "G-WNEH2RQPVP"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getDatabase(app);
+
+    const elements = {
+      userEmail: document.getElementById('userEmail'),
+      emailVerifiedBadge: document.getElementById('emailVerifiedBadge'),
+      verifyEmailSection: document.getElementById('verifyEmailSection'),
+      verifyEmailBtn: document.getElementById('verifyEmailBtn'),
+      verifyEmailText: document.getElementById('verifyEmailText'),
+      userAvatar: document.getElementById('userAvatar'),
+      userName: document.getElementById('userName'),
+      userBalance: document.getElementById('userBalance'),
+      logoutBtn: document.getElementById('logoutBtn'),
+      logoutSpinner: document.getElementById('logoutSpinner'),
+      topUpBtn: document.getElementById('topUpBtn'),
+      topupSpinner: document.getElementById('topupSpinner'),
+      refreshBalanceBtn: document.getElementById('refreshBalanceBtn'),
+      refreshSpinner: document.getElementById('refreshSpinner'),
+      alertContainer: document.getElementById('alertContainer'),
+      loginRedirect: document.getElementById('loginRedirect'),
+      memberSince: document.getElementById('memberSince'),
+      lastLogin: document.getElementById('lastLogin'),
+      profileSection: document.getElementById('profileSection'),
+      supportLink: document.getElementById('supportLink')
+    };
+
+    function showAlert(message, type = 'success') {
+      const alert = document.createElement('div');
+      alert.className = `alert alert-${type} alert-dismissible fade show`;
+      alert.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      `;
+      elements.alertContainer.appendChild(alert);
+      setTimeout(() => alert.remove(), 5000);
+    }
+
+    function formatDate(timestamp) {
+      if (!timestamp) return 'Unknown';
+      const date = new Date(timestamp);
+      return date.toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    }
+
+    function generateRandomAvatar(email) {
+      const colors = [
+        'linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%)',
+        'linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%)',
+        'linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%)',
+        'linear-gradient(120deg, #f6d365 0%, #fda085 100%)',
+        'linear-gradient(to right, #ff758c 0%, #ff7eb3 100%)'
+      ];
+      
+      const initials = email ? 
+        email.split('@')[0].split(/[._-]/).map(p => p.charAt(0)).join('').toUpperCase().substring(0, 2) : 
+        'SL';
+      
+      elements.userAvatar.style.background = colors[Math.floor(Math.random() * colors.length)];
+      elements.userAvatar.textContent = initials;
+      
+      if (email) {
+        const username = email.split('@')[0];
+        elements.userName.textContent = username.charAt(0).toUpperCase() + username.slice(1);
+      }
+    }
+
+    function showLoading(button, spinner, show) {
+      if (spinner) spinner.style.display = show ? 'inline-block' : 'none';
+      if (button) button.disabled = show;
+    }
+
+    function setupBalanceListener(userId) {
+      const userBalanceRef = ref(db, `users/${userId}/balance`);
+      
+      if (window.userBalanceListener) {
+        off(window.userBalanceListener);
+      }
+      
+      window.userBalanceListener = onValue(userBalanceRef, (snapshot) => {
+        const balance = snapshot.val();
+        if (balance !== null) {
+          elements.userBalance.textContent = Number(balance).toFixed(2);
+        } else {
+          // Initialize balance if it doesn't exist
+          set(userBalanceRef, 0);
+          elements.userBalance.textContent = "0.00";
+        }
+        showLoading(elements.refreshBalanceBtn, elements.refreshSpinner, false);
+      }, (error) => {
+        console.error("Balance listener error:", error);
+        showAlert('Failed to load balance', 'danger');
+        showLoading(elements.refreshBalanceBtn, elements.refreshSpinner, false);
+      });
+    }
+
+    async function loadUserMetadata(userId) {
+      const userMetaRef = ref(db, `users/${userId}/metadata`);
+      
+      try {
+        const snapshot = await get(userMetaRef);
+        
+        if (snapshot.exists()) {
+          const meta = snapshot.val();
+          
+          if (meta.signupDate) {
+            elements.memberSince.textContent = `Member since: ${formatDate(meta.signupDate)}`;
+          } else {
+            await update(userMetaRef, { signupDate: Date.now() });
+            elements.memberSince.textContent = `Member since: ${formatDate(Date.now())}`;
+          }
+          
+          if (meta.lastLogin) {
+            elements.lastLogin.textContent = `Last active: ${formatDate(meta.lastLogin)}`;
+          }
+          
+          await update(userMetaRef, { lastLogin: Date.now() });
+          
+        } else {
+          const user = auth.currentUser;
+          const newMeta = {
+            email: user.email,
+            fullName: user.displayName || user.email.split('@')[0],
+            signupDate: Date.now(),
+            lastLogin: Date.now()
+          };
+          
+          await set(userMetaRef, newMeta);
+          // Initialize user balance
+          await set(ref(db, `users/${userId}/balance`), 0);
+          
+          elements.memberSince.textContent = `Member since: ${formatDate(newMeta.signupDate)}`;
+          elements.lastLogin.textContent = `Last active: ${formatDate(newMeta.lastLogin)}`;
+        }
+      } catch (error) {
+        console.error("Error loading user metadata:", error);
+        showAlert("Error loading profile data", "danger");
+      }
+    }
+
+    function redirectToLogin() {
+      elements.loginRedirect.style.display = 'flex';
+      setTimeout(() => {
+        window.location.href = '/login.html';
+      }, 1500);
+    }
+
+    elements.supportLink.addEventListener('click', function(e) {
+      e.preventDefault();
+      window.location.href = 'https://wa.me/';
+    });
+
+    elements.topUpBtn.addEventListener('click', function() {
+      showLoading(elements.topUpBtn, elements.topupSpinner, true);
+      setTimeout(() => {
+        window.location.href = '/topup.html';
+      }, 1000);
+    });
+
+    elements.logoutBtn.addEventListener('click', async () => {
+      showLoading(elements.logoutBtn, elements.logoutSpinner, true);
+      try {
+        await signOut(auth);
+        showAlert('Logged out successfully', 'success');
+        redirectToLogin();
+      } catch (error) {
+        console.error("Logout error:", error);
+        showAlert('Logout failed. Please try again.', 'danger');
+        showLoading(elements.logoutBtn, elements.logoutSpinner, false);
+      }
+    });
+
+    elements.verifyEmailBtn.addEventListener('click', async () => {
+      showLoading(elements.verifyEmailBtn, null, true);
+      elements.verifyEmailText.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Sending verification email...';
+      try {
+        await sendEmailVerification(auth.currentUser);
+        showAlert('Verification email sent! Please check your inbox.', 'success');
+        elements.verifyEmailText.textContent = 'Verification email sent! Check your inbox.';
+      } catch (error) {
+        console.error("Error sending verification email:", error);
+        showAlert('Failed to send verification email. Please try again.', 'danger');
+        elements.verifyEmailText.textContent = 'Error sending verification. Try again.';
+      } finally {
+        showLoading(elements.verifyEmailBtn, null, false);
+        elements.verifyEmailBtn.innerHTML = '<i class="fas fa-paper-plane me-1"></i> Resend Verification';
+      }
+    });
+
+    elements.refreshBalanceBtn.addEventListener('click', async () => {
+      showLoading(elements.refreshBalanceBtn, elements.refreshSpinner, true);
+      try {
+        const userId = auth.currentUser?.uid;
+        if (userId) {
+          const balanceRef = ref(db, `users/${userId}/balance`);
+          const snapshot = await get(balanceRef);
+          const currentBalance = snapshot.val() || 0;
+          elements.userBalance.textContent = Number(currentBalance).toFixed(2);
+          showAlert('Balance refreshed!', 'success');
+        }
+      } catch (error) {
+        console.error("Error refreshing balance:", error);
+        showAlert('Failed to refresh balance', 'danger');
+      } finally {
+        showLoading(elements.refreshBalanceBtn, elements.refreshSpinner, false);
+      }
+    });
+
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        elements.loginRedirect.style.display = 'none';
+        elements.profileSection.style.display = 'block';
+        elements.userEmail.textContent = user.email;
+        
+        if (user.emailVerified) {
+          elements.emailVerifiedBadge.style.display = 'inline';
+          elements.verifyEmailSection.style.display = 'none';
+        } else {
+          elements.emailVerifiedBadge.style.display = 'none';
+          elements.verifyEmailSection.style.display = 'block';
+        }
+        
+        await loadUserMetadata(user.uid);
+        generateRandomAvatar(user.email);
+        setupBalanceListener(user.uid);
+        
+      } else {
+        if (window.userBalanceListener) {
+          off(window.userBalanceListener);
+          window.userBalanceListener = null;
+        }
+        redirectToLogin();
+      }
+    });
+
+    // Initial loading state
+    elements.userEmail.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Loading profile...';
+  </script>
+</body>
+</html>
