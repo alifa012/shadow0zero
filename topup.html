@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="csrf-token" content="eRtjYiTWjVSBJT0yfm3zqEbqnCyKxptUa0jPOlYj">
   
-  <title>Payment Gateway — Topup</title>
+  <title>Automotive — TopUp Account</title>
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,656 +15,923 @@
   <!-- Bootstrap (official CDN) -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-  <!-- Swiper (official CDN) -->
-  <link href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" rel="stylesheet">
-
   <!-- Font Awesome (official CDN) -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 
-  <!-- Local consolidated stylesheet (create this file) -->
-  <link href="assets/css/site.css" rel="stylesheet">
-  
-  <!-- Additional CSS for crypto ticker -->
+  <!-- SweetAlert2 for better alerts -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
   <style>
+    body {
+      background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #000000 100%);
+      color: #ffffff;
+      min-height: 100vh;
+      font-family: 'Lato', sans-serif;
+    }
+
+    .animated-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .main-container {
+      max-width: 900px;
+      margin: 60px auto 40px;
+      padding: 30px;
+      position: relative;
+      z-index: 2;
+      background: rgba(0, 0, 0, 0.85);
+      border-radius: 20px;
+      border: 2px solid #28a745;
+      backdrop-filter: blur(15px);
+      box-shadow: 0 20px 60px rgba(40, 167, 69, 0.3);
+    }
+
+    .back-button {
+      background: linear-gradient(45deg, #000, #1a1a1a);
+      border: 2px solid #28a745;
+      color: #28a745;
+      padding: 10px 20px;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      display: inline-block;
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 1000;
+    }
+
+    .back-button:hover {
+      background: #28a745;
+      color: #000;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(40, 167, 69, 0.5);
+    }
+
+    .page-title {
+      color: #28a745;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 15px;
+      text-shadow: 0 0 20px rgba(40, 167, 69, 0.5);
+    }
+
+    .page-subtitle {
+      text-align: center;
+      color: #cccccc;
+      margin-bottom: 30px;
+    }
+
+    .crypto-ticker {
+      background: rgba(40, 167, 69, 0.1);
+      border: 1px solid #28a745;
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 30px;
+    }
+
     .crypto-item {
-        padding: 8px 16px;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 20px;
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 10px 20px;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 10px;
+      border: 1px solid #28a745;
+      margin: 5px;
+      display: inline-block;
     }
-    
+
     .crypto-symbol {
-        font-weight: bold;
-        margin-right: 8px;
-        font-size: 0.9rem;
+      font-weight: bold;
+      color: #28a745;
+      margin-right: 10px;
     }
-    
+
     .crypto-price {
-        font-weight: 600;
-        font-size: 0.95rem;
+      font-weight: 600;
+      color: #ffffff;
     }
-    
-    .payment-container {
-        max-width: 600px;
-        margin: 40px auto;
-        padding: 30px;
-        background: rgba(255, 255, 255, 0.05);
-        border-radius: 15px;
-        backdrop-filter: blur(10px);
-    }
-    
-    .accordion-group {
-        margin-bottom: 30px;
-    }
-    
+
     .crypto-card {
-        background: rgba(255, 255, 255, 0.08);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        backdrop-filter: blur(10px);
+      background: rgba(0, 0, 0, 0.6);
+      border: 2px solid #28a745;
+      border-radius: 15px;
+      margin-bottom: 20px;
+      transition: all 0.3s ease;
     }
-    
-    .crypto-card .card-header {
-        background: rgba(255, 255, 255, 0.1);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+
+    .crypto-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(40, 167, 69, 0.3);
+      border-color: #20c997;
+    }
+
+    .card-header {
+      background: rgba(40, 167, 69, 0.15);
+      border-bottom: 2px solid #28a745;
+      padding: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .card-header:hover {
+      background: rgba(40, 167, 69, 0.25);
+    }
+
+    .card-header h5 {
+      color: #28a745;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .card-body {
+      padding: 25px;
+    }
+
+    .alert-primary {
+      background: rgba(40, 167, 69, 0.2);
+      border: 1px solid #28a745;
+      color: #ffffff;
+    }
+
+    .address-box {
+      background: rgba(0, 0, 0, 0.8);
+      border: 2px solid #28a745;
+      border-radius: 10px;
+      padding: 15px;
+      margin: 20px 0;
+    }
+
+    .address-box code {
+      color: #28a745;
+      word-break: break-all;
+      font-size: 14px;
+    }
+
+    .btn-copy {
+      background: #28a745;
+      color: #000;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .btn-copy:hover {
+      background: #20c997;
+      transform: scale(1.05);
+      box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
+    }
+
+    .qr-container {
+      background: rgba(255, 255, 255, 0.95);
+      border: 3px solid #28a745;
+      border-radius: 15px;
+      padding: 20px;
+      display: inline-block;
+      margin: 20px auto;
+    }
+
+    .qr-container img {
+      max-width: 200px;
+      border-radius: 10px;
+    }
+
+    .transition-rotate {
+      transition: transform 0.3s ease;
+    }
+
+    .collapsed .transition-rotate {
+      transform: rotate(0deg);
+    }
+
+    .card-header:not(.collapsed) .transition-rotate {
+      transform: rotate(180deg);
+    }
+
+    .amount-highlight {
+      color: #28a745;
+      font-weight: bold;
+      font-size: 1.1em;
+    }
+
+    .two-column-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin-top: 30px;
+    }
+
+    .section-title {
+      color: #28a745;
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      text-align: center;
+      text-shadow: 0 0 15px rgba(40, 167, 69, 0.4);
+    }
+
+    .withdrawal-section {
+      background: rgba(0, 0, 0, 0.6);
+      border: 2px solid #28a745;
+      border-radius: 15px;
+      padding: 25px;
+    }
+
+    .form-control, .form-select {
+      background: rgba(0, 0, 0, 0.8);
+      border: 2px solid #28a745;
+      color: #ffffff;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 15px;
+    }
+
+    .form-control:focus, .form-select:focus {
+      background: rgba(0, 0, 0, 0.9);
+      border-color: #20c997;
+      color: #ffffff;
+      box-shadow: 0 0 15px rgba(40, 167, 69, 0.3);
+    }
+
+    .form-control::placeholder {
+      color: #888888;
+    }
+
+    .form-select option {
+      background: #000000;
+      color: #ffffff;
+    }
+
+    .btn-withdraw {
+      background: linear-gradient(45deg, #28a745, #20c997);
+      color: #000;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: 600;
+      width: 100%;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .btn-withdraw:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(40, 167, 69, 0.5);
+    }
+
+    .payment-confirmation {
+      background: rgba(0, 0, 0, 0.6);
+      border: 2px solid #28a745;
+      border-radius: 15px;
+      padding: 25px;
+      margin-top: 25px;
+    }
+
+    .file-input-wrapper {
+      position: relative;
+      overflow: hidden;
+      display: inline-block;
+      width: 100%;
+      margin-bottom: 15px;
+    }
+
+    .file-input-wrapper input[type=file] {
+      position: absolute;
+      left: -9999px;
+    }
+
+    .file-input-label {
+      background: rgba(0, 0, 0, 0.8);
+      border: 2px dashed #28a745;
+      color: #28a745;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: block;
+    }
+
+    .file-input-label:hover {
+      background: rgba(40, 167, 69, 0.1);
+      border-color: #20c997;
+    }
+
+    .file-input-label i {
+      font-size: 2rem;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .btn-submit-screenshot {
+      background: linear-gradient(45deg, #28a745, #20c997);
+      color: #000;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: 600;
+      width: 100%;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .btn-submit-screenshot:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(40, 167, 69, 0.5);
+    }
+
+    .btn-submit-screenshot:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    #uploadStatus {
+      color: #28a745;
+      margin-top: 15px;
+      text-align: center;
+      font-weight: 500;
+    }
+
+    @media (max-width: 992px) {
+      .two-column-layout {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .main-container {
+        margin: 80px 15px 20px;
+        padding: 20px;
+      }
+
+      .back-button {
+        top: 10px;
+        left: 10px;
+        padding: 8px 15px;
+        font-size: 14px;
+      }
+
+      .crypto-item {
+        display: block;
+        margin: 10px 0;
+      }
     }
   </style>
-
 </head>
 
-<body class="bg-dark">
-    <canvas class="animated-background" id="canvasBackground" width="718" height="642"></canvas>
+<body>
+  <canvas class="animated-background" id="canvasBackground"></canvas>
 
-  
-  <a href="visa cc.html" class="btn btn-danger position-fixed top-0 start-0 neo-glass" style="z-index:1000; background:black;">
-    Back
+  <a href="home.html" class="back-button">
+    <i class="fas fa-arrow-left me-2"></i>Back to Home
   </a>
 
 
-
-    <div class="main-container container-fluid" style="background:black;color:white;padding-top:80px;">
-        <!-- Header Section -->
-        <div class="text-center mb-5">
-            <!-- Dynamic Crypto Widget -->
-            <div id="crypto-ticker" class="neo-glass p-3 mb-4 rounded">
-                <div class="d-flex justify-content-center align-items-center flex-wrap gap-3">
-                    <div class="crypto-item">
-                        <span class="crypto-symbol">BTC</span>
-                        <span class="crypto-price text-warning" id="btc-price">Loading...</span>
-                    </div>
-                    <div class="crypto-item">
-                        <span class="crypto-symbol">ETH</span>
-                        <span class="crypto-price text-info" id="eth-price">Loading...</span>
-                    </div>
-                    <div class="crypto-item">
-                        <span class="crypto-symbol">USDT</span>
-                        <span class="crypto-price text-success" id="usdt-price">Loading...</span>
-                    </div>
-                </div>
-            </div>
-            <h1 class="h2 font-weight-bold text-primary mb-3">Thank you for Your Continued Support</h1>
-            <div class="d-flex justify-content-center align-items-center">
-                <div class="neo-glass p-3 rounded-pill">
-                    <span class="badge bg-primary mr-2">BTC</span>
-                    <span class="badge bg-success mr-2">ETH</span>
-                    <span class="badge bg-warning">USDT</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Payment Methods Section -->
-        <div class="container mt-5">
-            <div class="row justify-content-center">
-                <div class="col-lg-10">
-                    <div class="accordion-group">
-                        <div class="card mb-3 crypto-card">
-                <div class="card-header d-flex justify-content-between align-items-center collapsed" data-bs-toggle="collapse" data-bs-target="#collapse-1" aria-expanded="false">
-                    <div class="d-flex align-items-center">
-                    
-                        <h5 class="mb-0">DEPOSIT BITCOIN - (BTC) ₿ Payment</h5>
-                    </div>
-                    <svg class="svg-inline--fa fa-chevron-down transition-rotate" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-down" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M224 416c-8.188 0-16.38-3.125-22.62-9.375l-192-192c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L224 338.8l169.4-169.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-192 192C240.4 412.9 232.2 416 224 416z"></path></svg><!-- <i class="fas fa-chevron-down transition-rotate"></i> Font Awesome fontawesome.com -->
-                </div>
-                
-                <div id="collapse-1" class="collapse" style="">
-                    <div class="card-body">
-                        <div class="alert alert-primary d-flex align-items-center">
-                            <svg class="svg-inline--fa fa-circle-info me-2" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle-info" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256s256-114.6 256-256S397.4 0 256 0zM256 128c17.67 0 32 14.33 32 32c0 17.67-14.33 32-32 32S224 177.7 224 160C224 142.3 238.3 128 256 128zM296 384h-80C202.8 384 192 373.3 192 360s10.75-24 24-24h16v-64H224c-13.25 0-24-10.75-24-24S210.8 224 224 224h32c13.25 0 24 10.75 24 24v88h16c13.25 0 24 10.75 24 24S309.3 384 296 384z"></path></svg><!-- <i class="fas fa-info-circle me-2"></i> Font Awesome fontawesome.com -->
-                            Send exactly <span class="amount fw-bold mx-1"></span> to the address below
-                        </div>
-
-                        <!-- Address Box -->
-                        <div class="neo-glass p-3 mb-4 rounded">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <code class="text-break">bc1qayv5x4rd5h0t48kmk7xuqn9rknew45dvxtxvsw0lmmydskw788jshl9r0r</code>
-                                <button class="btn btn-sm btn-outline-primary" onclick="copyAddress('bc1qayv5x4rd5h0t48kmk7xuqn9rknew45dvxtxvsw0lmmydskw788jshl9r0r')">
-                                    <svg class="svg-inline--fa fa-copy" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="copy" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M384 96L384 0h-112c-26.51 0-48 21.49-48 48v288c0 26.51 21.49 48 48 48H464c26.51 0 48-21.49 48-48V128h-95.1C398.4 128 384 113.6 384 96zM416 0v96h96L416 0zM192 352V128h-144c-26.51 0-48 21.49-48 48v288c0 26.51 21.49 48 48 48h192c26.51 0 48-21.49 48-48L288 416h-32C220.7 416 192 387.3 192 352z"></path></svg><!-- <i class="fas fa-copy"></i> Font Awesome fontawesome.com --> Copy
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- QR Code & Amount -->
-                        <div class="row align-items-center">
-                            <div class="col-md-12 text-center">
-                                <div class="qr-container neo-glass p-2 rounded" style="display:flex;justify-content:center;align-items:center">
-                                    <img src="btc.jpg" alt="QR Code " class="img-fluid" style="max-width: 200px;">
-                                </div>
-                            </div>
-                            <div class="col-md-6 mt-3 mt-md-0">
-                            
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-                        <div class="card mb-3 crypto-card">
-                <div class="card-header d-flex justify-content-between align-items-center collapsed" data-bs-toggle="collapse" data-bs-target="#collapse-2" aria-expanded="false">
-                    <div class="d-flex align-items-center">
-                    
-                        <h5 class="mb-0">DEPOSIT USTD -  (TRC-20) Payment</h5>
-                    </div>
-                    <svg class="svg-inline--fa fa-chevron-down transition-rotate" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-down" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M224 416c-8.188 0-16.38-3.125-22.62-9.375l-192-192c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L224 338.8l169.4-169.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-192 192C240.4 412.9 232.2 416 224 416z"></path></svg><!-- <i class="fas fa-chevron-down transition-rotate"></i> Font Awesome fontawesome.com -->
-                </div>
-                
-                <div id="collapse-2" class="collapse" style="">
-                    <div class="card-body">
-                        <div class="alert alert-primary d-flex align-items-center">
-                            <svg class="svg-inline--fa fa-circle-info me-2" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle-info" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256s256-114.6 256-256S397.4 0 256 0zM256 128c17.67 0 32 14.33 32 32c0 17.67-14.33 32-32 32S224 177.7 224 160C224 142.3 238.3 128 256 128zM296 384h-80C202.8 384 192 373.3 192 360s10.75-24 24-24h16v-64H224c-13.25 0-24-10.75-24-24S210.8 224 224 224h32c13.25 0 24 10.75 24 24v88h16c13.25 0 24 10.75 24 24S309.3 384 296 384z"></path></svg><!-- <i class="fas fa-info-circle me-2"></i> Font Awesome fontawesome.com -->
-                            Send exactly <span class="amount fw-bold mx-1"></span> to the address below
-                        </div>
-
-                        <!-- Address Box -->
-                        <div class="neo-glass p-3 mb-4 rounded">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <code class="text-break">TMFKxbiZtxwSGEtYP6DR9y3HXAhGeJdvU5</code>
-                                <button class="btn btn-sm btn-outline-primary" onclick="copyAddress('TMFKxbiZtxwSGEtYP6DR9y3HXAhGeJdvU5')">
-                                    <svg class="svg-inline--fa fa-copy" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="copy" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M384 96L384 0h-112c-26.51 0-48 21.49-48 48v288c0 26.51 21.49 48 48 48H464c26.51 0 48-21.49 48-48V128h-95.1C398.4 128 384 113.6 384 96zM416 0v96h96L416 0zM192 352V128h-144c-26.51 0-48 21.49-48 48v288c0 26.51 21.49 48 48 48h192c26.51 0 48-21.49 48-48L288 416h-32C220.7 416 192 387.3 192 352z"></path></svg><!-- <i class="fas fa-copy"></i> Font Awesome fontawesome.com --> Copy
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- QR Code & Amount -->
-                        <div class="row align-items-center">
-                            <div class="col-md-12 text-center">
-                                <div class="qr-container neo-glass p-2 rounded" style="display:flex;justify-content:center;align-items:center">
-                                    <img src="usdt.jpg" alt="QR Code unavailable" class="img-fluid" style="max-width: 200px;">
-                                </div>
-                            </div>
-                            <div class="col-md-6 mt-3 mt-md-0">
-                            
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-                        <div class="card mb-3 crypto-card">
-                <div class="card-header d-flex justify-content-between align-items-center collapsed" data-bs-toggle="collapse" data-bs-target="#collapse-3" aria-expanded="false">
-                    <div class="d-flex align-items-center">
-                    
-                        <h5 class="mb-0">DEPOSIT ETHEREUM - ETH (ERC20) Payment</h5>
-                    </div>
-                    <svg class="svg-inline--fa fa-chevron-down transition-rotate" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-down" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M224 416c-8.188 0-16.38-3.125-22.62-9.375l-192-192c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L224 338.8l169.4-169.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-192 192C240.4 412.9 232.2 416 224 416z"></path></svg><!-- <i class="fas fa-chevron-down transition-rotate"></i> Font Awesome fontawesome.com -->
-                </div>
-                
-                <div id="collapse-3" class="collapse" style="">
-                    <div class="card-body">
-                        <div class="alert alert-primary d-flex align-items-center">
-                            <svg class="svg-inline--fa fa-circle-info me-2" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle-info" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256s256-114.6 256-256S397.4 0 256 0zM256 128c17.67 0 32 14.33 32 32c0 17.67-14.33 32-32 32S224 177.7 224 160C224 142.3 238.3 128 256 128zM296 384h-80C202.8 384 192 373.3 192 360s10.75-24 24-24h16v-64H224c-13.25 0-24-10.75-24-24S210.8 224 224 224h32c13.25 0 24 10.75 24 24v88h16c13.25 0 24 10.75 24 24S309.3 384 296 384z"></path></svg><!-- <i class="fas fa-info-circle me-2"></i> Font Awesome fontawesome.com -->
-                            Send exactly <span class="amount fw-bold mx-1"></span> to the address below
-                        </div>
-
-                        <!-- Address Box -->
-                        <div class="neo-glass p-3 mb-4 rounded">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <code class="text-break">0x5082391cD32897B3aC774846EbC1667E1de31478</code>
-                                <button class="btn btn-sm btn-outline-primary" onclick="copyAddress('0x5082391cD32897B3aC774846EbC1667E1de31478')">
-                                    <svg class="svg-inline--fa fa-copy" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="copy" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M384 96L384 0h-112c-26.51 0-48 21.49-48 48v288c0 26.51 21.49 48 48 48H464c26.51 0 48-21.49 48-48V128h-95.1C398.4 128 384 113.6 384 96zM416 0v96h96L416 0zM192 352V128h-144c-26.51 0-48 21.49-48 48v288c0 26.51 21.49 48 48 48h192c26.51 0 48-21.49 48-48L288 416h-32C220.7 416 192 387.3 192 352z"></path></svg><!-- <i class="fas fa-copy"></i> Font Awesome fontawesome.com --> Copy
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- QR Code & Amount -->
-                        <div class="row align-items-center">
-                            <div class="col-md-12 text-center">
-                                <div class="qr-container neo-glass p-2 rounded" style="display:flex;justify-content:center;align-items:center">
-                                    <img src="eth.jpg" alt="QR Code unavailable" class="img-fluid" style="max-width: 200px;">
-                                </div>
-                            </div>
-                            <div class="col-md-6 mt-3 mt-md-0">
-                            
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-                        <div class="card mb-3 crypto-card">
-                <div class="card-header d-flex justify-content-between align-items-center collapsed" data-bs-toggle="collapse" data-bs-target="#collapse-4" aria-expanded="false">
-                    <div class="d-flex align-items-center">
-                    
-                        <h5 class="mb-0">DEPOSIT LITECOIN [ LTC] Wallet Payment</h5>
-                    </div>
-                    <svg class="svg-inline--fa fa-chevron-down transition-rotate" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-down" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M224 416c-8.188 0-16.38-3.125-22.62-9.375l-192-192c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L224 338.8l169.4-169.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-192 192C240.4 412.9 232.2 416 224 416z"></path></svg><!-- <i class="fas fa-chevron-down transition-rotate"></i> Font Awesome fontawesome.com -->
-                </div>
-                
-                <div id="collapse-4" class="collapse" style="">
-                    <div class="card-body">
-                        <div class="alert alert-primary d-flex align-items-center">
-                            <svg class="svg-inline--fa fa-circle-info me-2" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle-info" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256s256-114.6 256-256S397.4 0 256 0zM256 128c17.67 0 32 14.33 32 32c0 17.67-14.33 32-32 32S224 177.7 224 160C224 142.3 238.3 128 256 128zM296 384h-80C202.8 384 192 373.3 192 360s10.75-24 24-24h16v-64H224c-13.25 0-24-10.75-24-24S210.8 224 224 224h32c13.25 0 24 10.75 24 24v88h16c13.25 0 24 10.75 24 24S309.3 384 296 384z"></path></svg><!-- <i class="fas fa-info-circle me-2"></i> Font Awesome fontawesome.com -->
-                            Send exactly <span class="amount fw-bold mx-1"></span> to the address below
-                        </div>
-
-                        <!-- Address Box -->
-                        <div class="neo-glass p-3 mb-4 rounded">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <code class="text-break">LKvNuDnbbQhxZLsabNim7Gu63WMNYCmRK9</code>
-                                <button class="btn btn-sm btn-outline-primary" onclick="copyAddress('LKvNuDnbbQhxZLsabNim7Gu63WMNYCmRK9')">
-                                    <svg class="svg-inline--fa fa-copy" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="copy" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M384 96L384 0h-112c-26.51 0-48 21.49-48 48v288c0 26.51 21.49 48 48 48H464c26.51 0 48-21.49 48-48V128h-95.1C398.4 128 384 113.6 384 96zM416 0v96h96L416 0zM192 352V128h-144c-26.51 0-48 21.49-48 48v288c0 26.51 21.49 48 48 48h192c26.51 0 48-21.49 48-48L288 416h-32C220.7 416 192 387.3 192 352z"></path></svg><!-- <i class="fas fa-copy"></i> Font Awesome fontawesome.com --> Copy
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- QR Code & Amount -->
-                        <div class="row align-items-center">
-                            <div class="col-md-12 text-center">
-                                <div class="qr-container neo-glass p-2 rounded" style="display:flex;justify-content:center;align-items:center">
-                                    <img src="ltc.jpg" alt="QR Code unavailable" class="img-fluid" style="max-width: 200px;">
-                                </div>
-                            </div>
-                            <div class="col-md-6 mt-3 mt-md-0">
-                            
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-   <div class="payment-container text-white" style="color:white">
-    <h2 style="color:white">Payment Confirmation</h2>
-    <p style="color:white">
-        If your payment doesn't reflect in 10 minutes, please upload your payment screenshot here for manual confirmation.
-    </p>
-    <form id="whatsappForm">
-        <input type="file" id="screenshot" accept="image/*" required="">
-        <br><br>
-        <input type="submit" value="Send via WhatsApp">
-    </form>
-    <p id="uploadStatus" style="color: lime; margin-top: 10px;"></p>
-</div>
-
-<script>
-    document.getElementById('whatsappForm').addEventListener('submit', async function(event) {
-        event.preventDefault();
-
-        const fileInput = document.getElementById('screenshot');
-        const statusText = document.getElementById('uploadStatus');
-        const file = fileInput.files[0];
-
-        if (!file) {
-            alert("Please select a file.");
-            return;
-        }
-
-        statusText.innerText = "Uploading screenshot...";
-
-        const formData = new FormData();
-        formData.append('file', file);
-
-        try {
-            const response = await fetch('https://store2.gofile.io/uploadFile', {
-                method: 'POST',
-                body: formData
-            });
-
-            if (!response.ok) {
-                const errorText = await response.text();
-                throw new Error(`HTTP ${response.status}: ${errorText}`);
-            }
-
-            const data = await response.json();
-
-            if (!data || !data.data || !data.data.downloadPage) {
-                console.log("Unexpected response:", data);
-                statusText.innerText = "Upload failed. Invalid response.";
-                return;
-            }
-
-            const imageLink = data.data.downloadPage;
-            statusText.innerText = "Uploaded! Opening WhatsApp...";
-
-            const message = `Hi, here is my payment screenshot: ${imageLink}`;
-            const whatsappURL = `https://wa.me/?text=${encodeURIComponent(message)}`;
-            window.open(whatsappURL, '_blank');
-
-            statusText.innerText = "WhatsApp opened. Please send your message.";
-        } catch (error) {
-            console.error("Upload error:", error);
-            statusText.innerText = "Upload failed. Check the console for details.";
-        }
-    });
-</script>
-
-
-                      <div class="neo-glass p-6 rounded-xl mt-8">
-            <h3 class="text-xl font-bold  mb-6 text-center" style="color:white">Withdraw Funds</h3>
-            <form>
-                <div class="mb-4">
-                    <select id="crypto-type" class="form-select">
-                        <option value="Bitcoin">Bitcoin</option>
-                        <option value="USDT">USDT (TRC20)</option>
-                        <option value="Ethereum">Ethereum</option>
-                    </select>
-                </div>
-                <div class="mb-4">
-                    <input type="text" id="txn-code" class="form-control" placeholder="Transaction Hash">
-                </div>
-                <div class="mb-4">
-                    <input type="text" id="crypto-address" class="form-control" placeholder="USDT (TRC20) Address">
-                </div>
-                <div class="mb-4">
-                    <input type="text" id="crypto-amount" class="form-control" placeholder="Amount in USDT">
-                </div>
-                <button type="button" id="withdraw-button" class="btn btn-primary w-full py-3">
-                    <svg class="svg-inline--fa fa-paper-plane mr-2" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="paper-plane" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M511.6 36.86l-64 415.1c-1.5 9.734-7.375 18.22-15.97 23.05c-4.844 2.719-10.27 4.097-15.68 4.097c-4.188 0-8.319-.8154-12.29-2.472l-122.6-51.1l-50.86 76.29C226.3 508.5 219.8 512 212.8 512C201.3 512 192 502.7 192 491.2v-96.18c0-7.115 2.372-14.03 6.742-19.64L416 96l-293.7 264.3L19.69 317.5C8.438 312.8 .8125 302.2 .0625 289.1s5.469-23.72 16.06-29.77l448-255.1c10.69-6.109 23.88-5.547 34 1.406S513.5 24.72 511.6 36.86z"></path></svg><!-- <i class="fas fa-paper-plane mr-2"></i> Font Awesome fontawesome.com -->Initiate Withdrawal
-                </button>
-            </form>
-        </div>
-
-        <!-- Informative Payment Notice -->
-        <div class="neo-glass p-6 rounded-xl mt-8">
-            <h2 class="text-2xl font-bold text-center mb-6 text-gray-800">Transaction Guidelines</h2>
-            
-            <div class="space-y-6">
-                <!-- Bitcoin Section -->
-                <div class="bg-blue-50 p-4 rounded-lg">
-                    <div class="flex items-center mb-3">
-                        <svg class="svg-inline--fa fa-bitcoin text-yellow-500 text-2xl mr-3" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="bitcoin" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M504 256c0 136.1-111 248-248 248S8 392.1 8 256 119 8 256 8s248 111 248 248zm-141.7-35.33c4.937-32.1-20.19-50.74-54.55-62.57l11.15-44.7-27.21-6.781-10.85 43.52c-7.154-1.783-14.5-3.464-21.8-5.13l10.93-43.81-27.2-6.781-11.15 44.69c-5.922-1.349-11.73-2.682-17.38-4.084l.031-.14-37.53-9.37-7.239 29.06s20.19 4.627 19.76 4.913c11.02 2.751 13.01 10.04 12.68 15.82l-12.7 50.92c.76 .194 1.744 .473 2.829 .907-.907-.225-1.876-.473-2.876-.713l-17.8 71.34c-1.349 3.348-4.767 8.37-12.47 6.464 .271 .395-19.78-4.937-19.78-4.937l-13.51 31.15 35.41 8.827c6.588 1.651 13.05 3.379 19.4 5.006l-11.26 45.21 27.18 6.781 11.15-44.73a1038 1038 0 0 0 21.69 5.627l-11.11 44.52 27.21 6.781 11.26-45.13c46.4 8.781 81.3 5.239 95.99-36.73 11.84-33.79-.589-53.28-25-65.99 17.78-4.098 31.17-15.79 34.75-39.95zm-62.18 87.18c-8.41 33.79-65.31 15.52-83.75 10.94l14.94-59.9c18.45 4.603 77.6 13.72 68.81 48.96zm8.417-87.67c-7.673 30.74-55.03 15.12-70.39 11.29l13.55-54.33c15.36 3.828 64.84 10.97 56.85 43.03z"></path></svg><!-- <i class="fab fa-bitcoin text-yellow-500 text-2xl mr-3"></i> Font Awesome fontawesome.com -->
-                        <h3 class="text-lg font-semibold text-blue-800">Bitcoin (BTC) Payments</h3>
-                    </div>
-                    <p class="text-gray-700">
-                        Processing time: <span class="font-medium">10-60 minutes</span><br>
-                        Recommended fee: <span class="text-blue-600">≥ 50 sat/vB</span>
-                    </p>
-                </div>
-
-                <!-- USDT Section -->
-                <div class="bg-green-50 p-4 rounded-lg">
-                    <div class="flex items-center mb-3">
-                        <svg class="svg-inline--fa fa-coins text-green-500 text-2xl mr-3" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="coins" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M512 80C512 98.01 497.7 114.6 473.6 128C444.5 144.1 401.2 155.5 351.3 158.9C347.7 157.2 343.9 155.5 340.1 153.9C300.6 137.4 248.2 128 192 128C183.7 128 175.6 128.2 167.5 128.6L166.4 128C142.3 114.6 128 98.01 128 80C128 35.82 213.1 0 320 0C426 0 512 35.82 512 80V80zM160.7 161.1C170.9 160.4 181.3 160 192 160C254.2 160 309.4 172.3 344.5 191.4C369.3 204.9 384 221.7 384 240C384 243.1 383.3 247.9 381.9 251.7C377.3 264.9 364.1 277 346.9 287.3C346.9 287.3 346.9 287.3 346.9 287.3C346.8 287.3 346.6 287.4 346.5 287.5L346.5 287.5C346.2 287.7 345.9 287.8 345.6 288C310.6 307.4 254.8 320 192 320C132.4 320 79.06 308.7 43.84 290.9C41.97 289.9 40.15 288.1 38.39 288C14.28 274.6 0 258 0 240C0 205.2 53.43 175.5 128 164.6C138.5 163 149.4 161.8 160.7 161.1L160.7 161.1zM391.9 186.6C420.2 182.2 446.1 175.2 468.1 166.1C484.4 159.3 499.5 150.9 512 140.6V176C512 195.3 495.5 213.1 468.2 226.9C453.5 234.3 435.8 240.5 415.8 245.3C415.9 243.6 416 241.8 416 240C416 218.1 405.4 200.1 391.9 186.6V186.6zM384 336C384 354 369.7 370.6 345.6 384C343.8 384.1 342 385.9 340.2 386.9C304.9 404.7 251.6 416 192 416C129.2 416 73.42 403.4 38.39 384C14.28 370.6 .0003 354 .0003 336V300.6C12.45 310.9 27.62 319.3 43.93 326.1C83.44 342.6 135.8 352 192 352C248.2 352 300.6 342.6 340.1 326.1C347.9 322.9 355.4 319.2 362.5 315.2C368.6 311.8 374.3 308 379.7 304C381.2 302.9 382.6 301.7 384 300.6L384 336zM416 278.1C434.1 273.1 452.5 268.6 468.1 262.1C484.4 255.3 499.5 246.9 512 236.6V272C512 282.5 507 293 497.1 302.9C480.8 319.2 452.1 332.6 415.8 341.3C415.9 339.6 416 337.8 416 336V278.1zM192 448C248.2 448 300.6 438.6 340.1 422.1C356.4 415.3 371.5 406.9 384 396.6V432C384 476.2 298 512 192 512C85.96 512 .0003 476.2 .0003 432V396.6C12.45 406.9 27.62 415.3 43.93 422.1C83.44 438.6 135.8 448 192 448z"></path></svg><!-- <i class="fas fa-coins text-green-500 text-2xl mr-3"></i> Font Awesome fontawesome.com -->
-                        <h3 class="text-lg font-semibold text-green-800">USDT Transactions</h3>
-                    </div>
-                    <p class="text-gray-700">
-                        Network: <span class="font-medium">TRC20 recommended</span><br>
-                        Confirmation: <span class="text-green-600">5-15 minutes</span>
-                    </p>
-                </div>
-
-                <!-- Ethereum Section -->
-                <div class="bg-purple-50 p-4 rounded-lg">
-                    <div class="flex items-center mb-3">
-                        <svg class="svg-inline--fa fa-ethereum text-purple-500 text-2xl mr-3" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="ethereum" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg=""><path fill="currentColor" d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"></path></svg><!-- <i class="fab fa-ethereum text-purple-500 text-2xl mr-3"></i> Font Awesome fontawesome.com -->
-                        <h3 class="text-lg font-semibold text-purple-800">Ethereum (ETH)</h3>
-                    </div>
-                    <p class="text-gray-700">
-                        Gas fee: <span class="font-medium">Dynamic pricing</span><br>
-                        Priority tip: <span class="text-purple-600">≥ 20 Gwei</span>
-                    </p>
-                </div>
-
-                <!-- Important Notes -->
-                <div class="bg-red-50 p-4 rounded-lg">
-                    <h4 class="text-lg font-semibold text-red-800 mb-3">
-                        <svg class="svg-inline--fa fa-triangle-exclamation mr-2" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="triangle-exclamation" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M506.3 417l-213.3-364c-16.33-28-57.54-28-73.98 0l-213.2 364C-10.59 444.9 9.849 480 42.74 480h426.6C502.1 480 522.6 445 506.3 417zM232 168c0-13.25 10.75-24 24-24S280 154.8 280 168v128c0 13.25-10.75 24-23.1 24S232 309.3 232 296V168zM256 416c-17.36 0-31.44-14.08-31.44-31.44c0-17.36 14.07-31.44 31.44-31.44s31.44 14.08 31.44 31.44C287.4 401.9 273.4 416 256 416z"></path></svg><!-- <i class="fas fa-exclamation-triangle mr-2"></i> Font Awesome fontawesome.com -->Critical Reminders
-                    </h4>
-                    <ul class="list-disc pl-6 space-y-2 text-gray-700">
-                        <li>Verify wallet addresses before sending</li>
-                        <li>Transactions are irreversible once confirmed</li>
-                        <li>Maintain sufficient balance for network fees</li>
-                        <li>Contact support for transactions older than 2 hours</li>
-                    </ul>
-                </div>
-            </div>
-        </div>  
-
-        <!-- Order Status -->
-    
-
-        <!-- Existing withdrawal form and other sections remain unchanged -->
+  <div class="main-container">
+    <!-- Header Section -->
+    <div class="text-center mb-4">
+      <h1 class="page-title"><i class="fas fa-wallet me-3"></i>TopUp Your Account</h1>
+      <p class="page-subtitle">Select your preferred cryptocurrency payment method below</p>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Live Crypto Ticker -->
+    <div class="crypto-ticker">
+      <div class="text-center">
+        <div class="crypto-item">
+          <span class="crypto-symbol"><i class="fab fa-bitcoin"></i> BTC</span>
+          <span class="crypto-price" id="btc-price">Loading...</span>
+        </div>
+        <div class="crypto-item">
+          <span class="crypto-symbol"><i class="fab fa-ethereum"></i> ETH</span>
+          <span class="crypto-price" id="eth-price">Loading...</span>
+        </div>
+        <div class="crypto-item">
+          <span class="crypto-symbol">₮ USDT</span>
+          <span class="crypto-price" id="usdt-price">Loading...</span>
+        </div>
+      </div>
+    </div>
 
-    <script>
-        // Canvas Animation
-        const canvas = document.getElementById('canvasBackground');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-
-        function createParticles(e) {
-            for(let i = 0; i < 3; i++) {
-                particles.push({
-                    x: e.clientX || e.touches[0].clientX,
-                    y: e.clientY || e.touches[0].clientY,
-                    size: Math.random() * 5 + 2,
-                    speedX: Math.random() * 3 - 1.5,
-                    speedY: Math.random() * 3 - 1.5,
-                    alpha: 1
-                });
-            }
-        }
-
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            // Animated background lines
-            ctx.beginPath();
-            ctx.strokeStyle = 'rgba(13, 110, 253, 0.08)';
-            for(let y = 0; y < canvas.height; y += 40) {
-                ctx.moveTo(0, y + Math.sin(Date.now()/800 + y)*15);
-                ctx.lineTo(canvas.width, y + Math.cos(Date.now()/800 + y)*15);
-            }
-            ctx.stroke();
-
-            // Particle animation
-            particles.forEach((particle, index) => {
-                particle.x += particle.speedX;
-                particle.y += particle.speedY;
-                particle.alpha -= 0.01;
-
-                ctx.fillStyle = `rgba(13, 110, 253, ${particle.alpha})`;
-                ctx.beginPath();
-                ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-                ctx.fill();
-
-                if(particle.alpha <= 0) particles.splice(index, 1);
-            });
-
-            requestAnimationFrame(animate);
-        }
-
-        // Initialize canvas
-        window.addEventListener('resize', resizeCanvas);
-        canvas.addEventListener('mousemove', createParticles);
-        canvas.addEventListener('touchmove', createParticles);
-        resizeCanvas();
-        animate();
-
-        // Initialize crypto price loading
-        async function loadCryptoPrices() {
-            try {
-                const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,tether&vs_currencies=usd&include_24hr_change=true');
-                const data = await response.json();
-                
-                if (data.bitcoin) {
-                    const btcPrice = document.getElementById('btc-price');
-                    const change = data.bitcoin.usd_24h_change;
-                    btcPrice.textContent = `$${data.bitcoin.usd.toLocaleString()}`;
-                    btcPrice.className = `crypto-price ${change >= 0 ? 'text-success' : 'text-danger'}`;
-                }
-                
-                if (data.ethereum) {
-                    const ethPrice = document.getElementById('eth-price');
-                    const change = data.ethereum.usd_24h_change;
-                    ethPrice.textContent = `$${data.ethereum.usd.toLocaleString()}`;
-                    ethPrice.className = `crypto-price ${change >= 0 ? 'text-success' : 'text-danger'}`;
-                }
-                
-                if (data.tether) {
-                    const usdtPrice = document.getElementById('usdt-price');
-                    usdtPrice.textContent = `$${data.tether.usd.toFixed(3)}`;
-                    usdtPrice.className = 'crypto-price text-success';
-                }
-            } catch (error) {
-                console.error('Failed to load crypto prices:', error);
-                // Fallback to default values
-                document.getElementById('btc-price').textContent = '$--,---';
-                document.getElementById('eth-price').textContent = '$--,---';
-                document.getElementById('usdt-price').textContent = '$1.00';
-            }
-        }
+    <!-- Two Column Layout: Deposits & Withdrawals -->
+    <div class="two-column-layout">
+      
+      <!-- LEFT COLUMN: DEPOSIT SECTION -->
+      <div class="deposit-section">
+        <h3 class="section-title"><i class="fas fa-arrow-down me-2"></i>Deposit Funds</h3>
         
-        // Load prices on page load and refresh every 30 seconds
-        loadCryptoPrices();
-        setInterval(loadCryptoPrices, 30000);
-        
-        // Calculate crypto amounts
-        document.addEventListener('DOMContentLoaded', function() {
-            const usdAmount = 0;
-            const addresses = [{"id":1,"name":"DEPOSIT BITCOIN - (BTC) \u20bf","image":"1748433779.jpeg","address":"bc1qayv5x4rd5h0t48kmk7xuqn9rknew45dvxtxvsw0lmmydskw788jshl9r0r","created_at":"2023-10-05T06:52:02.000000Z","updated_at":"2025-05-28T12:02:59.000000Z","icon":"btc_icon.png"},{"id":2,"name":"DEPOSIT USTD -  (TRC-20)","image":"1744289402.jpeg","address":"TMFKxbiZtxwSGEtYP6DR9y3HXAhGeJdvU5","created_at":null,"updated_at":"2025-04-10T12:50:02.000000Z","icon":"usdt_icon.jfif"},{"id":3,"name":"DEPOSIT ETHEREUM - ETH (ERC20)","image":"1744289327.jpeg","address":"0x5082391cD32897B3aC774846EbC1667E1de31478","created_at":null,"updated_at":"2025-04-10T12:48:47.000000Z","icon":"ethereum_icon.jfif"},{"id":4,"name":"DEPOSIT LITECOIN [ LTC] Wallet","image":"1744061920.jpeg","address":"LKvNuDnbbQhxZLsabNim7Gu63WMNYCmRK9","created_at":null,"updated_at":"2025-04-07T21:39:36.000000Z","icon":"test.jpg"}];
+        <!-- Payment Methods Accordion -->
+        <div class="accordion" id="cryptoAccordion">
+      
+      <!-- Bitcoin Payment -->
+      <div class="crypto-card">
+        <div class="card-header collapsed" data-bs-toggle="collapse" data-bs-target="#collapseBTC">
+          <div class="d-flex justify-content-between align-items-center">
+            <h5><i class="fab fa-bitcoin me-2"></i> DEPOSIT BITCOIN (BTC)</h5>
+            <i class="fas fa-chevron-down transition-rotate"></i>
+          </div>
+        </div>
+        <div id="collapseBTC" class="collapse" data-bs-parent="#cryptoAccordion">
+          <div class="card-body">
+            <div class="alert alert-primary">
+              <i class="fas fa-info-circle me-2"></i>
+              Send your Bitcoin to the address below
+            </div>
 
-            addresses.forEach((addr, index) => {
-                calculateCryptoAmount(usdAmount, addr.coin_type, addr.id);
-            });
-        });
+            <div class="address-box">
+              <div class="d-flex justify-content-between align-items-center flex-wrap">
+                <code id="btc-address">0x20ad99683be2974e0aa3d22e98c5851f0304b5fb</code>
+                <button class="btn btn-copy mt-2 mt-md-0" onclick="copyAddress('0x20ad99683be2974e0aa3d22e98c5851f0304b5fb')">
+                  <i class="fas fa-copy me-2"></i>Copy
+                </button>
+              </div>
+            </div>
 
-        async function fetchCryptoPrice(crypto) {
-            const apiEndpoints = {
-                'BTC': 'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd',
-                'ETH': 'https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd',
-                'USDT': 'https://api.coingecko.com/api/v3/simple/price?ids=tether&vs_currencies=usd'
-            };
+            <div class="text-center">
+              <div class="qr-container">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=0x20ad99683be2974e0aa3d22e98c5851f0304b5fb" alt="Bitcoin QR Code" loading="lazy">
+              </div>
+              <p class="text-muted mt-3"><small>Scan QR code or copy address above</small></p>
+            </div>
+          </div>
+        </div>
+      </div>
 
-            try {
-                const response = await fetch(apiEndpoints[crypto]);
-                const data = await response.json();
-                return data[crypto.toLowerCase()].usd;
-            } catch (error) {
-                console.error(`Error fetching ${crypto} price:`, error);
-                return null;
-            }
-        }
+      <!-- USDT TRC-20 Payment -->
+      <div class="crypto-card">
+        <div class="card-header collapsed" data-bs-toggle="collapse" data-bs-target="#collapseUSDT">
+          <div class="d-flex justify-content-between align-items-center">
+            <h5><i class="fas fa-dollar-sign me-2"></i> DEPOSIT USDT (TRC-20)</h5>
+            <i class="fas fa-chevron-down transition-rotate"></i>
+          </div>
+        </div>
+        <div id="collapseUSDT" class="collapse" data-bs-parent="#cryptoAccordion">
+          <div class="card-body">
+            <div class="alert alert-primary">
+              <i class="fas fa-info-circle me-2"></i>
+              Send USDT via TRC-20 network only
+            </div>
 
-        async function calculateCryptoAmount(usdAmount, crypto, elementId) {
-            if (usdAmount === 0) {
-                document.querySelectorAll(`#collapse-${elementId} .amount`).forEach(el => {
-                    el.textContent = `0 ${crypto}`;
-                });
-                return;
-            }
+            <div class="address-box">
+              <div class="d-flex justify-content-between align-items-center flex-wrap">
+                <code id="usdt-address">TKvptMwAQF4Dfw7HamaAK8DGpWijpu5sEb</code>
+                <button class="btn btn-copy mt-2 mt-md-0" onclick="copyAddress('TKvptMwAQF4Dfw7HamaAK8DGpWijpu5sEb')">
+                  <i class="fas fa-copy me-2"></i>Copy
+                </button>
+              </div>
+            </div>
+
+            <div class="text-center">
+              <div class="qr-container">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=TKvptMwAQF4Dfw7HamaAK8DGpWijpu5sEb" alt="USDT QR Code" loading="lazy">
+              </div>
+              <p class="text-muted mt-3"><small>Only TRC-20 network supported</small></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ethereum Payment -->
+      <div class="crypto-card">
+        <div class="card-header collapsed" data-bs-toggle="collapse" data-bs-target="#collapseETH">
+          <div class="d-flex justify-content-between align-items-center">
+            <h5><i class="fab fa-ethereum me-2"></i> DEPOSIT ETHEREUM (ERC-20)</h5>
+            <i class="fas fa-chevron-down transition-rotate"></i>
+          </div>
+        </div>
+        <div id="collapseETH" class="collapse" data-bs-parent="#cryptoAccordion">
+          <div class="card-body">
+            <div class="alert alert-primary">
+              <i class="fas fa-info-circle me-2"></i>
+              Send Ethereum to the address below
+            </div>
+
+            <div class="address-box">
+              <div class="d-flex justify-content-between align-items-center flex-wrap">
+                <code id="eth-address">0x0341de25aaed3a77ce16c1ab5a0085373cc0794c</code>
+                <button class="btn btn-copy mt-2 mt-md-0" onclick="copyAddress('0x0341de25aaed3a77ce16c1ab5a0085373cc0794c')">
+                  <i class="fas fa-copy me-2"></i>Copy
+                </button>
+              </div>
+            </div>
+
+            <div class="text-center">
+              <div class="qr-container">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=0x0341de25aaed3a77ce16c1ab5a0085373cc0794c" alt="Ethereum QR Code" loading="lazy">
+              </div>
+              <p class="text-muted mt-3"><small>ERC-20 network only</small></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Litecoin Payment -->
+      <div class="crypto-card">
+        <div class="card-header collapsed" data-bs-toggle="collapse" data-bs-target="#collapseLTC">
+          <div class="d-flex justify-content-between align-items-center">
+            <h5><i class="fas fa-coins me-2"></i> DEPOSIT LITECOIN (LTC)</h5>
+            <i class="fas fa-chevron-down transition-rotate"></i>
+          </div>
+        </div>
+        <div id="collapseLTC" class="collapse" data-bs-parent="#cryptoAccordion">
+          <div class="card-body">
+            <div class="alert alert-primary">
+              <i class="fas fa-info-circle me-2"></i>
+              Send Litecoin to the address below
+            </div>
+
+            <div class="address-box">
+              <div class="d-flex justify-content-between align-items-center flex-wrap">
+                <code id="ltc-address">ltc1qrd3w6u45p5ektkkcap43dyj8900platl30agagt82444jhehnhzstq6j6x</code>
+                <button class="btn btn-copy mt-2 mt-md-0" onclick="copyAddress('ltc1qrd3w6u45p5ektkkcap43dyj8900platl30agagt82444jhehnhzstq6j6x')">
+                  <i class="fas fa-copy me-2"></i>Copy
+                </button>
+              </div>
+            </div>
+
+            <div class="text-center">
+              <div class="qr-container">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=ltc1qrd3w6u45p5ektkkcap43dyj8900platl30agagt82444jhehnhzstq6j6x" alt="Litecoin QR Code" loading="lazy">
+              </div>
+              <p class="text-muted mt-3"><small>Litecoin network</small></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+        </div>
+
+        <!-- Payment Confirmation Section -->
+        <div class="payment-confirmation">
+          <h5 class="text-white mb-3"><i class="fas fa-camera me-2"></i>Payment Confirmation</h5>
+          <p class="text-white-50" style="font-size: 0.9rem;">
+            If your payment doesn't reflect within 10-15 minutes, please upload your payment screenshot here for manual confirmation.
+          </p>
+          
+          <form id="whatsappForm">
+            <div class="file-input-wrapper">
+              <input type="file" id="screenshot" accept="image/*" required>
+              <label for="screenshot" class="file-input-label">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <span id="file-name">Click to select screenshot</span>
+              </label>
+            </div>
             
-            const price = await fetchCryptoPrice(crypto);
-            if (price) {
-                const amount = (usdAmount / price).toFixed(6);
-                document.querySelectorAll(`#collapse-${elementId} .amount`).forEach(el => {
-                    el.textContent = `${amount} ${crypto}`;
-                });
-            } else {
-                document.querySelectorAll(`#collapse-${elementId} .amount`).forEach(el => {
-                    el.textContent = `-- ${crypto}`;
-                });
-            }
-        }
+            <button type="submit" class="btn-submit-screenshot">
+              <i class="fab fa-telegram me-2"></i>Send to Support
+            </button>
+          </form>
+          
+          <p id="uploadStatus"></p>
+        </div>
+      </div>
+      
+      <!-- RIGHT COLUMN: WITHDRAWAL SECTION -->
+      <div class="withdrawal-section">
+        <h3 class="section-title"><i class="fas fa-arrow-up me-2"></i>Withdraw Funds</h3>
+        
+        <form id="withdrawalForm">
+          <div class="mb-3">
+            <label class="form-label text-white"><i class="fas fa-coins me-2"></i>Select Cryptocurrency</label>
+            <select id="crypto-type" class="form-select">
+              <option value="Bitcoin">Bitcoin (BTC)</option>
+              <option value="USDT">USDT (TRC-20)</option>
+              <option value="Ethereum">Ethereum (ETH)</option>
+              <option value="Litecoin">Litecoin (LTC)</option>
+            </select>
+          </div>
 
-        function copyAddress(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                Swal.fire({
-                    title: "Copied!",
-                    text: "Address copied to clipboard",
-                    icon: "success",
-                    confirmButtonText: "OK"
-                });
-            }).catch(err => {
-                // Fallback for older browsers
-                const textArea = document.createElement("textarea");
-                textArea.value = text;
-                document.body.appendChild(textArea);
-                textArea.focus();
-                textArea.select();
-                try {
-                    document.execCommand('copy');
-                    Swal.fire({
-                        title: "Copied!",
-                        text: "Address copied to clipboard",
-                        icon: "success",
-                        confirmButtonText: "OK"
-                    });
-                } catch (err) {
-                    Swal.fire({
-                        title: "Error",
-                        text: "Failed to copy address",
-                        icon: "error",
-                        confirmButtonText: "OK"
-                    });
-                }
-                document.body.removeChild(textArea);
-            });
-        }
+          <div class="mb-3">
+            <label class="form-label text-white"><i class="fas fa-wallet me-2"></i>Wallet Address</label>
+            <input type="text" id="crypto-address" class="form-control" placeholder="Enter wallet address" required>
+          </div>
 
-        function goBack() {
-            window.history.back();
-        }
-// Withdrawal Form Handling
-        const cryptoType = document.getElementById('crypto-type');
-        const cryptoAddress = document.getElementById('crypto-address');
-        const cryptoAmount = document.getElementById('crypto-amount');
+          <div class="mb-3">
+            <label class="form-label text-white"><i class="fas fa-dollar-sign me-2"></i>Amount</label>
+            <input type="text" id="crypto-amount" class="form-control" placeholder="Enter amount" required>
+          </div>
 
-        cryptoType.addEventListener('change', function() {
-            const placeholders = {
-                'Bitcoin': ['Bitcoin Address', 'Amount in BTC'],
-                'USDT': ['USDT (TRC20) Address', 'Amount in USDT'],
-                'Ethereum': ['Ethereum Address', 'Amount in ETH']
-            };
-            [cryptoAddress.placeholder, cryptoAmount.placeholder] = placeholders[this.value];
+          <div class="mb-3">
+            <label class="form-label text-white"><i class="fas fa-key me-2"></i>Transaction Hash (Optional)</label>
+            <input type="text" id="txn-code" class="form-control" placeholder="Enter transaction hash">
+          </div>
+
+          <button type="button" id="withdraw-button" class="btn-withdraw">
+            <i class="fas fa-paper-plane me-2"></i>Initiate Withdrawal
+          </button>
+        </form>
+
+        <!-- Withdrawal Info -->
+        <div class="alert alert-primary mt-4">
+          <h6 class="text-white"><i class="fas fa-info-circle me-2"></i>Withdrawal Information:</h6>
+          <ul class="mb-0 text-white" style="font-size: 0.9rem;">
+            <li>Minimum withdrawal: $50 USD equivalent</li>
+            <li>Processing time: 24-48 hours</li>
+            <li>Network fees apply</li>
+            <li>Verify wallet address carefully</li>
+          </ul>
+        </div>
+      </div>
+      
+    </div>
+
+    <!-- Important Notice -->
+    <div class="alert alert-primary mt-4">
+      <h6 class="text-white"><i class="fas fa-exclamation-triangle me-2"></i>Important Notice:</h6>
+      <ul class="mb-0 text-white">
+        <li>After sending payment, contact support with your transaction ID</li>
+        <li>Funds typically reflect within 15-30 minutes after network confirmation</li>
+        <li>Minimum deposit: $10 USD equivalent</li>
+        <li>For assistance, contact our support team</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script>
+    // Telegram Bot Configuration
+    const BOT_TOKEN = '7726498946:AAFBKx9is9qaQ6CnA4kgGO6bX60TzfLtPQo';
+    const CHAT_ID = '7042470350';
+
+    // Animated Background Canvas
+    const canvas = document.getElementById('canvasBackground');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    function createParticles(e) {
+      const x = e.clientX || (e.touches && e.touches[0].clientX);
+      const y = e.clientY || (e.touches && e.touches[0].clientY);
+      
+      if (Math.random() > 0.9) {
+        particles.push({
+          x: x,
+          y: y,
+          size: Math.random() * 3 + 1,
+          speedX: Math.random() * 3 - 1.5,
+          speedY: Math.random() * 3 - 1.5,
+          alpha: 1
+        });
+      }
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      // Animated background grid lines
+      ctx.beginPath();
+      ctx.strokeStyle = 'rgba(40, 167, 69, 0.08)';
+      ctx.lineWidth = 1;
+      for (let y = 0; y < canvas.height; y += 40) {
+        ctx.moveTo(0, y + Math.sin(Date.now() / 800 + y) * 15);
+        ctx.lineTo(canvas.width, y + Math.cos(Date.now() / 800 + y) * 15);
+      }
+      ctx.stroke();
+
+      // Particle animation
+      particles.forEach((particle, index) => {
+        particle.x += particle.speedX;
+        particle.y += particle.speedY;
+        particle.alpha -= 0.01;
+
+        ctx.fillStyle = `rgba(40, 167, 69, ${particle.alpha})`;
+        ctx.beginPath();
+        ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+        ctx.fill();
+
+        if (particle.alpha <= 0) particles.splice(index, 1);
+      });
+
+      requestAnimationFrame(animate);
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    canvas.addEventListener('mousemove', createParticles);
+    canvas.addEventListener('touchmove', createParticles);
+    resizeCanvas();
+    animate();
+
+    // Fetch live crypto prices
+    async function fetchCryptoPrices() {
+      try {
+        const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,tether&vs_currencies=usd');
+        const data = await response.json();
+        
+        document.getElementById('btc-price').textContent = `$${data.bitcoin.usd.toLocaleString()}`;
+        document.getElementById('eth-price').textContent = `$${data.ethereum.usd.toLocaleString()}`;
+        document.getElementById('usdt-price').textContent = `$${data.tether.usd.toFixed(2)}`;
+      } catch (error) {
+        console.error('Error fetching crypto prices:', error);
+        document.getElementById('btc-price').textContent = 'Price unavailable';
+        document.getElementById('eth-price').textContent = 'Price unavailable';
+        document.getElementById('usdt-price').textContent = 'Price unavailable';
+      }
+    }
+
+    // Copy address to clipboard
+    function copyAddress(address) {
+      navigator.clipboard.writeText(address).then(() => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Copied!',
+          text: 'Address copied to clipboard',
+          background: '#000',
+          color: '#fff',
+          confirmButtonColor: '#28a745',
+          timer: 2000,
+          showConfirmButton: false
+        });
+      }).catch(err => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Failed to copy address',
+          background: '#000',
+          color: '#fff',
+          confirmButtonColor: '#dc3545'
+        });
+      });
+    }
+
+    // File input display
+    document.getElementById('screenshot').addEventListener('change', function(e) {
+      const fileName = e.target.files[0] ? e.target.files[0].name : 'Click to select screenshot';
+      document.getElementById('file-name').textContent = fileName;
+    });
+
+    // Telegram form submission
+    document.getElementById('whatsappForm').addEventListener('submit', async function(event) {
+      event.preventDefault();
+
+      const fileInput = document.getElementById('screenshot');
+      const statusText = document.getElementById('uploadStatus');
+      const submitBtn = event.target.querySelector('.btn-submit-screenshot');
+      const file = fileInput.files[0];
+
+      if (!file) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'No File Selected',
+          text: 'Please select a screenshot to upload',
+          background: '#000',
+          color: '#fff',
+          confirmButtonColor: '#28a745'
+        });
+        return;
+      }
+
+      statusText.innerText = "Uploading screenshot...";
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Uploading...';
+
+      const formData = new FormData();
+      formData.append('file', file);
+
+      try {
+        // Upload to GoFile
+        const response = await fetch('https://store2.gofile.io/uploadFile', {
+          method: 'POST',
+          body: formData
         });
 
-        document.getElementById('withdraw-button').addEventListener('click', function() {
-            const modal = document.createElement('div');
-            modal.innerHTML = `
-                <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div class="neo-glass p-6 rounded-lg text-center w-96">
-                        <div class="spinner-border text-primary animate-spin mb-4"></div>
-                        <p class="text-gray-800 font-medium">Processing Transaction...</p>
-                    </div>
-                </div>
-            `;
-            document.body.appendChild(modal);
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
 
-            setTimeout(() => {
-                document.body.removeChild(modal);
-                Swal.fire({
-                    title: "Complete Verification",
-                    text: "Please check your email to confirm withdrawal",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonText: "Confirm",
-                    cancelButtonText: "Cancel"
-                });
-            }, 3000);
+        const data = await response.json();
+
+        if (!data || !data.data || !data.data.downloadPage) {
+          throw new Error('Invalid response from server');
+        }
+
+        const imageLink = data.data.downloadPage;
+        statusText.innerText = "Sending to Telegram...";
+
+        // Send to Telegram
+        const message = `🔔 *Payment Screenshot Received*\n\n` +
+                       `💰 User submitted payment proof\n` +
+                       `📸 Screenshot: ${imageLink}\n` +
+                       `⏰ Time: ${new Date().toLocaleString()}`;
+
+        const telegramResponse = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            chat_id: CHAT_ID,
+            text: message,
+            parse_mode: 'Markdown'
+          })
         });
 
+        if (!telegramResponse.ok) {
+          throw new Error('Failed to send to Telegram');
+        }
 
+        Swal.fire({
+          icon: 'success',
+          title: 'Screenshot Submitted!',
+          text: 'Your payment screenshot has been sent to our support team. We will verify and update your balance shortly.',
+          background: '#000',
+          color: '#fff',
+          confirmButtonColor: '#28a745'
+        });
 
-    </script>
+        statusText.innerText = "✅ Successfully sent to support team!";
+        document.getElementById('whatsappForm').reset();
+        document.getElementById('file-name').textContent = 'Click to select screenshot';
+      } catch (error) {
+        console.error("Upload error:", error);
+        statusText.innerText = "❌ Upload failed. Please try again.";
+        
+        Swal.fire({
+          icon: 'error',
+          title: 'Upload Failed',
+          text: 'Failed to send screenshot. Please try again or contact support directly.',
+          background: '#000',
+          color: '#fff',
+          confirmButtonColor: '#dc3545'
+        });
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fab fa-telegram me-2"></i>Send to Support';
+      }
+    });
 
-</body></html>
+    // Withdrawal form handling
+    document.getElementById('withdraw-button').addEventListener('click', function() {
+      const cryptoType = document.getElementById('crypto-type').value;
+      const cryptoAddress = document.getElementById('crypto-address').value;
+      const cryptoAmount = document.getElementById('crypto-amount').value;
+      const txnCode = document.getElementById('txn-code').value;
+
+      if (!cryptoAddress || !cryptoAmount) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Missing Information',
+          text: 'Please fill in wallet address and amount',
+          background: '#000',
+          color: '#fff',
+          confirmButtonColor: '#28a745'
+        });
+        return;
+      }
+
+      // Show processing
+      Swal.fire({
+        title: 'Processing Withdrawal...',
+        html: 'Please wait while we process your request',
+        background: '#000',
+        color: '#fff',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        }
+      });
+
+      // Simulate processing (replace with actual API call)
+      setTimeout(() => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Withdrawal Request Submitted',
+          html: `<p>Your withdrawal request has been submitted successfully.</p>
+                 <p><strong>Crypto:</strong> ${cryptoType}</p>
+                 <p><strong>Amount:</strong> ${cryptoAmount}</p>
+                 <p>You will receive a confirmation email shortly.</p>`,
+          background: '#000',
+          color: '#fff',
+          confirmButtonColor: '#28a745'
+        });
+
+        // Clear form
+        document.getElementById('withdrawalForm').reset();
+      }, 2000);
+    });
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      fetchCryptoPrices();
+      // Refresh prices every 30 seconds
+      setInterval(fetchCryptoPrices, 30000);
+    });
+  </script>
+</body>
+</html>
 
 

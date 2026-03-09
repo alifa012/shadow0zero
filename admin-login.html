@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .login-container {
+            background: #2d2d2d;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            border: 1px solid #28a745;
+            width: 100%;
+            max-width: 400px;
+        }
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .login-header h2 {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .login-header i {
+            font-size: 3em;
+            color: #28a745;
+            margin-bottom: 15px;
+        }
+        .form-control {
+            background: #1a1a1a;
+            border: 1px solid #444;
+            color: #fff;
+            padding: 12px;
+            margin-bottom: 15px;
+        }
+        .form-control:focus {
+            background: #1a1a1a;
+            border-color: #28a745;
+            color: #fff;
+            box-shadow: 0 0 0 0.25rem rgba(40, 167, 69, 0.25);
+        }
+        .form-control::placeholder {
+            color: #888;
+        }
+        .btn-login {
+            background: #28a745;
+            border: none;
+            padding: 12px;
+            font-weight: bold;
+            width: 100%;
+            transition: all 0.3s;
+        }
+        .btn-login:hover {
+            background: #218838;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
+        }
+        .error-message {
+            background: #dc3545;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            display: none;
+        }
+    </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <i class="fas fa-shield-alt"></i>
+            <h2>Admin Access</h2>
+            <p style="color: #aaa; margin: 0;">Secure Login</p>
+        </div>
+        
+        <div class="error-message" id="errorMessage"></div>
+        
+        <form id="loginForm">
+            <input type="email" class="form-control" id="email" placeholder="Admin Email" required>
+            <input type="password" class="form-control" id="password" placeholder="Password" required>
+            <button type="submit" class="btn btn-primary btn-login">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </button>
+        </form>
+    </div>
+
+    <script>
+        // Simple admin credentials (change these!)
+        const ADMIN_EMAIL = "arianatems1@gmail.com";
+        const ADMIN_PASSWORD = "Wise1@0001@";
+
+        // Check if already logged in
+        if (localStorage.getItem('adminLoggedIn') === 'true') {
+            window.location.href = 'admin-dashboard.html';
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorMsg = document.getElementById('errorMessage');
+
+            // Simple password check
+            if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+                // Store login session
+                localStorage.setItem('adminLoggedIn', 'true');
+                localStorage.setItem('adminEmail', email);
+                window.location.href = 'admin-dashboard.html';
+            } else {
+                errorMsg.textContent = 'Invalid email or password';
+                errorMsg.style.display = 'block';
+                
+                // Clear error after 3 seconds
+                setTimeout(() => {
+                    errorMsg.style.display = 'none';
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>

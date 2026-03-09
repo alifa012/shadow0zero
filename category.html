@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Category - Shadowlogs</title>
+  
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Tingle Modal -->
+  <link rel="stylesheet" href="https://unpkg.com/tingle.js@0.15.3/dist/tingle.min.css">
+  
+  <style>
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #12121a;
+      --bg-card: rgba(26, 26, 40, 0.6);
+      --brand-primary: #28a745;
+      --brand-accent: #e91e63;
+      --glass-bg: rgba(18, 18, 26, 0.7);
+      --glass-border: rgba(255, 255, 255, 0.1);
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.7);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      position: relative;
+    }
+    
+    /* Film grain overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,.02) 2px, rgba(255,255,255,.02) 4px);
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.3;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+      padding: 1rem;
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      border-radius: 12px;
+      border: 1px solid var(--glass-border);
+    }
+    
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 8px;
+      color: var(--text-primary);
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    
+    .back-btn:hover {
+      background: var(--brand-primary);
+      color: white;
+      border-color: var(--brand-primary);
+      transform: translateY(-2px);
+    }
+    
+    .category-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    
+    .category-title {
+      font-size: 3rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #ffffff, var(--brand-primary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .category-description {
+      font-size: 1.2rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    
+    /* Dark Theme Product Card Styles */
+    .product-card {
+        background-color: #1a1a1a;
+        border: 1px solid #2d2d2d;
+        border-radius: 12px;
+        padding: 20px;
+        transition: all 0.3s ease;
+        color: #f0f0f0;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 255, 255, 0.1);
+    }
+
+    .product-image {
+        width: 100%;
+        height: 250px;
+        overflow: hidden;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid #00ffff;
+        background-color: #111;
+    }
+
+    .product-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .product-card:hover .product-image img {
+        transform: scale(1.05);
+    }
+
+    .product-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #00ffff;
+        margin-bottom: 10px;
+    }
+
+    .description-container {
+        max-height: 180px;
+        overflow-y: auto;
+        margin-bottom: 15px;
+        padding: 10px;
+        background-color: #111;
+        border: 1px solid #333;
+        border-radius: 6px;
+        color: #cccccc;
+        font-size: 0.95rem;
+    }
+
+    /* Scrollbar styling */
+    .description-container::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .description-container::-webkit-scrollbar-track {
+        background: #1a1a1a;
+        border-left: 1px solid #333;
+    }
+
+    .description-container::-webkit-scrollbar-thumb {
+        background: #00ffff;
+        border-radius: 4px;
+        border: 2px solid #1a1a1a;
+    }
+
+    .price-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        padding: 10px;
+        background-color: #2d2d2d;
+        border-radius: 6px;
+    }
+
+    .price-text {
+        font-size: 1.1rem;
+        font-weight: bold;
+        color: #00ffff;
+    }
+
+    .status-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        padding-top: 15px;
+        border-top: 1px solid #2d2d2d;
+        margin-top: auto;
+        align-items: center;
+    }
+
+    .dark-btn {
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        border: none;
+        cursor: pointer;
+        flex: 1;
+    }
+
+    .btn-available {
+        background-color: #00ffff;
+        color: #000;
+    }
+
+    .btn-available:hover {
+        background-color: #00cccc;
+    }
+
+    .btn-sold {
+        background-color: #ff4444;
+        color: #fff;
+        cursor: not-allowed;
+    }
+    
+    .badge {
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+    
+    .bg-success {
+      background-color: #28a745;
+      color: white;
+    }
+    
+    .bg-danger {
+      background-color: #dc3545;
+      color: white;
+    }
+    
+    .product-name {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
+    }
+    
+    .product-balance {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--brand-primary);
+      margin-bottom: 1rem;
+    }
+    
+    .product-details {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--glass-border);
+    }
+    
+    .product-user {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+    }
+    
+    .product-price {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    
+    .loading {
+      text-align: center;
+      padding: 3rem;
+      color: var(--text-secondary);
+    }
+    
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 4px solid var(--glass-border);
+      border-top-color: var(--brand-primary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 1rem;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: 4rem 2rem;
+    }
+    
+    .empty-state i {
+      font-size: 4rem;
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+    }
+    
+    .empty-state h3 {
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+    }
+    
+    .empty-state p {
+      color: var(--text-secondary);
+    }
+    
+    @media (max-width: 768px) {
+      .category-title {
+        font-size: 2rem;
+      }
+      
+      .products-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <a href="/home.html" class="back-btn">
+        <i class="fas fa-arrow-left"></i>
+        Back to Home
+      </a>
+    </div>
+    
+    <div class="category-header">
+      <h1 class="category-title" id="categoryName">Loading...</h1>
+      <p class="category-description" id="categoryDescription"></p>
+    </div>
+    
+    <div id="productsContainer">
+      <div class="loading">
+        <div class="spinner"></div>
+        <p>Loading products...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase -->
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.9.0/firebase-app.js';
+    import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.9.0/firebase-auth.js';
+    import { getFirestore, collection, query, where, getDocs, orderBy } from 'https://www.gstatic.com/firebasejs/11.9.0/firebase-firestore.js';
+    
+    // Firebase config for authentication (ec4ca project - where users are)
+    const authConfig = {
+      apiKey: "AIzaSyBXC6A6NaL1WSHrfCNAuMeYZqx9DFZyToY",
+      authDomain: "shadowlogsshop-ec4ca.firebaseapp.com",
+      projectId: "shadowlogsshop-ec4ca",
+      storageBucket: "shadowlogsshop-ec4ca.appspot.com",
+      messagingSenderId: "709594271975",
+      appId: "1:709594271975:web:6a4bfc8bdcbc51c2859242",
+      measurementId: "G-WNEH2RQPVP"
+    };
+    
+    // Firebase config for categories/products (shadowlogsshop project)
+    const dataConfig = {
+      apiKey: "AIzaSyDYon3KKPHbZ-CO4CDsWiU02AYHocXqb1s",
+      authDomain: "shadowlogsshop.firebaseapp.com",
+      projectId: "shadowlogsshop",
+      storageBucket: "shadowlogsshop.firebasestorage.app",
+      messagingSenderId: "568187276796",
+      appId: "1:568187276796:web:cb900b5d70c83b0bef9ce5"
+    };
+    
+    // Initialize both Firebase apps
+    const authApp = initializeApp(authConfig);
+    const dataApp = initializeApp(dataConfig, 'data-app');
+    
+    // Get services from the correct projects
+    const auth = getAuth(authApp);        // Auth from ec4ca project
+    const db = getFirestore(dataApp);     // Data from shadowlogsshop project
+    
+    // Get category slug from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const categorySlug = urlParams.get('category');
+    
+    if (!categorySlug) {
+      // Redirect to home if no category specified
+      window.location.href = '/home.html';
+    }
+    
+    // Check authentication
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        // Redirect to login if not authenticated
+        window.location.href = '/login.html';
+        return;
+      }
+      
+      // Load category and products
+      await loadCategory(categorySlug);
+    });
+    
+    async function loadCategory(slug) {
+      try {
+        console.log('Loading category:', slug);
+        
+        // Find category by slug
+        const categoriesQuery = query(
+          collection(db, 'categories'),
+          where('slug', '==', slug),
+          where('active', '==', true)
+        );
+        
+        const categorySnapshot = await getDocs(categoriesQuery);
+        
+        if (categorySnapshot.empty) {
+          showError('Category not found');
+          return;
+        }
+        
+        const categoryDoc = categorySnapshot.docs[0];
+        const category = { id: categoryDoc.id, ...categoryDoc.data() };
+        
+        // Update page header
+        document.getElementById('categoryName').textContent = category.name;
+        document.getElementById('categoryDescription').textContent = category.description || '';
+        document.title = `${category.name} - Shadowlogs`;
+        
+        // Load products for this category
+        await loadProducts(category.id, category.name);
+        
+      } catch (error) {
+        console.error('Error loading category:', error);
+        showError('Failed to load category');
+      }
+    }
+    
+    async function loadProducts(categoryId, categoryName) {
+      try {
+        // Query products for this category
+        // No orderBy to avoid composite index requirement
+        const productsQuery = query(
+          collection(db, 'products'),
+          where('categoryId', '==', categoryId)
+        );
+        
+        const productsSnapshot = await getDocs(productsQuery);
+        
+        const container = document.getElementById('productsContainer');
+        
+        if (productsSnapshot.empty) {
+          container.innerHTML = `
+            <div class="empty-state">
+              <i class="fas fa-box-open"></i>
+              <h3>No Products Available</h3>
+              <p>There are currently no products in the ${categoryName} category.</p>
+              <p style="margin-top: 1rem;">
+                <a href="/home.html" class="back-btn">Browse Other Categories</a>
+              </p>
+            </div>
+          `;
+          return;
+        }
+        
+        // Render products
+        const products = [];
+        productsSnapshot.forEach(doc => {
+          products.push({ id: doc.id, ...doc.data() });
+        });
+        
+        container.innerHTML = `
+          <div class="row gy-4">
+            ${products.map(product => renderProductCard(product)).join('')}
+          </div>
+        `;
+        
+        console.log(`✅ Loaded ${products.length} products`);
+        
+      } catch (error) {
+        console.error('Error loading products:', error);
+        showError('Failed to load products');
+      }
+    }
+    
+    function renderProductCard(product) {
+      const statusClass = product.status === 'available' ? 'bg-success' : 'bg-danger';
+      const statusText = product.status === 'available' ? 'Available' : 'Sold';
+      const balance = product.balance || 0;
+      const price = product.price || 0;
+      const title = product.title || 'Untitled Product';
+      const description = product.description || 'No description available';
+      const image = product.image || '';
+      
+      // Only show image if it exists
+      const imageHtml = image ? `
+        <div class="product-image">
+          <img src="assets/images/${image}" alt="${title}" onerror="this.parentElement.style.display='none'">
+        </div>
+      ` : '';
+      
+      return `
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="product-card">
+            ${imageHtml}
+
+            <!-- Product Title -->
+            <h5 class="product-title">${title}</h5>
+
+            <!-- Scrollable Description -->
+            <div class="description-container">
+              <p>${description}</p>
+            </div>
+
+            <!-- Price Section -->
+            <div class="price-section">
+              <span>Price:</span>
+              <span class="price-text">$${price.toFixed(2)}</span>
+            </div>
+            
+            <div class="price-section">
+              <span>Balance:</span>
+              <span class="price-text">$${balance.toLocaleString()}</span>
+            </div>
+
+            <!-- Status & Actions -->
+            <div class="status-container">
+              ${product.status === 'available' ? 
+                `<button class="dark-btn btn-available" onclick="confirmPurchase('${product.id}')">
+                  <i class="fa-solid fa-bag-shopping" aria-hidden="true"></i> Buy Now
+                </button>` :
+                `<button class="dark-btn btn-sold" disabled>
+                  <i class="fa-solid fa-times" aria-hidden="true"></i> Sold Out
+                </button>`
+              }
+              <span class="badge ${statusClass}">${statusText}</span>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+    
+    function showError(message) {
+      const container = document.getElementById('productsContainer');
+      container.innerHTML = `
+        <div class="empty-state">
+          <i class="fas fa-exclamation-triangle"></i>
+          <h3>Error</h3>
+          <p>${message}</p>
+          <p style="margin-top: 1rem;">
+            <a href="/home.html" class="back-btn">Return to Home</a>
+          </p>
+        </div>
+      `;
+    }
+    
+    window.confirmPurchase = function(productId) {
+        const userEmail = localStorage.getItem('userEmail') || 'customer@example.com';
+
+        const modal = new tingle.modal({
+            closeMethods: ["overlay", "escape"],
+            closeLabel: "Close",
+            cssClass: ["custom-class-1", "custom-class-2"],
+            onClose: function () {
+                modal.destroy();
+            },
+        });
+
+         modal.setContent(`
+            <div style="padding: 20px; background: linear-gradient(135deg, rgba(18, 18, 26, 0.95) 0%, rgba(26, 26, 40, 0.9) 100%); border-radius: 12px; border: 1px solid rgba(0, 255, 255, 0.2); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);">
+                <div style="text-align: center; margin-bottom: 24px;">
+                    <div style="display: inline-flex; align-items: center; justify-content: center; width: 60px; height: 60px; background: linear-gradient(135deg, #00ffff20, #00ffff10); border: 2px solid #00ffff; border-radius: 50%; margin-bottom: 16px;">
+                        <i class="fas fa-envelope" style="color: #00ffff; font-size: 24px;"></i>
+                    </div>
+                    <h2 style="color: #00ffff; font-size: 24px; font-weight: 600; margin: 0; letter-spacing: -0.5px;">Delivery Information</h2>
+                    <p style="color: rgba(255, 255, 255, 0.7); font-size: 14px; margin: 8px 0 0 0; line-height: 1.5;">Your invoice and product details will be sent securely</p>
+                </div>
+                
+                <div style="background: rgba(0, 0, 0, 0.2); padding: 16px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom: 20px;">
+                    <div style="display: flex; align-items: center; margin-bottom: 8px;">
+                        <i class="fas fa-info-circle" style="color: #00ffff; margin-right: 8px; font-size: 14px;"></i>
+                        <span style="color: rgba(255, 255, 255, 0.8); font-size: 13px; font-weight: 500;">Current Email Address</span>
+                    </div>
+                    <p style="color: #ffffff; font-size: 14px; margin: 0; font-family: monospace; background: rgba(0, 255, 255, 0.1); padding: 8px; border-radius: 4px; border-left: 3px solid #00ffff;">${userEmail}</p>
+                </div>
+                
+                <div style="margin-bottom: 24px;">
+                    <label style="display: block; color: rgba(255, 255, 255, 0.9); font-size: 14px; font-weight: 500; margin-bottom: 8px;">
+                        <i class="fas fa-at" style="color: #00ffff; margin-right: 8px;"></i>
+                        Confirm Email Address
+                    </label>
+                    <input type="email" id="customEmail" class="tingle-email" placeholder="Enter your email address to proceed" 
+                           style="width: 100%; padding: 16px; background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; color: #ffffff; font-size: 14px; transition: all 0.3s ease; outline: none;"
+                           onfocus="this.style.borderColor='#00ffff'; this.style.boxShadow='0 0 0 3px rgba(0, 255, 255, 0.1)'"
+                           onblur="this.style.borderColor='rgba(255, 255, 255, 0.2)'; this.style.boxShadow='none'">
+                </div>
+                
+                <div style="display: flex; gap: 12px; justify-content: space-between;">
+                    <button id="backBtn" style="flex: 1; padding: 14px 20px; background: transparent; border: 1px solid rgba(255, 255, 255, 0.3); color: rgba(255, 255, 255, 0.8); border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 8px;"
+                            onmouseover="this.style.background='rgba(255, 255, 255, 0.1)'; this.style.borderColor='rgba(255, 255, 255, 0.5)'; this.style.color='#ffffff'"
+                            onmouseout="this.style.background='transparent'; this.style.borderColor='rgba(255, 255, 255, 0.3)'; this.style.color='rgba(255, 255, 255, 0.8)'">
+                        <i class="fas fa-arrow-left" style="font-size: 12px;"></i>
+                        Back
+                    </button>
+                    <button id="proceedBtn" class="tingle-btn" style="flex: 2; padding: 14px 24px; background: linear-gradient(135deg, #00ffff, #00e6e6); border: none; border-radius: 8px; color: #000000; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 15px rgba(0, 255, 255, 0.3);"
+                            onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(0, 255, 255, 0.4)'"
+                            onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(0, 255, 255, 0.3)'">
+                        <i class="fas fa-paper-plane" style="font-size: 12px;"></i>
+                        Proceed to Checkout
+                    </button>
+                </div>
+                
+                <div style="margin-top: 20px; padding-top: 16px; border-top: 1px solid rgba(255, 255, 255, 0.1); text-align: center;">
+                    <p style="color: rgba(255, 255, 255, 0.5); font-size: 12px; margin: 0; line-height: 1.4;">
+                        <i class="fas fa-shield-alt" style="margin-right: 4px; color: #00ffff;"></i>
+                        Your information is secure and encrypted
+                    </p>
+                </div>
+            </div>
+        `);
+
+        modal.open();
+
+        document.getElementById("proceedBtn").addEventListener("click", function() {
+            const enteredEmail = document.getElementById("customEmail").value;
+            if (!enteredEmail || !/^\S+@\S+\.\S+$/.test(enteredEmail)) {
+                alert("Please enter a valid email.");
+                return;
+            }
+
+            const form = document.createElement("form");
+            form.method = "POST";
+            form.action = `/order_product/${productId}`;
+
+            const csrf = document.createElement("input");
+            csrf.type = "hidden";
+            csrf.name = "_token";
+            csrf.value = "63zOxwNthP2Ah5zXfvWdKn2mzUmHJfnIctF7R2vB";
+            form.appendChild(csrf);
+
+            const emailInput = document.createElement("input");
+            emailInput.type = "hidden";
+            emailInput.name = "custom_email";
+            emailInput.value = enteredEmail;
+            form.appendChild(emailInput);
+
+            document.body.appendChild(form);
+            form.submit();
+        });
+
+        document.getElementById("backBtn").addEventListener("click", function() {
+            modal.close();
+        });
+    };
+  </script>
+  
+  <!-- Tingle Modal JS -->
+  <script src="https://unpkg.com/tingle.js@0.15.3/dist/tingle.min.js"></script>
+</body>
+</html>

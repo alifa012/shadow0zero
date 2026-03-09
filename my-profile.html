@@ -1,0 +1,1712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile — Shadowlogs</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+  
+  <!-- Bootstrap (minimal usage) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <style>
+    /* ============================================= */
+    /* DESIGN TOKENS - Cinematic Sci-Fi Theme */
+    /* ============================================= */
+    :root {
+      /* Colors - Dark Cinematic Palette */
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #12121a;
+      --bg-tertiary: #1a1a28;
+      --bg-card: rgba(26, 26, 40, 0.6);
+      --bg-hover: rgba(40, 167, 69, 0.08);
+      
+      /* Brand Colors */
+      --brand-primary: #28a745;
+      --brand-secondary: #20c997;
+      --brand-accent: #e91e63;
+      --brand-warning: #ffc107;
+      --brand-danger: #dc3545;
+      
+      /* Text Colors */
+      --text-primary: #e8e8f0;
+      --text-secondary: #a0a0b8;
+      --text-muted: #6a6a88;
+      --text-inverse: #0a0a0f;
+      
+      /* Glass Morphism */
+      --glass-bg: rgba(26, 26, 40, 0.4);
+      --glass-border: rgba(255, 255, 255, 0.06);
+      --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      
+      /* Shadows & Glows */
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+      --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+      --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+      --glow-green: 0 0 20px rgba(40, 167, 69, 0.3);
+      --glow-pink: 0 0 20px rgba(233, 30, 99, 0.3);
+      
+      /* Spacing */
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2rem;
+      --space-2xl: 3rem;
+      
+      /* Border Radius */
+      --radius-sm: 6px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+      
+      /* Typography */
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+      
+      /* Transitions */
+      --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-base: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    /* ============================================= */
+    /* GLOBAL STYLES */
+    /* ============================================= */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+    
+    /* Film Grain Effect (Subtle) */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,.02) 2px, rgba(255,255,255,.02) 4px);
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.3;
+    }
+    
+    /* Animated Background Gradient */
+    body::after {
+      content: '';
+      position: fixed;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: 
+        radial-gradient(circle at 20% 50%, rgba(40, 167, 69, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(233, 30, 99, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 40% 20%, rgba(32, 201, 151, 0.03) 0%, transparent 50%);
+      animation: gradientShift 20s ease infinite;
+      z-index: -1;
+    }
+    
+    @keyframes gradientShift {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      25% { transform: translate(5%, 5%) rotate(90deg); }
+      50% { transform: translate(0, 10%) rotate(180deg); }
+      75% { transform: translate(-5%, 5%) rotate(270deg); }
+    }
+    
+    /* Scrollbar Styling */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: var(--bg-secondary);
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: var(--brand-primary);
+      border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--brand-secondary);
+    }
+    
+    /* ============================================= */
+    /* LAYOUT */
+    /* ============================================= */
+    .page-container {
+      min-height: 100vh;
+      padding-bottom: 2rem;
+    }
+    
+    .content-wrapper {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 var(--space-lg);
+    }
+    
+    /* ============================================= */
+    /* HEADER / TOP BAR */
+    /* ============================================= */
+    .profile-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: var(--glass-bg);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border-bottom: 1px solid var(--glass-border);
+      padding: var(--space-md) 0;
+      box-shadow: var(--shadow-md);
+    }
+    
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-lg);
+      flex-wrap: wrap;
+    }
+    
+    .header-title {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+    }
+    
+    .header-title h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin: 0;
+    }
+    
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-md);
+      background: var(--bg-card);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md);
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.875rem;
+      transition: all var(--transition-base);
+    }
+    
+    .back-btn:hover {
+      background: var(--bg-hover);
+      border-color: var(--brand-primary);
+      color: var(--brand-primary);
+      transform: translateX(-4px);
+    }
+    
+    /* Search Bar in Header */
+    .header-search {
+      flex: 1;
+      max-width: 600px;
+      position: relative;
+    }
+    
+    .search-input-wrapper {
+      position: relative;
+    }
+    
+    .search-input {
+      width: 100%;
+      padding: var(--space-md) var(--space-md) var(--space-md) 3rem;
+      background: var(--bg-card);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      color: var(--text-primary);
+      font-size: 0.95rem;
+      font-family: var(--font-sans);
+      transition: all var(--transition-base);
+    }
+    
+    .search-input:focus {
+      outline: none;
+      border-color: var(--brand-primary);
+      box-shadow: var(--glow-green);
+      background: var(--bg-secondary);
+    }
+    
+    .search-input::placeholder {
+      color: var(--text-muted);
+    }
+    
+    .search-icon {
+      position: absolute;
+      left: var(--space-md);
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+    
+    .search-clear {
+      position: absolute;
+      right: var(--space-md);
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: var(--space-xs);
+      transition: color var(--transition-fast);
+      display: none;
+    }
+    
+    .search-clear.active {
+      display: block;
+    }
+    
+    .search-clear:hover {
+      color: var(--brand-danger);
+    }
+    
+    /* Quick Actions */
+    .quick-actions {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+    
+    .action-btn {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      background: var(--bg-card);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all var(--transition-base);
+    }
+    
+    .action-btn:hover {
+      background: var(--bg-hover);
+      border-color: var(--brand-primary);
+      color: var(--brand-primary);
+      transform: translateY(-2px);
+    }
+    
+    .action-btn .badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      min-width: 18px;
+      height: 18px;
+      padding: 0 4px;
+      background: var(--brand-accent);
+      border-radius: 9px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(233, 30, 99, 0.4);
+      animation: badgePulse 2s ease infinite;
+    }
+    
+    @keyframes badgePulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+    
+    /* ============================================= */
+    /* PROFILE HERO CARD */
+    /* ============================================= */
+    .profile-hero {
+      margin: var(--space-2xl) 0;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-xl);
+      padding: var(--space-2xl);
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .profile-hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(40, 167, 69, 0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: var(--space-2xl);
+      align-items: center;
+    }
+    
+    .profile-avatar-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-md);
+    }
+    
+    .profile-avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--text-inverse);
+      box-shadow: var(--glow-green), var(--shadow-lg);
+      border: 3px solid var(--bg-primary);
+      position: relative;
+    }
+    
+    .profile-avatar::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+      z-index: -1;
+      opacity: 0.3;
+      filter: blur(12px);
+    }
+    
+    .membership-badge {
+      padding: var(--space-xs) var(--space-md);
+      background: linear-gradient(135deg, var(--brand-accent), #c2185b);
+      border-radius: var(--radius-lg);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: var(--glow-pink);
+    }
+    
+    .profile-info-section {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+    
+    .profile-name {
+      font-size: 2rem;
+      font-weight: 700;
+      margin: 0;
+      line-height: 1.2;
+    }
+    
+    .profile-email {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+    
+    .verified-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      background: rgba(40, 167, 69, 0.2);
+      border: 1px solid rgba(40, 167, 69, 0.3);
+      border-radius: var(--radius-sm);
+      color: var(--brand-primary);
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+    
+    .profile-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: var(--space-md);
+      margin-top: var(--space-md);
+    }
+    
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+    
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--brand-primary);
+      font-family: var(--font-mono);
+    }
+    
+    .hero-actions {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+    
+    .btn-primary, .btn-secondary, .btn-danger {
+      padding: var(--space-md) var(--space-lg);
+      border-radius: var(--radius-md);
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-sm);
+      transition: all var(--transition-base);
+      cursor: pointer;
+      border: none;
+      white-space: nowrap;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+      color: var(--text-inverse);
+      box-shadow: var(--glow-green);
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 30px rgba(40, 167, 69, 0.5), var(--shadow-lg);
+    }
+    
+    .btn-secondary {
+      background: var(--bg-card);
+      border: 1px solid var(--glass-border);
+      color: var(--text-primary);
+    }
+    
+    .btn-secondary:hover {
+      background: var(--bg-hover);
+      border-color: var(--brand-primary);
+      color: var(--brand-primary);
+      transform: translateY(-2px);
+    }
+    
+    .btn-danger {
+      background: rgba(220, 53, 69, 0.1);
+      border: 1px solid rgba(220, 53, 69, 0.3);
+      color: var(--brand-danger);
+    }
+    
+    .btn-danger:hover {
+      background: rgba(220, 53, 69, 0.2);
+      border-color: var(--brand-danger);
+      transform: translateY(-2px);
+    }
+    
+    /* ============================================= */
+    /* FAVORITES SHELF */
+    /* ============================================= */
+    .favorites-section {
+      margin: var(--space-2xl) 0;
+    }
+    
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-lg);
+    }
+    
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    
+    .section-icon {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--brand-accent), #c2185b);
+      border-radius: var(--radius-md);
+      box-shadow: var(--glow-pink);
+    }
+    
+    .sort-controls select {
+      padding: var(--space-sm) var(--space-md);
+      background: var(--bg-card);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md);
+      color: var(--text-primary);
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: all var(--transition-base);
+    }
+    
+    .sort-controls select:hover {
+      border-color: var(--brand-primary);
+    }
+    
+    .favorites-carousel {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: var(--space-md) 0;
+      margin: 0 calc(-1 * var(--space-md));
+      padding-left: var(--space-md);
+      padding-right: var(--space-md);
+      scroll-behavior: smooth;
+    }
+    
+    .favorites-carousel::-webkit-scrollbar {
+      height: 6px;
+    }
+    
+    .favorites-grid {
+      display: inline-flex;
+      gap: var(--space-lg);
+      min-width: 100%;
+    }
+    
+    /* ============================================= */
+    /* CATEGORY CARDS */
+    /* ============================================= */
+    .category-card {
+      position: relative;
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      transition: all var(--transition-base);
+      cursor: pointer;
+      min-width: 280px;
+      max-width: 320px;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+    
+    .category-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--brand-primary);
+    }
+    
+    .category-card:hover .card-icon {
+      transform: scale(1.1);
+      color: var(--brand-primary);
+    }
+    
+    .card-icon {
+      width: 56px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-secondary);
+      border-radius: var(--radius-md);
+      font-size: 1.5rem;
+      color: var(--text-secondary);
+      transition: all var(--transition-base);
+    }
+    
+    .card-content {
+      flex: 1;
+    }
+    
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: var(--space-xs);
+      color: var(--text-primary);
+    }
+    
+    .card-description {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      margin-bottom: var(--space-sm);
+    }
+    
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-xs);
+      margin-bottom: var(--space-md);
+    }
+    
+    .tag {
+      padding: 2px 8px;
+      background: rgba(40, 167, 69, 0.1);
+      border: 1px solid rgba(40, 167, 69, 0.2);
+      border-radius: var(--radius-sm);
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+    }
+    
+    .card-actions {
+      display: flex;
+      gap: var(--space-sm);
+      padding-top: var(--space-sm);
+      border-top: 1px solid var(--glass-border);
+    }
+    
+    .card-btn {
+      flex: 1;
+      padding: var(--space-sm) var(--space-md);
+      background: var(--bg-secondary);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md);
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all var(--transition-base);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-xs);
+    }
+    
+    .card-btn:hover {
+      background: var(--bg-hover);
+      border-color: var(--brand-primary);
+      color: var(--brand-primary);
+    }
+    
+    .card-btn.favorited {
+      background: rgba(233, 30, 99, 0.1);
+      border-color: rgba(233, 30, 99, 0.3);
+      color: var(--brand-accent);
+    }
+    
+    .card-btn.favorited:hover {
+      background: rgba(233, 30, 99, 0.2);
+    }
+    
+    /* ============================================= */
+    /* SEARCH RESULTS GRID */
+    /* ============================================= */
+    .search-results-section {
+      margin: var(--space-2xl) 0;
+    }
+    
+    .results-header {
+      margin-bottom: var(--space-lg);
+    }
+    
+    .results-count {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin-top: var(--space-sm);
+    }
+    
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: var(--space-lg);
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: var(--space-2xl);
+      color: var(--text-muted);
+    }
+    
+    .empty-state-icon {
+      font-size: 4rem;
+      margin-bottom: var(--space-md);
+      opacity: 0.3;
+    }
+    
+    /* ============================================= */
+    /* LOADING & SKELETON */
+    /* ============================================= */
+    .skeleton {
+      background: linear-gradient(
+        90deg,
+        var(--bg-secondary) 25%,
+        var(--bg-tertiary) 50%,
+        var(--bg-secondary) 75%
+      );
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: var(--radius-md);
+    }
+    
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+    
+    .skeleton-card {
+      height: 280px;
+    }
+    
+    /* ============================================= */
+    /* MODAL */
+    /* ============================================= */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(8px);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-lg);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--transition-base);
+    }
+    
+    .modal-backdrop.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+    
+    .modal-content {
+      background: var(--bg-secondary);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-xl);
+      padding: var(--space-2xl);
+      max-width: 500px;
+      width: 100%;
+      box-shadow: var(--shadow-lg);
+      transform: translateY(20px);
+      transition: transform var(--transition-base);
+    }
+    
+    .modal-backdrop.active .modal-content {
+      transform: translateY(0);
+    }
+    
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-lg);
+    }
+    
+    .modal-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0;
+    }
+    
+    .modal-close {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-card);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all var(--transition-base);
+    }
+    
+    .modal-close:hover {
+      background: var(--bg-hover);
+      border-color: var(--brand-danger);
+      color: var(--brand-danger);
+    }
+    
+    .modal-body {
+      margin-bottom: var(--space-lg);
+    }
+    
+    .modal-actions {
+      display: flex;
+      gap: var(--space-md);
+    }
+    
+    /* ============================================= */
+    /* TOAST NOTIFICATIONS */
+    /* ============================================= */
+    .toast-container {
+      position: fixed;
+      bottom: var(--space-lg);
+      right: var(--space-lg);
+      z-index: 3000;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+      pointer-events: none;
+    }
+    
+    .toast {
+      background: var(--bg-secondary);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-md);
+      padding: var(--space-md) var(--space-lg);
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      min-width: 300px;
+      max-width: 400px;
+      pointer-events: all;
+      transform: translateX(400px);
+      animation: slideIn 0.3s forwards, slideOut 0.3s 2.7s forwards;
+    }
+    
+    @keyframes slideIn {
+      to { transform: translateX(0); }
+    }
+    
+    @keyframes slideOut {
+      to { transform: translateX(400px); }
+    }
+    
+    .toast-icon {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    
+    .toast-success .toast-icon {
+      background: rgba(40, 167, 69, 0.2);
+      color: var(--brand-primary);
+    }
+    
+    .toast-error .toast-icon {
+      background: rgba(220, 53, 69, 0.2);
+      color: var(--brand-danger);
+    }
+    
+    .toast-info .toast-icon {
+      background: rgba(32, 201, 151, 0.2);
+      color: var(--brand-secondary);
+    }
+    
+    .toast-content {
+      flex: 1;
+    }
+    
+    .toast-title {
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    
+    .toast-message {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+    
+    /* ============================================= */
+    /* RESPONSIVE DESIGN */
+    /* ============================================= */
+    @media (max-width: 1024px) {
+      .hero-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      
+      .profile-avatar-section {
+        margin: 0 auto;
+      }
+      
+      .hero-actions {
+        width: 100%;
+      }
+      
+      .hero-actions .btn-primary,
+      .hero-actions .btn-secondary,
+      .hero-actions .btn-danger {
+        width: 100%;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+      }
+      
+      .header-search {
+        max-width: 100%;
+        order: 1;
+      }
+      
+      .quick-actions {
+        order: 2;
+        width: 100%;
+        justify-content: center;
+      }
+      
+      .profile-hero {
+        padding: var(--space-lg);
+      }
+      
+      .categories-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .profile-stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .header-title h1 {
+        font-size: 1.25rem;
+      }
+      
+      .profile-name {
+        font-size: 1.5rem;
+      }
+      
+      .stat-value {
+        font-size: 1.25rem;
+      }
+      
+      .category-card {
+        min-width: 100%;
+      }
+    }
+    
+    /* Reduced Motion */
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+  
+  <!-- Delete Account Modal -->
+  <div class="modal-backdrop" id="deleteAccountModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Delete Account</h2>
+        <button class="modal-close" onclick="closeDeleteModal()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+          Are you sure you want to delete your account? This action cannot be undone.
+        </p>
+        <p style="color: var(--brand-danger); font-weight: 600;">
+          <i class="fas fa-exclamation-triangle"></i> All your data, favorites, and purchase history will be permanently deleted.
+        </p>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-secondary" onclick="closeDeleteModal()" style="flex: 1;">
+          Cancel
+        </button>
+        <button class="btn-danger" onclick="confirmDeleteAccount()" style="flex: 1;">
+          <i class="fas fa-trash-alt"></i> Delete Account
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Page Container -->
+  <div class="page-container">
+    <!-- Header -->
+    <header class="profile-header">
+      <div class="content-wrapper">
+        <div class="header-content">
+          <div class="header-title">
+            <a href="/home.html" class="back-btn">
+              <i class="fas fa-arrow-left"></i>
+              Back
+            </a>
+            <h1>My Profile</h1>
+          </div>
+          
+          <!-- Search Bar -->
+          <div class="header-search">
+            <div class="search-input-wrapper">
+              <i class="fas fa-search search-icon"></i>
+              <input 
+                type="text" 
+                class="search-input" 
+                id="searchInput"
+                placeholder="Search categories, products, tags..."
+                autocomplete="off"
+              />
+              <button class="search-clear" id="searchClear">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          </div>
+          
+          <!-- Quick Actions -->
+          <div class="quick-actions">
+            <button class="action-btn" id="favoritesBtn" title="Favorites">
+              <i class="fas fa-heart"></i>
+              <span class="badge" id="favoritesBadge">0</span>
+            </button>
+            <button class="action-btn" id="notificationsBtn" title="Notifications">
+              <i class="fas fa-bell"></i>
+              <span class="badge" id="notificationsBadge" style="display: none;">0</span>
+            </button>
+            <button class="action-btn" id="messagesBtn" title="Messages" onclick="window.open('/webassist.html', '_blank')">
+              <i class="fas fa-comments"></i>
+            </button>
+            <button class="action-btn" id="settingsBtn" title="Settings">
+              <i class="fas fa-cog"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="content-wrapper">
+      <!-- Profile Hero Card -->
+      <section class="profile-hero">
+        <div class="hero-content">
+          <div class="profile-avatar-section">
+            <div class="profile-avatar" id="userAvatar">SL</div>
+            <div class="membership-badge">
+              <i class="fas fa-crown"></i> VIP Member
+            </div>
+          </div>
+          
+          <div class="profile-info-section">
+            <h2 class="profile-name" id="userName">Loading...</h2>
+            <div class="profile-email">
+              <i class="fas fa-envelope"></i>
+              <span id="userEmail">loading@example.com</span>
+              <span class="verified-badge" id="verifiedBadge" style="display: none;">
+                <i class="fas fa-check-circle"></i> Verified
+              </span>
+            </div>
+            
+            <div class="profile-stats">
+              <div class="stat-item">
+                <span class="stat-label">Favorites</span>
+                <span class="stat-value" id="favoritesCount">0</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Orders</span>
+                <span class="stat-value" id="ordersCount">0</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Balance</span>
+                <span class="stat-value">$<span id="userBalance">0.00</span></span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Member Since</span>
+                <span class="stat-value" id="memberSince" style="font-size: 1rem;">--/--/----</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="hero-actions">
+            <button class="btn-primary" onclick="window.location.href='/topup.html'">
+              <i class="fas fa-wallet"></i> Top Up Balance
+            </button>
+            <button class="btn-secondary" onclick="window.location.href='/purchases.html'">
+              <i class="fas fa-shopping-bag"></i> My Purchases
+            </button>
+            <button class="btn-danger" onclick="openDeleteModal()">
+              <i class="fas fa-trash-alt"></i> Delete Account
+            </button>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Favorites Section -->
+      <section class="favorites-section" id="favoritesSection">
+        <div class="section-header">
+          <div class="section-title">
+            <div class="section-icon">
+              <i class="fas fa-heart"></i>
+            </div>
+            <span>My Favorites</span>
+          </div>
+          <div class="sort-controls">
+            <select id="favoritesSort">
+              <option value="recent">Recently Added</option>
+              <option value="alphabetical">Alphabetical</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="favorites-carousel">
+          <div class="favorites-grid" id="favoritesGrid">
+            <!-- Favorites will be loaded here -->
+          </div>
+        </div>
+      </section>
+      
+      <!-- Search Results / All Categories -->
+      <section class="search-results-section">
+        <div class="results-header">
+          <div class="section-title">
+            <div class="section-icon" style="background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));">
+              <i class="fas fa-th-large"></i>
+            </div>
+            <span id="resultsTitle">All Categories</span>
+          </div>
+          <p class="results-count" id="resultsCount">Loading categories...</p>
+        </div>
+        
+        <div class="categories-grid" id="categoriesGrid">
+          <!-- Categories will be loaded here -->
+        </div>
+      </section>
+    </main>
+  </div>
+  
+  <!-- Firebase & Scripts -->
+  <script type="module">
+    // =====================================================================
+    // FIREBASE INITIALIZATION
+    // =====================================================================
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.9.0/firebase-app.js';
+    import { 
+      getAuth,
+      onAuthStateChanged,
+      signOut,
+      deleteUser
+    } from 'https://www.gstatic.com/firebasejs/11.9.0/firebase-auth.js';
+    import {
+      getDatabase,
+      ref,
+      get,
+      set,
+      remove,
+      onValue,
+      off
+    } from 'https://www.gstatic.com/firebasejs/11.9.0/firebase-database.js';
+    
+    import {
+      getFirestore,
+      collection,
+      getDocs,
+      query,
+      where,
+      orderBy
+    } from 'https://www.gstatic.com/firebasejs/11.9.0/firebase-firestore.js';
+    
+    // Firebase config for Authentication (shadowlogsshop-ec4ca)
+    const firebaseConfig = {
+      apiKey: "AIzaSyBXC6A6NaL1WSHrfCNAuMeYZqx9DFZyToY",
+      authDomain: "shadowlogsshop-ec4ca.firebaseapp.com",
+      projectId: "shadowlogsshop-ec4ca",
+      storageBucket: "shadowlogsshop-ec4ca.appspot.com",
+      messagingSenderId: "709594271975",
+      appId: "1:709594271975:web:6a4bfc8bdcbc51c2859242",
+      measurementId: "G-WNEH2RQPVP"
+    };
+    
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getDatabase(app);
+    
+    // Firebase config for Data (shadowlogsshop - categories/products)
+    const dataConfig = {
+      apiKey: "AIzaSyDYon3KKPHbZ-CO4CDsWiU02AYHocXqb1s",
+      authDomain: "shadowlogsshop.firebaseapp.com",
+      projectId: "shadowlogsshop",
+      storageBucket: "shadowlogsshop.firebasestorage.app",
+      messagingSenderId: "568187276796",
+      appId: "1:568187276796:web:cb900b5d70c83b0bef9ce5"
+    };
+    
+    const dataApp = initializeApp(dataConfig, 'dataApp');
+    const firestoreDb = getFirestore(dataApp);
+    
+    // =====================================================================
+    // GLOBAL STATE
+    // =====================================================================
+    let currentUser = null;
+    let userFavorites = new Set();
+    let allCategories = [];
+    let filteredCategories = [];
+    
+    // =====================================================================
+    // UTILITY FUNCTIONS
+    // =====================================================================
+    
+    function showToast(message, type = 'success') {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = `toast toast-${type}`;
+      
+      const iconMap = {
+        success: 'check-circle',
+        error: 'times-circle',
+        info: 'info-circle'
+      };
+      
+      toast.innerHTML = `
+        <div class="toast-icon">
+          <i class="fas fa-${iconMap[type]}"></i>
+        </div>
+        <div class="toast-content">
+          <div class="toast-title">${type.charAt(0).toUpperCase() + type.slice(1)}</div>
+          <div class="toast-message">${message}</div>
+        </div>
+      `;
+      
+      container.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.remove();
+      }, 3000);
+    }
+    
+    function formatDate(timestamp) {
+      if (!timestamp) return '--/--/----';
+      const date = new Date(timestamp);
+      return date.toLocaleDateString('en-US', { 
+        month: '2-digit', 
+        day: '2-digit', 
+        year: 'numeric' 
+      });
+    }
+    
+    function generateAvatar(email) {
+      if (!email) return 'SL';
+      const parts = email.split('@')[0].split(/[._-]/);
+      const initials = parts.map(p => p.charAt(0)).join('').toUpperCase().substring(0, 2);
+      return initials || 'SL';
+    }
+    
+    // =====================================================================
+    // FAVORITES MANAGEMENT
+    // =====================================================================
+    
+    async function loadUserFavorites(userId) {
+      const favoritesRef = ref(db, `users/${userId}/favorites`);
+      
+      onValue(favoritesRef, (snapshot) => {
+        userFavorites = new Set();
+        if (snapshot.exists()) {
+          const favorites = snapshot.val();
+          Object.keys(favorites).forEach(catId => {
+            if (favorites[catId]) userFavorites.add(catId);
+          });
+        }
+        
+        updateFavoritesBadge();
+        renderFavorites();
+        renderCategories();
+      });
+    }
+    
+    async function toggleFavorite(categoryId) {
+      if (!currentUser) {
+        showToast('Please login to favorite categories', 'error');
+        return;
+      }
+      
+      const favoriteRef = ref(db, `users/${currentUser.uid}/favorites/${categoryId}`);
+      
+      if (userFavorites.has(categoryId)) {
+        await remove(favoriteRef);
+        userFavorites.delete(categoryId);
+        showToast('Removed from favorites', 'info');
+      } else {
+        await set(favoriteRef, true);
+        userFavorites.add(categoryId);
+        showToast('Added to favorites!', 'success');
+      }
+    }
+    
+    function updateFavoritesBadge() {
+      const badge = document.getElementById('favoritesBadge');
+      const count = document.getElementById('favoritesCount');
+      badge.textContent = userFavorites.size;
+      count.textContent = userFavorites.size;
+    }
+    
+    function renderFavorites() {
+      const grid = document.getElementById('favoritesGrid');
+      const section = document.getElementById('favoritesSection');
+      
+      const favoriteCategories = allCategories.filter(cat => 
+        userFavorites.has(cat.id)
+      );
+      
+      if (favoriteCategories.length === 0) {
+        section.style.display = 'none';
+        return;
+      }
+      
+      section.style.display = 'block';
+      
+      // Apply sorting
+      const sortValue = document.getElementById('favoritesSort').value;
+      if (sortValue === 'alphabetical') {
+        favoriteCategories.sort((a, b) => a.name.localeCompare(b.name));
+      }
+      
+      grid.innerHTML = favoriteCategories.map(cat => createCategoryCard(cat)).join('');
+    }
+    
+    // =====================================================================
+    // CATEGORY RENDERING
+    // =====================================================================
+    
+    function createCategoryCard(category) {
+      const isFavorited = userFavorites.has(category.id);
+      const maxTags = 3;
+      const displayTags = category.tags.slice(0, maxTags);
+      
+      return `
+        <div class="category-card" data-category-id="${category.id}">
+          <div class="card-icon">
+            <i class="fas fa-${category.icon || 'folder'}"></i>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">${category.name}</h3>
+            <p class="card-description">${category.description}</p>
+            <div class="card-tags">
+              ${displayTags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+              ${category.tags.length > maxTags ? `<span class="tag">+${category.tags.length - maxTags}</span>` : ''}
+            </div>
+          </div>
+          <div class="card-actions">
+            <button 
+              class="card-btn ${isFavorited ? 'favorited' : ''}" 
+              onclick="window.toggleFavorite('${category.id}')"
+              title="${isFavorited ? 'Remove from favorites' : 'Add to favorites'}"
+            >
+              <i class="fas fa-heart${isFavorited ? '' : '-o'}"></i>
+              ${isFavorited ? 'Saved' : 'Save'}
+            </button>
+            <button 
+              class="card-btn" 
+              onclick="window.askAboutCategory('${category.id}', '${category.name}')"
+              title="Ask admin about this category"
+            >
+              <i class="fas fa-question-circle"></i>
+              Ask
+            </button>
+            <button 
+              class="card-btn" 
+              onclick="window.location.href='${category.url}'"
+              title="View category"
+            >
+              <i class="fas fa-external-link-alt"></i>
+              View
+            </button>
+          </div>
+        </div>
+      `;
+    }
+    
+    function renderCategories() {
+      const grid = document.getElementById('categoriesGrid');
+      const resultsCount = document.getElementById('resultsCount');
+      
+      if (filteredCategories.length === 0) {
+        grid.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">
+              <i class="fas fa-search"></i>
+            </div>
+            <p>No categories found matching your search.</p>
+          </div>
+        `;
+        resultsCount.textContent = '0 categories found';
+        return;
+      }
+      
+      grid.innerHTML = filteredCategories.map(cat => createCategoryCard(cat)).join('');
+      resultsCount.textContent = `${filteredCategories.length} categories found`;
+    }
+    
+    // =====================================================================
+    // SEARCH FUNCTIONALITY
+    // =====================================================================
+    
+    let searchTimeout;
+    
+    function handleSearch(query) {
+      clearTimeout(searchTimeout);
+      
+      searchTimeout = setTimeout(() => {
+        const resultsTitle = document.getElementById('resultsTitle');
+        const searchClear = document.getElementById('searchClear');
+        
+        if (query.trim() === '') {
+          filteredCategories = allCategories;
+          resultsTitle.innerHTML = '<i class="fas fa-th-large"></i> All Categories';
+          searchClear.classList.remove('active');
+        } else {
+          filteredCategories = searchCategories(query);
+          resultsTitle.innerHTML = `<i class="fas fa-search"></i> Search Results for "${query}"`;
+          searchClear.classList.add('active');
+        }
+        
+        renderCategories();
+      }, 300);
+    }
+    
+    // =====================================================================
+    // USER PROFILE MANAGEMENT
+    // =====================================================================
+    
+    async function loadUserProfile(user) {
+      // Update avatar
+      const avatar = document.getElementById('userAvatar');
+      avatar.textContent = generateAvatar(user.email);
+      
+      // Update name
+      const userName = document.getElementById('userName');
+      userName.textContent = user.displayName || user.email.split('@')[0];
+      
+      // Update email
+      const userEmail = document.getElementById('userEmail');
+      userEmail.textContent = user.email;
+      
+      // Update verified badge
+      if (user.emailVerified) {
+        document.getElementById('verifiedBadge').style.display = 'inline-flex';
+      }
+      
+      // Load balance
+      const balanceRef = ref(db, `users/${user.uid}/balance`);
+      onValue(balanceRef, (snapshot) => {
+        const balance = snapshot.val() || 0;
+        document.getElementById('userBalance').textContent = Number(balance).toFixed(2);
+      });
+      
+      // Load member since date
+      const userRef = ref(db, `users/${user.uid}/createdAt`);
+      const snapshot = await get(userRef);
+      if (snapshot.exists()) {
+        document.getElementById('memberSince').textContent = formatDate(snapshot.val());
+      } else {
+        // Set creation date if not exists
+        const createdAt = user.metadata.creationTime || new Date().toISOString();
+        await set(userRef, createdAt);
+        document.getElementById('memberSince').textContent = formatDate(createdAt);
+      }
+      
+      // Load orders count (placeholder - implement based on your orders structure)
+      const ordersRef = ref(db, `users/${user.uid}/orders`);
+      const ordersSnapshot = await get(ordersRef);
+      const ordersCount = ordersSnapshot.exists() ? Object.keys(ordersSnapshot.val()).length : 0;
+      document.getElementById('ordersCount').textContent = ordersCount;
+      
+      // Load favorites
+      await loadUserFavorites(user.uid);
+    }
+    
+    // =====================================================================
+    // ACCOUNT DELETION
+    // =====================================================================
+    
+    window.openDeleteModal = function() {
+      document.getElementById('deleteAccountModal').classList.add('active');
+    };
+    
+    window.closeDeleteModal = function() {
+      document.getElementById('deleteAccountModal').classList.remove('active');
+    };
+    
+    window.confirmDeleteAccount = async function() {
+      if (!currentUser) return;
+      
+      try {
+        // Delete user data from database
+        await remove(ref(db, `users/${currentUser.uid}`));
+        
+        // Delete user account
+        await deleteUser(currentUser);
+        
+        showToast('Account deleted successfully', 'success');
+        
+        setTimeout(() => {
+          window.location.href = '/login.html';
+        }, 2000);
+      } catch (error) {
+        console.error('Delete account error:', error);
+        
+        if (error.code === 'auth/requires-recent-login') {
+          showToast('Please re-login and try again', 'error');
+          setTimeout(() => {
+            signOut(auth).then(() => {
+              window.location.href = '/login.html';
+            });
+          }, 2000);
+        } else {
+          showToast('Failed to delete account. Please try again.', 'error');
+        }
+      }
+      
+      closeDeleteModal();
+    };
+    
+    // =====================================================================
+    // ASK ABOUT CATEGORY
+    // =====================================================================
+    
+    window.askAboutCategory = function(categoryId, categoryName) {
+      const url = `/webassist.html?categoryId=${encodeURIComponent(categoryId)}&categoryName=${encodeURIComponent(categoryName)}&source=my-profile`;
+      window.open(url, '_blank');
+    };
+    
+    // =====================================================================
+    // CATEGORY MANAGEMENT
+    // =====================================================================
+    
+    async function loadCategoriesFromFirestore() {
+      try {
+        const resultsCount = document.getElementById('resultsCount');
+        resultsCount.textContent = 'Loading categories...';
+        
+        // Query active categories from Firestore
+        const categoriesQuery = query(
+          collection(firestoreDb, 'categories'),
+          where('active', '==', true),
+          orderBy('order', 'asc')
+        );
+        
+        const snapshot = await getDocs(categoriesQuery);
+        
+        allCategories = [];
+        snapshot.forEach((doc) => {
+          const data = doc.data();
+          allCategories.push({
+            id: doc.id,
+            name: data.name,
+            slug: data.slug,
+            icon: data.icon || 'folder',
+            description: data.description || 'No description available',
+            tags: data.tags || [],
+            url: `/category.html?category=${encodeURIComponent(data.slug)}`,
+            order: data.order || 0
+          });
+        });
+        
+        filteredCategories = allCategories;
+        renderCategories();
+        
+        console.log(`✅ Loaded ${allCategories.length} categories from Firestore`);
+        
+      } catch (error) {
+        console.error('Error loading categories:', error);
+        document.getElementById('resultsCount').textContent = 'Failed to load categories';
+      }
+    }
+    
+    function searchCategories(query) {
+      const lowerQuery = query.toLowerCase().trim();
+      
+      return allCategories.filter(category => {
+        return category.name.toLowerCase().includes(lowerQuery) ||
+               category.description.toLowerCase().includes(lowerQuery) ||
+               (category.tags && category.tags.some(tag => tag.toLowerCase().includes(lowerQuery)));
+      });
+    }
+    
+    // =====================================================================
+    // GLOBAL EXPOSED FUNCTIONS
+    // =====================================================================
+    
+    window.toggleFavorite = async function(categoryId) {
+      await toggleFavorite(categoryId);
+    };
+    
+    // =====================================================================
+    // INITIALIZATION
+    // =====================================================================
+    
+    // Auth State Listener
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        currentUser = user;
+        loadUserProfile(user);
+      } else {
+        showToast('Please login to access your profile', 'error');
+        setTimeout(() => {
+          window.location.href = '/login.html';
+        }, 2000);
+      }
+    });
+    
+    // Load categories from Firestore
+    loadCategoriesFromFirestore();
+    
+    // Search event listeners
+    const searchInput = document.getElementById('searchInput');
+    const searchClear = document.getElementById('searchClear');
+    
+    searchInput.addEventListener('input', (e) => {
+      handleSearch(e.target.value);
+    });
+    
+    searchClear.addEventListener('click', () => {
+      searchInput.value = '';
+      handleSearch('');
+    });
+    
+    // Favorites sort
+    document.getElementById('favoritesSort').addEventListener('change', renderFavorites);
+    
+    // Console log
+    console.log('🚀 My Profile - Cinematic Edition');
+    console.log(`📦 Loaded ${allCategories.length} categories`);
+  </script>
+</body>
+</html>

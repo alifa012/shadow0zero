@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard — Shadowlogs</title>
+    
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .dashboard-container {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .dashboard-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .dashboard-header p {
+            opacity: 0.7;
+            font-size: 1.1rem;
+        }
+
+        .admin-card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .admin-card {
+            background: #2a2a2a;
+            border-radius: 16px;
+            padding: 2.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            cursor: pointer;
+            text-decoration: none;
+            color: #fff;
+            display: block;
+        }
+
+        .admin-card:hover {
+            transform: translateY(-8px);
+            border-color: #28a745;
+            box-shadow: 0 12px 40px rgba(40, 167, 69, 0.3);
+            background: #333;
+        }
+
+        .admin-card .icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+        }
+
+        .admin-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .admin-card p {
+            opacity: 0.7;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .admin-card .badge {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.4rem 1rem;
+            background: rgba(40, 167, 69, 0.2);
+            border: 1px solid #28a745;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: #28a745;
+        }
+
+        .logout-btn {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: rgba(220, 53, 69, 0.2);
+            border: 2px solid #dc3545;
+            color: #dc3545;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .logout-btn:hover {
+            background: #dc3545;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .admin-card-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .logout-btn {
+                position: static;
+                width: 100%;
+                margin-top: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="logout-btn" onclick="logout()">
+        <i class="fas fa-sign-out-alt"></i> Logout
+    </button>
+
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h1><i class="fas fa-shield-alt"></i> Admin Dashboard</h1>
+            <p>Welcome back, <span id="admin-email">Administrator</span></p>
+        </div>
+
+        <div class="admin-card-grid">
+            <!-- Product Management Card -->
+            <a href="/admin-products.html" class="admin-card">
+                <div class="icon">
+                    <i class="fas fa-box"></i>
+                </div>
+                <h3>Product Management</h3>
+                <p>Manage products, categories, inventory, and pricing. Add, edit, or remove items from your store.</p>
+                <span class="badge"><i class="fas fa-database"></i> Database</span>
+            </a>
+
+            <!-- Customer Messages Card -->
+            <a href="/admin-chat.html" class="admin-card">
+                <div class="icon">
+                    <i class="fas fa-comments"></i>
+                </div>
+                <h3>Customer Messages</h3>
+                <p>View and reply to customer support inquiries in real-time. Manage conversations and provide assistance.</p>
+                <span class="badge"><i class="fas fa-bell"></i> Real-time</span>
+            </a>
+        </div>
+
+        <div class="admin-card-grid">
+            <!-- Orders Management -->
+            <a href="/admin-products.html" class="admin-card">
+                <div class="icon">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+                <h3>Orders Management</h3>
+                <p>Track customer orders, update order status, and manage fulfillment processes.</p>
+                <span class="badge"><i class="fas fa-list"></i> Coming Soon</span>
+            </a>
+
+            <!-- Analytics -->
+            <a href="/admin-products.html" class="admin-card">
+                <div class="icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3>Analytics</h3>
+                <p>View sales reports, customer insights, and business performance metrics.</p>
+                <span class="badge"><i class="fas fa-chart-bar"></i> Coming Soon</span>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Check if admin is logged in
+        if (localStorage.getItem('adminLoggedIn') !== 'true') {
+            window.location.href = '/admin-login.html';
+        }
+
+        // Display admin email
+        const adminEmail = localStorage.getItem('adminEmail');
+        if (adminEmail) {
+            document.getElementById('admin-email').textContent = adminEmail;
+        }
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem('adminLoggedIn');
+            localStorage.removeItem('adminEmail');
+            window.location.href = '/admin-login.html';
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

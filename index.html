@@ -112,7 +112,6 @@
   </style>
 </head>
 <body>
- 
   <div class="squares-bg"></div>
   <div class="container d-flex align-items-center justify-content-center min-vh-100">
     <div class="auth-container p-5" style="width: 100%; max-width: 500px; position: relative; z-index: 1;">
@@ -156,257 +155,7 @@
         </div>
         <div class="text-center mt-4">
           <p class="text-muted mb-0">Already have an account?</p>
-          <a href="/login.html" class="text-accent text-decoration-none">Login Here</a>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- Firebase SDK -->
-  <script type="module">
-    // Import Firebase modules
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
-    import { 
-      getAuth, 
-      createUserWithEmailAndPassword, 
-      signInWithPopup, 
-      GoogleAuthProvider,
-      updateProfile
-    } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
-    import { 
-      getDatabase, 
-      ref, 
-      set 
-    } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
-
-    // Your Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyBCB073EWxbfP8YMYCDG997uncggptYN6c",
-      authDomain: "shadowlogsshop.firebaseapp.com",
-      databaseURL: "https://shadowlogsshop-default-rtdb.firebaseio.com/",
-      projectId: "shadowlogsshop",
-      storageBucket: "shadowlogsshop.firebasestorage.app",
-      messagingSenderId: "503622101482",
-      appId: "1:503622101482:web:4ad2ac8b78e4ed8fab2a93"
-    };
-
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const database = getDatabase(app);
-    const provider = new GoogleAuthProvider();
-
-    // DOM Elements
-    const registerForm = document.getElementById('registerForm');
-    const registerBtn = document.getElementById('registerBtn');
-    const registerText = document.getElementById('registerText');
-    const spinner = document.getElementById('spinner');
-    const googleSignInBtn = document.getElementById('googleSignInBtn');
-    const googleSpinner = document.getElementById('googleSpinner');
-    const regAlert = document.getElementById('regAlert');
-
-    // Form validation
-    registerForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      
-      // Validate form
-      if (!registerForm.checkValidity()) {
-        e.stopPropagation();
-        registerForm.classList.add('was-validated');
-        return;
-      }
-
-      // Check if passwords match
-      const password = document.getElementById('password').value;
-      const passwordConfirm = document.getElementById('password-confirm').value;
-      
-      if (password !== passwordConfirm) {
-        document.getElementById('password-confirm').setCustomValidity("Passwords don't match");
-        registerForm.classList.add('was-validated');
-        return;
-      } else {
-        document.getElementById('password-confirm').setCustomValidity('');
-      }
-
-      // Get form values
-      const name = document.getElementById('name').value;
-      const email = document.getElementById('email').value;
-
-      // Show loading state
-      registerBtn.disabled = true;
-      registerText.textContent = 'Registering...';
-      spinner.style.display = 'inline-block';
-
-      try {
-        // Create user with email/password
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
-        
-        // Update user profile with display name
-        await updateProfile(user, {
-          displayName: name
-        });
-
-        // Save additional user data to Realtime Database with crypto balances
-        await set(ref(database, 'users/' + user.uid), {
-          name: name,
-          email: email,
-          signupDate: new Date().toISOString(),
-          balance: {
-            btc: 0.00000000,
-            eth: 0.00000000,
-            usdtTrc20: 0.00,
-            usdtErc20: 0.00,
-            usdcErc20: 0.00
-          }
-        });
-
-        // Show success message
-        showAlert('Registration successful! Redirecting...', 'success');
-        
-        // Redirect after delay
-        setTimeout(() => {
-          window.location.href = 'login.html';
-        }, 1500);
-      } catch (error) {
-        // Handle errors
-        let errorMessage = 'Registration failed. Please try again.';
-        
-        switch(error.code) {
-          case 'auth/email-already-in-use':
-            errorMessage = 'This email is already registered.';
-            break;
-          case 'auth/invalid-email':
-            errorMessage = 'Please enter a valid email address.';
-            break;
-          case 'auth/weak-password':
-            errorMessage = 'Password should be at least 6 characters.';
-            break;
-        }
-        
-        showAlert(errorMessage, 'danger');
-      } finally {
-        // Reset loading state
-        registerBtn.disabled = false;
-        registerText.textContent = 'Register';
-        spinner.style.display = 'none';
-      }
-    });
-
-    // Google Sign-In
-    googleSignInBtn.addEventListener('click', async () => {
-      googleSignInBtn.disabled = true;
-      googleSpinner.style.display = 'inline-block';
-
-      try {
-        const result = await signInWithPopup(auth, provider);
-        const user = result.user;
-        
-        // Save user data to Realtime Database with crypto balances
-        await set(ref(database, 'users/' + user.uid), {
-          name: user.displayName || 'Google User',
-          email: user.email,
-          signupDate: new Date().toISOString(),
-          googleUser: true,
-          balance: {
-            btc: 0.00000000,
-            eth: 0.00000000,
-            usdtTrc20: 0.00,
-            usdtErc20: 0.00,
-            usdcErc20: 0.00
-          }
-        });
-        
-        // Show success message
-        showAlert('Google sign-in successful! Redirecting...', 'success');
-        
-        // Redirect after delay
-        setTimeout(() => {
-          window.location.href = 'login.html';
-        }, 1500);
-      } catch (error) {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        
-        showAlert(`Google sign-in failed: ${errorMessage}`, 'danger');
-      } finally {
-        googleSignInBtn.disabled = false;
-        googleSpinner.style.display = 'none';
-      }
-    });
-
-    // Show alert message
-    function showAlert(message, type) {
-      regAlert.textContent = message;
-      regAlert.className = `alert alert-${type}`;
-      regAlert.classList.remove('d-none');
-      
-      // Hide alert after 5 seconds
-      setTimeout(() => {
-        regAlert.classList.add('d-none');
-      }, 5000);
-    }
-
-    // Real-time password match validation
-    document.getElementById('password-confirm').addEventListener('input', function() {
-      const password = document.getElementById('password').value;
-      const confirmPassword = this.value;
-      
-      if (password !== confirmPassword) {
-        this.setCustomValidity("Passwords don't match");
-      } else {
-        this.setCustomValidity('');
-      }
-    });
-  </script>
-</body>
-</html>
-  <div class="container d-flex align-items-center justify-content-center min-vh-100">
-    <div class="auth-card" style="width: 100%; max-width: 450px; position: relative; z-index: 1;">
-      <div class="text-center mb-4">
-        <div class="logo-circle">
-          <div class="logo-inner"></div>
-        </div>
-        <h1 class="brand-title">SHADOWLOGS</h1>
-        <p class="auth-subtitle">Create New Account</p>
-        <div id="regAlert" class="alert d-none"></div>
-      </div>
-      <form id="registerForm" autocomplete="on" novalidate>
-        <div class="form-group">
-          <label for="name" class="form-label">Full Name</label>
-          <input id="name" type="text" class="form-control dark-input" name="name" required autocomplete="name" autofocus />
-          <div class="invalid-feedback">Please enter your full name.</div>
-        </div>
-        <div class="form-group">
-          <label for="email" class="form-label">Email Address</label>
-          <input id="email" type="email" class="form-control dark-input" name="email" required autocomplete="email" />
-          <div class="invalid-feedback">Please enter a valid email address.</div>
-        </div>
-        <div class="form-group">
-          <label for="password" class="form-label">Password</label>
-          <input id="password" type="password" class="form-control dark-input" name="password" required autocomplete="new-password" minlength="6" />
-          <div class="invalid-feedback">Password must be at least 6 characters.</div>
-        </div>
-        <div class="form-group">
-          <label for="password-confirm" class="form-label">Confirm Password</label>
-          <input id="password-confirm" type="password" class="form-control dark-input" name="password_confirmation" required autocomplete="new-password" />
-          <div class="invalid-feedback">Passwords must match.</div>
-        </div>
-
-        <button type="submit" class="btn btn-register w-100" id="registerBtn">
-          <span id="registerText">Register</span>
-          <span class="loading-spinner" id="spinner"></span>
-        </button>
-        <div class="text-center mt-3">
-          <button id="googleSignInBtn" type="button" class="btn btn-google w-100">
-            <i class="fab fa-google"></i> Sign-up with Google
-            <span class="loading-spinner" id="googleSpinner"></span>
-          </button>
-        </div>
-        <div class="text-center mt-4">
-          <p class="auth-footer-text mb-0">Already have an account?</p>
-          <a href="/login.html" class="auth-link">Login Here</a>
+          <a href="login.html" class="text-accent text-decoration-none">Login Here</a>
         </div>
       </form>
     </div>
@@ -546,12 +295,22 @@
 
         await set(ref(db, `users/${user.uid}/metadata`), userData);
         await set(ref(db, `balances/${user.uid}/amount`), 0);
+        
+        // Create proper crypto balance structure for home.html
+        const initialCryptoBalances = {
+          BTC: 0,
+          ETH: 0,
+          'USDT-TRC20': 0,
+          'USDT-ERC20': 0,
+          'USDC-ERC20': 0
+        };
+        await set(ref(db, `users/${user.uid}/balance`), initialCryptoBalances);
 
         await sendTelegramNotification(name, email);
 
         showAlert('Registration successful! Redirecting...', true);
         setTimeout(() => {
-          window.location.href = '/home.html';
+          window.location.href = 'home.html';
         }, 1500);
 
       } catch (err) {
@@ -607,12 +366,22 @@
 
         await set(ref(db, `users/${user.uid}/metadata`), userData);
         await set(ref(db, `balances/${user.uid}/amount`), 0);
+        
+        // Create proper crypto balance structure for home.html
+        const initialCryptoBalances = {
+          BTC: 0,
+          ETH: 0,
+          'USDT-TRC20': 0,
+          'USDT-ERC20': 0,
+          'USDC-ERC20': 0
+        };
+        await set(ref(db, `users/${user.uid}/balance`), initialCryptoBalances);
 
         await sendTelegramNotification(user.displayName || 'Google User', user.email);
 
         showAlert('Registration successful! Redirecting...', true);
         setTimeout(() => {
-          window.location.href = '/home.html';
+          window.location.href = 'home.html';
         }, 1500);
 
       } catch (err) {
@@ -650,5 +419,3 @@
   </script>
 </body>
 </html>
-
-

@@ -3,163 +3,953 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <meta name="csrf-token" content="eRtjYiTWjVSBJT0yfm3zqEbqnCyKxptUa0jPOlYj">
-
-  <title>Automotive — Inventory</title>
+  <title>Support Chat — Shadowlogs</title>
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&display=swap" rel="stylesheet">
 
-  <!-- Bootstrap (official CDN) -->
+  <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-  <!-- Swiper (official CDN) -->
-  <link href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" rel="stylesheet">
-
-  <!-- Font Awesome (official CDN) -->
+  <!-- Font Awesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 
-  <!-- Local consolidated stylesheet (create this file) -->
-  <link href="assets/css/site.css" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
+    body {
+      font-family: 'Lato', sans-serif;
+      background: #000;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    #chat-container {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      max-width: 100%;
+      margin: 0 auto;
+      background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+    }
+
+    #chat-header {
+      background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+    }
+
+    #back-button {
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+    }
+
+    #back-button:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(1.1);
+    }
+
+    #header-title {
+      flex: 1;
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+
+    #category-context {
+      display: none;
+      background: rgba(233, 30, 99, 0.2);
+      border: 1px solid rgba(233, 30, 99, 0.4);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      margin: 0.5rem 1rem;
+      font-size: 0.9rem;
+      color: #e91e63;
+    }
+
+    #category-context.active {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    #category-context i {
+      font-size: 1rem;
+    }
+
+    #notification-badge {
+      position: relative;
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    #notification-badge:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(1.1);
+    }
+
+    #notification-count {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: #dc3545;
+      color: white;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: bold;
+      animation: pulse-notification 1s infinite;
+    }
+
+    #notification-count.active {
+      display: flex;
+    }
+
+    @keyframes pulse-notification {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+
+    #status {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background: #fff;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    #messages-container {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .message {
+      display: flex;
+      flex-direction: column;
+      max-width: 70%;
+      animation: messageSlide 0.3s ease-out;
+    }
+
+    @keyframes messageSlide {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .message.user {
+      align-self: flex-end;
+    }
+
+    .message.admin {
+      align-self: flex-start;
+    }
+
+    .message-bubble {
+      padding: 0.75rem 1rem;
+      border-radius: 1rem;
+      word-wrap: break-word;
+    }
+
+    .message.user .message-bubble {
+      background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+      color: white;
+      border-bottom-right-radius: 0.25rem;
+    }
+
+    .message.admin .message-bubble {
+      background: #2a2a2a;
+      color: #fff;
+      border-bottom-left-radius: 0.25rem;
+    }
+
+    .message-time {
+      font-size: 0.7rem;
+      opacity: 0.7;
+      margin-top: 0.25rem;
+    }
+
+    .message.user .message-time {
+      text-align: right;
+    }
+
+    .message-media {
+      max-width: 100%;
+      border-radius: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .message-media img,
+    .message-media video {
+      max-width: 100%;
+      border-radius: 0.5rem;
+    }
+
+    .welcome-message {
+      text-align: center;
+      opacity: 0.5;
+      font-size: 0.8rem;
+      margin: 1rem 0;
+    }
+
+    #input-area {
+      background: #1a1a1a;
+      padding: 1rem;
+      display: flex;
+      gap: 0.5rem;
+      align-items: flex-end;
+      border-top: 1px solid #28a745;
+      flex-wrap: wrap;
+    }
+
+    #media-upload {
+      display: none;
+    }
+
+    #upload-button {
+      background: #2a2a2a;
+      border: 1px solid #28a745;
+      color: #28a745;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+    }
+
+    #upload-button:hover {
+      background: #28a745;
+      color: #000;
+    }
+
+    #message-input {
+      flex: 1;
+      background: #2a2a2a;
+      border: 1px solid #28a745;
+      border-radius: 1.5rem;
+      padding: 0.75rem 1rem;
+      color: white;
+      resize: none;
+      max-height: 100px;
+      min-width: 200px;
+    }
+
+    #message-input:focus {
+      outline: none;
+      border-color: #20c997;
+    }
+
+    #send-button {
+      background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+      border: none;
+      color: white;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+    }
+
+    #send-button:hover {
+      transform: scale(1.1);
+    }
+
+    #send-button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .typing-indicator {
+      display: flex;
+      gap: 0.3rem;
+      padding: 0.75rem 1rem;
+      background: #2a2a2a;
+      border-radius: 1rem;
+      width: fit-content;
+      margin-bottom: 0.5rem;
+    }
+
+    .typing-dot {
+      width: 8px;
+      height: 8px;
+      background: #28a745;
+      border-radius: 50%;
+      animation: typing 1.4s infinite;
+    }
+
+    .typing-dot:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .typing-dot:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    @keyframes typing {
+      0%, 60%, 100% { transform: translateY(0); }
+      30% { transform: translateY(-10px); }
+    }
+
+    .media-preview {
+      max-width: 200px;
+      max-height: 200px;
+      border-radius: 0.5rem;
+    }
+
+    #media-preview-container {
+      display: none;
+      padding: 0.5rem;
+      background: #2a2a2a;
+      border-radius: 0.5rem;
+      position: relative;
+      width: 100%;
+      margin-bottom: 0.5rem;
+    }
+
+    #remove-media {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      background: rgba(255, 0, 0, 0.8);
+      border: none;
+      color: white;
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .auth-prompt {
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .auth-prompt button {
+      background: #28a745;
+      border: none;
+      color: white;
+      padding: 0.75rem 2rem;
+      border-radius: 2rem;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-top: 1rem;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 2rem;
+      opacity: 0.7;
+    }
+
+    .upload-progress {
+      width: 100%;
+      height: 4px;
+      background: #2a2a2a;
+      border-radius: 2px;
+      overflow: hidden;
+      margin-top: 0.5rem;
+    }
+
+    .upload-progress-bar {
+      height: 100%;
+      background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+      transition: width 0.3s;
+    }
+  </style>
 </head>
 <body>
-    <!-- Professional Shadowlogs Assistant -->
-    <div id="shadowlogs-assistant">
-        <div id="sa-header">
-            <button id="sa-back-button" onclick="window.location.href='/home.html'">
-                <i class="fas fa-arrow-left"></i>
-            </button>
-            <div id="sa-header-title">
-                <i class="fas fa-headset"></i> SHADOWLOGS ASSISTANT
-            </div>
-            <div id="sa-status">
-                <span class="status-dot"></span> Online
-            </div>
-        </div>
-        
-        <div id="sa-messages">
-            <div class="welcome-message">Today at <span id="current-time"></span></div>
-            
-            <div class="sa-message sa-assistant-message">
-                Hello Shadowlogs Member! How may I assist you today?
-                <div class="message-time" id="welcome-time"></div>
-            </div>
-        </div>
-        
-        <div id="sa-input-area">
-            <input type="text" id="sa-user-input" placeholder="Type your message here...">
-            <button id="sa-send-button" type="button">
-                <i class="fas fa-paper-plane"></i> Send
-            </button>
-        </div>
+  <div id="chat-container">
+    <div id="chat-header">
+      <button id="back-button" onclick="window.location.href='/home.html'">
+        <i class="fas fa-arrow-left"></i>
+      </button>
+      <div id="header-title">
+        <i class="fas fa-headset"></i> Support Chat
+      </div>
+      <div id="notification-badge" title="New messages">
+        <i class="fas fa-bell"></i>
+        <span id="notification-count">0</span>
+      </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const messagesContainer = document.getElementById('sa-messages');
-            const userInput = document.getElementById('sa-user-input');
-            const sendButton = document.getElementById('sa-send-button');
-            const currentTimeElement = document.getElementById('current-time');
-            const welcomeTimeElement = document.getElementById('welcome-time');
-            
-            // Set current time
-            function updateTime() {
-                const now = new Date();
-                currentTimeElement.textContent = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                welcomeTimeElement.textContent = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-            }
-            
-            updateTime();
-            setInterval(updateTime, 60000); // Update time every minute
-            
-            function addMessage(text, isUser) {
-                const messageDiv = document.createElement('div');
-                messageDiv.className = `sa-message ${isUser ? 'sa-user-message' : 'sa-assistant-message'}`;
-                messageDiv.textContent = text;
-                
-                // Add timestamp
-                const timeDiv = document.createElement('div');
-                timeDiv.className = 'message-time';
-                timeDiv.textContent = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                messageDiv.appendChild(timeDiv);
-                
-                messagesContainer.appendChild(messageDiv);
-                messagesContainer.scrollTop = messagesContainer.scrollHeight;
-            }
-            
-            function showTyping() {
-                const typingDiv = document.createElement('div');
-                typingDiv.className = 'sa-typing-indicator';
-                typingDiv.id = 'typing-indicator';
-                typingDiv.innerHTML = `
-                    <span class="sa-typing-dot"></span>
-                    <span class="sa-typing-dot"></span>
-                    <span class="sa-typing-dot"></span>
-                `;
-                messagesContainer.appendChild(typingDiv);
-                messagesContainer.scrollTop = messagesContainer.scrollHeight;
-            }
-            
-            function hideTyping() {
-                const indicator = document.getElementById('typing-indicator');
-                if (indicator) {
-                    indicator.remove();
-                }
-            }
-            
-            function getResponse(userMessage) {
-                const input = userMessage.toLowerCase();
-                
-                if (input.includes('hello') || input.includes('hi') || input.includes('hey')) {
-                    return "Hello! How can I help you today?";
-                } else if (input.includes('product') || input.includes('log') || input.includes('bank')) {
-                    return "You can find all our products in your dashboard. We offer various bank logs and financial services.";
-                } else if (input.includes('help') || input.includes('support') || input.includes('issue')) {
-                    return "For technical support or account issues, please contact support@shadowlogs.com. Our team typically responds within 24 hours.";
-                } else if (input.includes('time')) {
-                    return `The current time is ${new Date().toLocaleTimeString()}.`;
-                } else if (input.includes('thank')) {
-                    return "You're welcome! Is there anything else I can help you with?";
-                } else if (input.includes('price') || input.includes('cost')) {
-                    return "Product pricing varies based on type and availability. Please check the product listings in your dashboard for current prices.";
-                } else if (input.includes('balance') || input.includes('fund')) {
-                    return "You can check your account balance in the dashboard. For transaction history, visit the 'Transactions' section.";
-                } else {
-                    return "I'm here to help with any questions about Shadowlogs services. Please be specific about what you need assistance with.";
-                }
-            }
-            
-            function handleSendMessage() {
-                const message = userInput.value.trim();
-                if (message === '') return;
-                
-                addMessage(message, true);
-                userInput.value = '';
-                showTyping();
-                
-                setTimeout(() => {
-                    hideTyping();
-                    const response = getResponse(message);
-                    addMessage(response, false);
-                }, 1000 + Math.random() * 1000); // Random delay for more natural feel
-            }
-            
-            sendButton.addEventListener('click', handleSendMessage);
-            
-            userInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    handleSendMessage();
-                }
-            });
-            
-            // Focus on input when page loads
-            userInput.focus();
+    <!-- Category Context Badge -->
+    <div id="category-context">
+      <i class="fas fa-tag"></i>
+      <span id="category-context-text">Asking about: <strong id="category-name"></strong></span>
+    </div>
+
+    <!-- Notification Sound -->
+    <audio id="notification-sound" preload="auto">
+      <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBjem3O2bTBELTqLl7q1aFwxFnOH0xHMoBSp3yO/rkz4KEVK06fa0aiAFL1K76fW0aB8FKmO8/tiFNw" type="audio/wav">
+    </audio>
+
+    <div id="messages-container">
+      <div class="loading">
+        <i class="fas fa-spinner fa-spin fa-2x"></i>
+        <p>Loading chat...</p>
+      </div>
+    </div>
+
+    <div id="input-area" style="display: none;">
+      <div id="media-preview-container">
+        <button id="remove-media">&times;</button>
+        <img id="media-preview" class="media-preview" alt="Preview">
+        <div class="upload-progress" id="upload-progress" style="display: none;">
+          <div class="upload-progress-bar" id="upload-progress-bar"></div>
+        </div>
+      </div>
+      
+      <input type="file" id="media-upload" accept="image/*,video/*">
+      <button id="upload-button" title="Upload image or video">
+        <i class="fas fa-paperclip"></i>
+      </button>
+      
+      <textarea id="message-input" placeholder="Type your message..." rows="1"></textarea>
+      
+      <button id="send-button" disabled>
+        <i class="fas fa-paper-plane"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-auth.js";
+    import { getFirestore, collection, query, where, orderBy, onSnapshot, addDoc, serverTimestamp, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-firestore.js";
+    import { getStorage, ref as storageRef, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-storage.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBXC6A6NaL1WSHrfCNAuMeYZqx9DFZyToY",
+      authDomain: "shadowlogsshop-ec4ca.firebaseapp.com",
+      projectId: "shadowlogsshop-ec4ca",
+      storageBucket: "shadowlogsshop-ec4ca.appspot.com",
+      messagingSenderId: "709594271975",
+      appId: "1:709594271975:web:6a4bfc8bdcbc51c2859242",
+      measurementId: "G-WNEH2RQPVP"
+    };
+
+    let app, auth, db, storage;
+    
+    try {
+      console.log('🔧 Initializing Firebase with config:', firebaseConfig);
+      app = initializeApp(firebaseConfig);
+      auth = getAuth(app);
+      db = getFirestore(app);
+      storage = getStorage(app);
+      console.log('✅ Firebase initialized successfully');
+      console.log('🔍 Auth object:', auth);
+      console.log('🔍 Current auth state:', auth.currentUser);
+    } catch (error) {
+      console.error('Firebase initialization error:', error);
+      document.getElementById('messages-container').innerHTML = `
+        <div class="auth-prompt">
+          <i class="fas fa-exclamation-triangle fa-3x" style="color: #dc3545; margin-bottom: 1rem;"></i>
+          <h3>Browser Privacy Settings Blocking Firebase</h3>
+          <p style="opacity: 0.7; margin: 1rem 0;">Your browser's tracking prevention is blocking authentication.</p>
+          <div style="text-align: left; max-width: 400px; margin: 1rem auto;">
+            <p style="font-weight: bold;">Quick Fix:</p>
+            <ol style="font-size: 0.9rem; line-height: 1.8;">
+              <li>Click the shield/lock icon in your address bar</li>
+              <li>Turn OFF "Tracking Prevention" for this site</li>
+              <li>Refresh the page</li>
+            </ol>
+            <p style="margin-top: 1rem; font-size: 0.85rem; opacity: 0.6;">Or try using Chrome/Firefox in regular (non-private) mode</p>
+          </div>
+          <button onclick="location.reload()" style="background: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 1rem;">
+            <i class="fas fa-sync"></i> Refresh Page
+          </button>
+        </div>
+      `;
+      throw error;
+    }
+
+    let currentUser = null;
+    let conversationId = null;
+    let unsubscribeMessages = null;
+    let selectedFile = null;
+    let lastMessageCount = 0;
+    let notificationCount = 0;
+
+    const messagesContainer = document.getElementById('messages-container');
+    const messageInput = document.getElementById('message-input');
+    const sendButton = document.getElementById('send-button');
+    const inputArea = document.getElementById('input-area');
+    const uploadButton = document.getElementById('upload-button');
+    const mediaUpload = document.getElementById('media-upload');
+    const mediaPreviewContainer = document.getElementById('media-preview-container');
+    const mediaPreview = document.getElementById('media-preview');
+    const removeMediaButton = document.getElementById('remove-media');
+    const uploadProgress = document.getElementById('upload-progress');
+    const uploadProgressBar = document.getElementById('upload-progress-bar');
+    const notificationSound = document.getElementById('notification-sound');
+    const notificationBadge = document.getElementById('notification-count');
+
+    // Play notification sound
+    function playNotification() {
+      try {
+        notificationSound.currentTime = 0;
+        notificationSound.play().catch(err => console.log('Sound play failed:', err));
+      } catch (e) {
+        console.log('Notification sound error:', e);
+      }
+    }
+
+    // Update notification badge
+    function updateNotificationBadge(count) {
+      notificationCount = count;
+      if (count > 0) {
+        notificationBadge.textContent = count > 99 ? '99+' : count;
+        notificationBadge.classList.add('active');
+      } else {
+        notificationBadge.classList.remove('active');
+      }
+    }
+
+    // Clear notifications on badge click or window focus
+    document.getElementById('notification-badge').addEventListener('click', () => {
+      updateNotificationBadge(0);
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    });
+
+    window.addEventListener('focus', () => {
+      updateNotificationBadge(0);
+    });
+
+    // Auto-resize textarea
+    messageInput.addEventListener('input', function() {
+      this.style.height = 'auto';
+      this.style.height = (this.scrollHeight) + 'px';
+      sendButton.disabled = !this.value.trim() && !selectedFile;
+    });
+
+    // Handle file upload
+    uploadButton.addEventListener('click', () => {
+      mediaUpload.click();
+    });
+
+    mediaUpload.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      // Validate file
+      const maxSize = file.type.startsWith('image/') ? 5 * 1024 * 1024 : 20 * 1024 * 1024;
+      if (file.size > maxSize) {
+        alert(`File too large. Max: ${file.type.startsWith('image/') ? '5MB' : '20MB'}`);
+        return;
+      }
+
+      selectedFile = file;
+      
+      // Show preview
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        mediaPreview.src = e.target.result;
+        mediaPreviewContainer.style.display = 'block';
+        sendButton.disabled = false;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    removeMediaButton.addEventListener('click', () => {
+      selectedFile = null;
+      mediaUpload.value = '';
+      mediaPreviewContainer.style.display = 'none';
+      sendButton.disabled = !messageInput.value.trim();
+    });
+
+    // Send message
+    async function sendMessage() {
+      const text = messageInput.value.trim();
+      
+      if (!text && !selectedFile) return;
+      
+      console.log('📤 Sending message:', text);
+      console.log('👤 Current user:', currentUser?.email, currentUser?.uid);
+      console.log('💬 Conversation ID:', conversationId);
+      
+      sendButton.disabled = true;
+      uploadButton.disabled = true;
+      
+      try {
+        let messageContent = text;
+        let messageType = 'text';
+        
+        // Upload media if selected
+        if (selectedFile) {
+          console.log('📎 Uploading file:', selectedFile.name);
+          const timestamp = Date.now();
+          const fileName = `${timestamp}_${selectedFile.name}`;
+          const fileRef = storageRef(storage, `chat-media/${currentUser.uid}/${fileName}`);
+          
+          // Show progress
+          uploadProgress.style.display = 'block';
+          
+          const uploadTask = uploadBytesResumable(fileRef, selectedFile);
+          
+          await new Promise((resolve, reject) => {
+            uploadTask.on('state_changed',
+              (snapshot) => {
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                uploadProgressBar.style.width = progress + '%';
+              },
+              (error) => reject(error),
+              () => resolve()
+            );
+          });
+          
+          messageContent = await getDownloadURL(fileRef);
+          messageType = selectedFile.type.startsWith('image/') ? 'image' : 'video';
+          console.log('✅ File uploaded:', messageContent);
+          
+          // Clear file selection
+          selectedFile = null;
+          mediaUpload.value = '';
+          mediaPreviewContainer.style.display = 'none';
+          uploadProgress.style.display = 'none';
+          uploadProgressBar.style.width = '0%';
+        }
+        
+        console.log('💾 Creating conversation document...');
+        // Create conversation document if it doesn't exist
+        const convRef = doc(db, 'conversations', conversationId);
+        await setDoc(convRef, {
+          userId: currentUser.uid,
+          userEmail: currentUser.email,
+          lastMessageAt: serverTimestamp(),
+          status: 'open'
+        }, { merge: true });
+        console.log('✅ Conversation document created/updated');
+        
+        console.log('💬 Adding message to Firestore...');
+        // Send message directly to Firestore
+        await addDoc(collection(db, 'messages'), {
+          conversationId: conversationId,
+          senderType: 'user',
+          senderId: currentUser.uid,
+          messageType: messageType,
+          content: messageContent,
+          timestamp: Date.now(),
+          createdAt: serverTimestamp()
         });
-    </script>
+        console.log('✅ Message added successfully!');
+        
+        messageInput.value = '';
+        messageInput.style.height = 'auto';
+      } catch (error) {
+        console.error('❌ Error sending message:', error);
+        console.error('Error code:', error.code);
+        console.error('Error message:', error.message);
+        console.error('Full error:', error);
+        
+        // Better error messaging
+        let errorMsg = 'Failed to send message: ' + error.message;
+        if (error.code === 'storage/unauthorized' || error.message.includes('storage')) {
+          errorMsg = 'Storage access blocked. Please disable tracking prevention in your browser settings or try a different browser.';
+        } else if (error.message.includes('permission-denied')) {
+          errorMsg = 'Permission denied. Please make sure you are logged in.';
+        }
+        
+        alert(errorMsg);
+      } finally {
+        sendButton.disabled = false;
+        uploadButton.disabled = false;
+      }
+    }
+
+    sendButton.addEventListener('click', sendMessage);
+    messageInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+
+    // Load messages
+    function loadMessages(uid) {
+      conversationId = uid; // Use user ID as conversation ID
+      console.log('📚 Setting up message listener for conversation:', conversationId);
+      
+      const q = query(
+        collection(db, 'messages'),
+        where('conversationId', '==', conversationId)
+        // Note: Removed orderBy to avoid needing composite index
+        // Messages will be sorted client-side
+      );
+      
+      unsubscribeMessages = onSnapshot(q, 
+        (snapshot) => {
+          console.log('✅ Messages snapshot received. Count:', snapshot.size);
+          messagesContainer.innerHTML = '';
+          
+          // Add welcome message
+          const welcomeDiv = document.createElement('div');
+          welcomeDiv.className = 'welcome-message';
+          welcomeDiv.textContent = `Today at ${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
+          messagesContainer.appendChild(welcomeDiv);
+          
+          // Check for category context
+          const category = getCategoryFromURL();
+          const welcomeContent = category 
+            ? `Hello! I see you're interested in <strong>${category.name}</strong>. How can I assist you with this category?`
+            : 'Hello! How can I assist you today? Feel free to send text messages.';
+          
+          const welcomeMsg = createMessageElement({
+            senderType: 'admin',
+            messageType: 'text',
+            content: welcomeContent,
+            timestamp: Date.now(),
+          });
+          messagesContainer.appendChild(welcomeMsg);
+          
+          // Convert to array and sort by timestamp
+          const messages = [];
+          snapshot.forEach((doc) => {
+            messages.push(doc.data());
+          });
+          
+          console.log('📝 Messages loaded:', messages.length);
+          
+          // Sort messages by timestamp
+          messages.sort((a, b) => a.timestamp - b.timestamp);
+          
+          // Check for new admin messages
+          const adminMessages = messages.filter(m => m.senderType === 'admin');
+          const newAdminMessages = adminMessages.length - (lastMessageCount > 0 ? lastMessageCount : adminMessages.length);
+          
+          if (newAdminMessages > 0 && lastMessageCount > 0 && !document.hasFocus()) {
+            console.log('🔔 New admin message received!');
+            playNotification();
+            updateNotificationBadge(notificationCount + newAdminMessages);
+          }
+          
+          lastMessageCount = adminMessages.length;
+          
+          // Add sorted messages
+          messages.forEach((message) => {
+            const messageElement = createMessageElement(message);
+            messagesContainer.appendChild(messageElement);
+          });
+          
+          // Scroll to bottom
+          messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        },
+        (error) => {
+          console.error('❌ Error in message listener:', error);
+          console.error('Error code:', error.code);
+          console.error('Error message:', error.message);
+          console.error('Full error:', error);
+          
+          messagesContainer.innerHTML = `
+            <div class="auth-prompt">
+              <i class="fas fa-exclamation-triangle fa-3x" style="color: #dc3545; margin-bottom: 1rem;"></i>
+              <h3>Unable to Load Chat</h3>
+              <p style="opacity: 0.7; margin: 1rem 0;">${error.message}</p>
+              <p style="opacity: 0.5; font-size: 0.9rem;">Error code: ${error.code}</p>
+              <p style="opacity: 0.5; font-size: 0.85rem; margin-top: 1rem;">Try: Clear browser cache (Ctrl+Shift+Delete) and refresh</p>
+              <button onclick="window.location.reload()" style="background: #28a745; border: none; color: white; padding: 0.75rem 2rem; border-radius: 2rem; cursor: pointer; margin-top: 1rem;">
+                <i class="fas fa-sync"></i> Refresh Page
+              </button>
+            </div>
+          `;
+        }
+      );
+    }
+
+    function createMessageElement(message) {
+      const div = document.createElement('div');
+      div.className = `message ${message.senderType}`;
+      
+      const bubble = document.createElement('div');
+      bubble.className = 'message-bubble';
+      
+      // Add media if present
+      if (message.messageType === 'image') {
+        const media = document.createElement('div');
+        media.className = 'message-media';
+        const img = document.createElement('img');
+        img.src = message.content;
+        img.alt = 'Image';
+        img.loading = 'lazy';
+        media.appendChild(img);
+        bubble.appendChild(media);
+      } else if (message.messageType === 'video') {
+        const media = document.createElement('div');
+        media.className = 'message-media';
+        const video = document.createElement('video');
+        video.src = message.content;
+        video.controls = true;
+        media.appendChild(video);
+        bubble.appendChild(media);
+      } else {
+        // For text messages, check if it contains HTML (only for admin messages)
+        if (message.senderType === 'admin' && message.content.includes('<')) {
+          bubble.innerHTML = message.content;
+        } else {
+          bubble.textContent = message.content;
+        }
+      }
+      
+      div.appendChild(bubble);
+      
+      const time = document.createElement('div');
+      time.className = 'message-time';
+      time.textContent = new Date(message.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+      div.appendChild(time);
+      
+      return div;
+    }
+
+    // Auth state observer
+    console.log('🔄 Setting up auth state observer...');
+    
+    // =====================================================================
+    // READ URL PARAMETERS FOR CATEGORY CONTEXT
+    // =====================================================================
+    function getCategoryFromURL() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const categoryId = urlParams.get('categoryId');
+      const categoryName = urlParams.get('categoryName');
+      const source = urlParams.get('source');
+      
+      if (categoryId && categoryName) {
+        console.log('📦 Category context detected:', { categoryId, categoryName, source });
+        
+        // Show category badge
+        const categoryContext = document.getElementById('category-context');
+        const categoryNameElement = document.getElementById('category-name');
+        categoryNameElement.textContent = decodeURIComponent(categoryName);
+        categoryContext.classList.add('active');
+        
+        // Store in sessionStorage for persistence
+        sessionStorage.setItem('currentCategory', JSON.stringify({
+          id: categoryId,
+          name: decodeURIComponent(categoryName),
+          source: source || 'unknown'
+        }));
+        
+        return {
+          id: categoryId,
+          name: decodeURIComponent(categoryName)
+        };
+      }
+      
+      // Check sessionStorage for existing category
+      const stored = sessionStorage.getItem('currentCategory');
+      if (stored) {
+        const category = JSON.parse(stored);
+        const categoryContext = document.getElementById('category-context');
+        const categoryNameElement = document.getElementById('category-name');
+        categoryNameElement.textContent = category.name;
+        categoryContext.classList.add('active');
+        return category;
+      }
+      
+      return null;
+    }
+    
+    const categoryContext = getCategoryFromURL();
+    
+    onAuthStateChanged(auth, (user) => {
+      console.log('🔔 Auth state changed! User:', user);
+      if (user) {
+        console.log('✅ User logged in:', user.email, user.uid);
+        console.log('📧 Email:', user.email);
+        console.log('🆔 UID:', user.uid);
+        console.log('🔑 Email verified:', user.emailVerified);
+        console.log('📱 Provider:', user.providerData);
+        currentUser = user;
+        messagesContainer.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin fa-2x"></i><p>Loading chat...</p></div>';
+        inputArea.style.display = 'flex';
+        
+        // Small delay to ensure auth token is ready
+        setTimeout(() => {
+          console.log('🔄 Loading messages for conversation:', user.uid);
+          loadMessages(user.uid);
+        }, 500);
+      } else {
+        console.log('❌ User not logged in - user object is NULL');
+        console.log('🔍 Checking localStorage for any auth data...');
+        console.log('localStorage keys:', Object.keys(localStorage));
+        
+        // Cleanup previous subscription
+        if (unsubscribeMessages) {
+          unsubscribeMessages();
+          unsubscribeMessages = null;
+        }
+        
+        // Show login prompt
+        messagesContainer.innerHTML = `
+          <div class="auth-prompt">
+            <i class="fas fa-lock fa-3x" style="color: #28a745; margin-bottom: 1rem;"></i>
+            <h3>Please log in to use the support chat</h3>
+            <p style="opacity: 0.7; margin: 1rem 0;">Connect with our support team in real-time</p>
+            <button onclick="window.location.href='/login.html'">
+              <i class="fas fa-sign-in-alt"></i> Go to Login
+            </button>
+          </div>
+        `;
+        inputArea.style.display = 'none';
+      }
+    });
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
 

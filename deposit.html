@@ -314,14 +314,12 @@
     } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-database.js";
 
     const firebaseConfig = {
-      apiKey: "AIzaSyBXC6A6NaL1WSHrfCNAuMeYZqx9DFZyToY",
-      authDomain: "shadowlogsshop-ec4ca.firebaseapp.com",
-      databaseURL: "https://shadowlogsshop-ec4ca-default-rtdb.firebaseio.com",
-      projectId: "shadowlogsshop-ec4ca",
-      storageBucket: "shadowlogsshop-ec4ca.appspot.com",
-      messagingSenderId: "709594271975",
-      appId: "1:709594271975:web:6a4bfc8bdcbc51c2859242",
-      measurementId: "G-WNEH2RQPVP"
+      apiKey: "AIzaSyDYon3KKPHbZ-CO4CDsWiU02AYHocXqb1s",
+      authDomain: "shadowlogsshop.firebaseapp.com",
+      projectId: "shadowlogsshop",
+      storageBucket: "shadowlogsshop.firebasestorage.app",
+      messagingSenderId: "568187276796",
+      appId: "1:568187276796:web:cb900b5d70c83b0bef9ce5"
     };
 
     const app = initializeApp(firebaseConfig);
@@ -391,11 +389,11 @@
         // For demo purposes, return a mock address
         // In production, this should call NOWPayments API
         const mockAddresses = {
-          'BTC': '1A1BvP2Lap2ku12345678901234567890AbCdEfGh',
-          'ETH': '0x742d35Cc9001234567890123456789012345678901',
-          'USDT-TRC20': 'TQrghijk123456789012345678901234567890',
-          'USDT-ERC20': '0x742d35Cc9012345678901234567890123456789012',
-          'USDC-ERC20': '0x742d35Cc9023456789012345678901234567890123'
+          'BTC': '0x20ad99683be2974e0aa3d22e98c5851f0304b5fb',
+          'ETH': '0x0341de25aaed3a77ce16c1ab5a0085373cc0794c',
+          'USDT-TRC20': 'TKvptMwAQF4Dfw7HamaAK8DGpWijpu5sEb',
+          'USDT-ERC20': '0x0341de25aaed3a77ce16c1ab5a0085373cc0794c',
+          'USDC-ERC20': '0x0341de25aaed3a77ce16c1ab5a0085373cc0794c'
         };
         
         const cryptoKey = network === 'TRC20' ? `${crypto}-TRC20` : 
