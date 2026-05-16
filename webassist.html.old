@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="csrf-token" content="eRtjYiTWjVSBJT0yfm3zqEbqnCyKxptUa0jPOlYj">
+
+  <title>Automotive — Inventory</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap (official CDN) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Swiper (official CDN) -->
+  <link href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Font Awesome (official CDN) -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
+  <!-- Local consolidated stylesheet (create this file) -->
+  <link href="assets/css/site.css" rel="stylesheet">
+
+</head>
+<body>
+    <!-- Professional Shadowlogs Assistant -->
+    <div id="shadowlogs-assistant">
+        <div id="sa-header">
+            <button id="sa-back-button" onclick="window.location.href='/home.html'">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <div id="sa-header-title">
+                <i class="fas fa-headset"></i> SHADOWLOGS ASSISTANT
+            </div>
+            <div id="sa-status">
+                <span class="status-dot"></span> Online
+            </div>
+        </div>
+        
+        <div id="sa-messages">
+            <div class="welcome-message">Today at <span id="current-time"></span></div>
+            
+            <div class="sa-message sa-assistant-message">
+                Hello Shadowlogs Member! How may I assist you today?
+                <div class="message-time" id="welcome-time"></div>
+            </div>
+        </div>
+        
+        <div id="sa-input-area">
+            <input type="text" id="sa-user-input" placeholder="Type your message here...">
+            <button id="sa-send-button" type="button">
+                <i class="fas fa-paper-plane"></i> Send
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const messagesContainer = document.getElementById('sa-messages');
+            const userInput = document.getElementById('sa-user-input');
+            const sendButton = document.getElementById('sa-send-button');
+            const currentTimeElement = document.getElementById('current-time');
+            const welcomeTimeElement = document.getElementById('welcome-time');
+            
+            // Set current time
+            function updateTime() {
+                const now = new Date();
+                currentTimeElement.textContent = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                welcomeTimeElement.textContent = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            }
+            
+            updateTime();
+            setInterval(updateTime, 60000); // Update time every minute
+            
+            function addMessage(text, isUser) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `sa-message ${isUser ? 'sa-user-message' : 'sa-assistant-message'}`;
+                messageDiv.textContent = text;
+                
+                // Add timestamp
+                const timeDiv = document.createElement('div');
+                timeDiv.className = 'message-time';
+                timeDiv.textContent = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                messageDiv.appendChild(timeDiv);
+                
+                messagesContainer.appendChild(messageDiv);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+            
+            function showTyping() {
+                const typingDiv = document.createElement('div');
+                typingDiv.className = 'sa-typing-indicator';
+                typingDiv.id = 'typing-indicator';
+                typingDiv.innerHTML = `
+                    <span class="sa-typing-dot"></span>
+                    <span class="sa-typing-dot"></span>
+                    <span class="sa-typing-dot"></span>
+                `;
+                messagesContainer.appendChild(typingDiv);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+            
+            function hideTyping() {
+                const indicator = document.getElementById('typing-indicator');
+                if (indicator) {
+                    indicator.remove();
+                }
+            }
+            
+            function getResponse(userMessage) {
+                const input = userMessage.toLowerCase();
+                
+                if (input.includes('hello') || input.includes('hi') || input.includes('hey')) {
+                    return "Hello! How can I help you today?";
+                } else if (input.includes('product') || input.includes('log') || input.includes('bank')) {
+                    return "You can find all our products in your dashboard. We offer various bank logs and financial services.";
+                } else if (input.includes('help') || input.includes('support') || input.includes('issue')) {
+                    return "For technical support or account issues, please contact support@shadowlogs.com. Our team typically responds within 24 hours.";
+                } else if (input.includes('time')) {
+                    return `The current time is ${new Date().toLocaleTimeString()}.`;
+                } else if (input.includes('thank')) {
+                    return "You're welcome! Is there anything else I can help you with?";
+                } else if (input.includes('price') || input.includes('cost')) {
+                    return "Product pricing varies based on type and availability. Please check the product listings in your dashboard for current prices.";
+                } else if (input.includes('balance') || input.includes('fund')) {
+                    return "You can check your account balance in the dashboard. For transaction history, visit the 'Transactions' section.";
+                } else {
+                    return "I'm here to help with any questions about Shadowlogs services. Please be specific about what you need assistance with.";
+                }
+            }
+            
+            function handleSendMessage() {
+                const message = userInput.value.trim();
+                if (message === '') return;
+                
+                addMessage(message, true);
+                userInput.value = '';
+                showTyping();
+                
+                setTimeout(() => {
+                    hideTyping();
+                    const response = getResponse(message);
+                    addMessage(response, false);
+                }, 1000 + Math.random() * 1000); // Random delay for more natural feel
+            }
+            
+            sendButton.addEventListener('click', handleSendMessage);
+            
+            userInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    handleSendMessage();
+                }
+            });
+            
+            // Focus on input when page loads
+            userInput.focus();
+        });
+    </script>
+</body>
+</html>
+
+

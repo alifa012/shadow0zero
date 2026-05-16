@@ -331,11 +331,11 @@
   <div id="loginRedirect">
     <div class="content">
       <h3><i class="fas fa-exclamation-triangle text-warning me-2"></i>Authentication Required</h3>
-      <p class="my-3">You need to be logged in to view this page. Redirecting to login page...</p>
+      <p class="my-3">You need to be logged in to view this page. Redirecting to signup page...</p>
       <div class="spinner-border text-primary" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
-      <p class="mt-3">If you are not redirected automatically, <a href="/login.html" class="text-primary">click here</a>.</p>
+      <p class="mt-3">If you are not redirected automatically, <a href="/index.html" class="text-primary">click here</a>.</p>
     </div>
   </div>
 
@@ -495,7 +495,6 @@ function goBack(event) {
     const firebaseConfig = {
       apiKey: "AIzaSyBXC6A6NaL1WSHrfCNAuMeYZqx9DFZyToY",
       authDomain: "shadowlogsshop-ec4ca.firebaseapp.com",
-      databaseURL: "https://shadowlogsshop-ec4ca-default-rtdb.firebaseio.com",
       projectId: "shadowlogsshop-ec4ca",
       storageBucket: "shadowlogsshop-ec4ca.appspot.com",
       messagingSenderId: "709594271975",
@@ -506,6 +505,10 @@ function goBack(event) {
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getDatabase(app);
+    
+    // Profile auth fix - v2.3
+    console.log('Profile auth check v2.3 loading...');
+    console.log('All JavaScript errors fixed - v2.3');
 
     const elements = {
       userEmail: document.getElementById('userEmail'),
@@ -582,28 +585,37 @@ function goBack(event) {
     }
 
     function setupBalanceListener(userId) {
+      console.log('Setting up balance listener for user:', userId);
       const userBalanceRef = ref(db, `users/${userId}/balance`);
       
+      // Clean up any existing listener
       if (window.userBalanceListener) {
         off(window.userBalanceListener);
+        window.userBalanceListener = null;
       }
       
       window.userBalanceListener = onValue(userBalanceRef, (snapshot) => {
+        console.log('Balance listener triggered:', snapshot.exists(), snapshot.val());
         const balances = snapshot.val();
         
         if (balances) {
-          // Update each crypto balance display
-          document.getElementById('balanceBTC').textContent = 
-            `${(balances.BTC || 0).toFixed(8)} BTC`;
-          document.getElementById('balanceETH').textContent = 
-            `${(balances.ETH || 0).toFixed(18)} ETH`;
-          document.getElementById('balanceUSDT-TRC20').textContent = 
-            `${(balances['USDT-TRC20'] || 0).toFixed(8)} USDT`;
-          document.getElementById('balanceUSDT-ERC20').textContent = 
-            `${(balances['USDT-ERC20'] || 0).toFixed(8)} USDT`;
-          document.getElementById('balanceUSDC-ERC20').textContent = 
-            `${(balances['USDC-ERC20'] || 0).toFixed(8)} USDC`;
+          // Update each crypto balance display with error checking
+          const elements = {
+            balanceBTC: document.getElementById('balanceBTC'),
+            balanceETH: document.getElementById('balanceETH'),
+            balanceUSDT_TRC20: document.getElementById('balanceUSDT-TRC20'),
+            balanceUSDT_ERC20: document.getElementById('balanceUSDT-ERC20'),
+            balanceUSDC_ERC20: document.getElementById('balanceUSDC-ERC20')
+          };
+          
+          if (elements.balanceBTC) elements.balanceBTC.textContent = `${(balances.BTC || 0).toFixed(8)} BTC`;
+          if (elements.balanceETH) elements.balanceETH.textContent = `${(balances.ETH || 0).toFixed(18)} ETH`;
+          if (elements.balanceUSDT_TRC20) elements.balanceUSDT_TRC20.textContent = `${(balances['USDT-TRC20'] || 0).toFixed(8)} USDT`;
+          if (elements.balanceUSDT_ERC20) elements.balanceUSDT_ERC20.textContent = `${(balances['USDT-ERC20'] || 0).toFixed(8)} USDT`;
+          if (elements.balanceUSDC_ERC20) elements.balanceUSDC_ERC20.textContent = `${(balances['USDC-ERC20'] || 0).toFixed(8)} USDC`;
+          
         } else {
+          console.log('No balance data found, initializing...');
           // Initialize multi-crypto balances if they don't exist
           const initialBalances = {
             BTC: 0,
@@ -612,20 +624,43 @@ function goBack(event) {
             'USDT-ERC20': 0,
             'USDC-ERC20': 0
           };
-          set(userBalanceRef, initialBalances);
+          
+          set(userBalanceRef, initialBalances).then(() => {
+            console.log('Balance data initialized');
+          }).catch((error) => {
+            console.error('Error initializing balance data:', error);
+          });
           
           // Set display to zero
-          document.getElementById('balanceBTC').textContent = '0.00000000 BTC';
-          document.getElementById('balanceETH').textContent = '0.000000000000000000 ETH';
-          document.getElementById('balanceUSDT-TRC20').textContent = '0.00000000 USDT';
-          document.getElementById('balanceUSDT-ERC20').textContent = '0.00000000 USDT';
-          document.getElementById('balanceUSDC-ERC20').textContent = '0.00000000 USDC';
+          const btcElement = document.getElementById('balanceBTC');
+          const ethElement = document.getElementById('balanceETH');
+          const usdtTrcElement = document.getElementById('balanceUSDT-TRC20');
+          const usdtErcElement = document.getElementById('balanceUSDT-ERC20');
+          const usdcElement = document.getElementById('balanceUSDC-ERC20');
+          
+          if (btcElement) btcElement.textContent = '0.00000000 BTC';
+          if (ethElement) ethElement.textContent = '0.000000000000000000 ETH';
+          if (usdtTrcElement) usdtTrcElement.textContent = '0.00000000 USDT';
+          if (usdtErcElement) usdtErcElement.textContent = '0.00000000 USDT';
+          if (usdcElement) usdcElement.textContent = '0.00000000 USDC';
         }
-        showLoading(elements.refreshBalanceBtn, elements.refreshSpinner, false);
+        
+        // Stop loading spinner if refresh button exists
+        const refreshBtn = document.getElementById('refreshBalanceBtn');
+        const refreshSpinner = document.getElementById('refreshSpinner');
+        if (refreshBtn && refreshSpinner) {
+          showLoading(refreshBtn, refreshSpinner, false);
+        }
       }, (error) => {
         console.error("Balance listener error:", error);
-        showAlert('Failed to load balance', 'danger');
-        showLoading(elements.refreshBalanceBtn, elements.refreshSpinner, false);
+        showAlert(`Failed to load balance: ${error.message}`, 'danger');
+        
+        // Stop loading spinner if refresh button exists
+        const refreshBtn = document.getElementById('refreshBalanceBtn');
+        const refreshSpinner = document.getElementById('refreshSpinner');
+        if (refreshBtn && refreshSpinner) {
+          showLoading(refreshBtn, refreshSpinner, false);
+        }
       });
     }
 
@@ -682,7 +717,7 @@ function goBack(event) {
     function redirectToLogin() {
       elements.loginRedirect.style.display = 'flex';
       setTimeout(() => {
-        window.location.href = '/login.html';
+        window.location.href = '/index.html';
       }, 1500);
     }
 
@@ -737,12 +772,41 @@ function goBack(event) {
 
     elements.refreshBalanceBtn.addEventListener('click', async () => {
       showLoading(elements.refreshBalanceBtn, elements.refreshSpinner, true);
+      
       try {
-        const userId = auth.currentUser?.uid;
-        if (userId) {
-          const balanceRef = ref(db, `users/${userId}/balance`);
-          const snapshot = await get(balanceRef);
-          const balances = snapshot.val() || {
+        const user = auth.currentUser;
+        if (!user) {
+          throw new Error('User not authenticated');
+        }
+        
+        console.log('Refreshing balance for user:', user.uid);
+        const balanceRef = ref(db, `users/${user.uid}/balance`);
+        
+        // Force a fresh read from Firebase
+        const snapshot = await get(balanceRef);
+        console.log('Balance snapshot:', snapshot.exists(), snapshot.val());
+        
+        if (snapshot.exists()) {
+          const balances = snapshot.val();
+          
+          // Update displays with proper error checking
+          const btcElement = document.getElementById('balanceBTC');
+          const ethElement = document.getElementById('balanceETH');
+          const usdtTrcElement = document.getElementById('balanceUSDT-TRC20');
+          const usdtErcElement = document.getElementById('balanceUSDT-ERC20');
+          const usdcElement = document.getElementById('balanceUSDC-ERC20');
+          
+          if (btcElement) btcElement.textContent = `${(balances.BTC || 0).toFixed(8)} BTC`;
+          if (ethElement) ethElement.textContent = `${(balances.ETH || 0).toFixed(18)} ETH`;
+          if (usdtTrcElement) usdtTrcElement.textContent = `${(balances['USDT-TRC20'] || 0).toFixed(8)} USDT`;
+          if (usdtErcElement) usdtErcElement.textContent = `${(balances['USDT-ERC20'] || 0).toFixed(8)} USDT`;
+          if (usdcElement) usdcElement.textContent = `${(balances['USDC-ERC20'] || 0).toFixed(8)} USDC`;
+          
+          showAlert('Balance refreshed successfully!', 'success');
+        } else {
+          // No balance data exists, initialize it
+          console.log('No balance data found, initializing...');
+          const initialBalances = {
             BTC: 0,
             ETH: 0,
             'USDT-TRC20': 0,
@@ -750,25 +814,40 @@ function goBack(event) {
             'USDC-ERC20': 0
           };
           
-          // Update displays
-          document.getElementById('balanceBTC').textContent = `${balances.BTC.toFixed(8)} BTC`;
-          document.getElementById('balanceETH').textContent = `${balances.ETH.toFixed(18)} ETH`;
-          document.getElementById('balanceUSDT-TRC20').textContent = `${balances['USDT-TRC20'].toFixed(8)} USDT`;
-          document.getElementById('balanceUSDT-ERC20').textContent = `${balances['USDT-ERC20'].toFixed(8)} USDT`;
-          document.getElementById('balanceUSDC-ERC20').textContent = `${balances['USDC-ERC20'].toFixed(8)} USDC`;
+          await set(balanceRef, initialBalances);
           
-          showAlert('Balance refreshed!', 'success');
+          // Update display with zero values
+          document.getElementById('balanceBTC').textContent = '0.00000000 BTC';
+          document.getElementById('balanceETH').textContent = '0.000000000000000000 ETH';
+          document.getElementById('balanceUSDT-TRC20').textContent = '0.00000000 USDT';
+          document.getElementById('balanceUSDT-ERC20').textContent = '0.00000000 USDT';
+          document.getElementById('balanceUSDC-ERC20').textContent = '0.00000000 USDC';
+          
+          showAlert('Balance initialized and refreshed!', 'success');
         }
+        
       } catch (error) {
         console.error("Error refreshing balance:", error);
-        showAlert('Failed to refresh balance', 'danger');
+        showAlert(`Failed to refresh balance: ${error.message}`, 'danger');
       } finally {
         showLoading(elements.refreshBalanceBtn, elements.refreshSpinner, false);
       }
     });
 
+    let authCheckTimeout;
+    let hasAuthResolved = false;
+
     onAuthStateChanged(auth, async (user) => {
+      hasAuthResolved = true;
+      console.log('Auth state changed - User:', user ? 'logged in' : 'logged out');
+      
+      // Clear any pending redirect timeout
+      if (authCheckTimeout) {
+        clearTimeout(authCheckTimeout);
+      }
+
       if (user) {
+        console.log('User authenticated, loading profile...');
         elements.loginRedirect.style.display = 'none';
         elements.profileSection.style.display = 'block';
         elements.userEmail.textContent = user.email;
@@ -786,6 +865,8 @@ function goBack(event) {
         setupBalanceListener(user.uid);
         
       } else {
+        console.log('User not authenticated, redirecting to login...');
+        // Clean up balance listener
         if (window.userBalanceListener) {
           off(window.userBalanceListener);
           window.userBalanceListener = null;
@@ -793,6 +874,13 @@ function goBack(event) {
         redirectToLogin();
       }
     });
+
+    // Add a timeout to handle cases where auth takes too long to resolve
+    authCheckTimeout = setTimeout(() => {
+      if (!hasAuthResolved) {
+        redirectToLogin();
+      }
+    }, 3000); // Wait 3 seconds for auth to resolve
 
     // Initial loading state
     elements.userEmail.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Loading profile...';

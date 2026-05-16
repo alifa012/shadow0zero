@@ -657,28 +657,15 @@
         document.getElementById("proceedBtn").addEventListener("click", function() {
             const enteredEmail = document.getElementById("customEmail").value;
             if (!enteredEmail || !/^\S+@\S+\.\S+$/.test(enteredEmail)) {
-                alert("Please enter a valid email.");
-                return;
+              alert("Please enter a valid email.");
+              return;
             }
-
-            const form = document.createElement("form");
-            form.method = "POST";
-            form.action = `/order_product/${productId}`;
-
-            const csrf = document.createElement("input");
-            csrf.type = "hidden";
-            csrf.name = "_token";
-            csrf.value = "63zOxwNthP2Ah5zXfvWdKn2mzUmHJfnIctF7R2vB";
-            form.appendChild(csrf);
-
-            const emailInput = document.createElement("input");
-            emailInput.type = "hidden";
-            emailInput.name = "custom_email";
-            emailInput.value = enteredEmail;
-            form.appendChild(emailInput);
-
-            document.body.appendChild(form);
-            form.submit();
+            // Redirect to static payment page with query params
+            const params = new URLSearchParams({
+              productId: productId,
+              email: enteredEmail
+            });
+            window.location.href = `topup.html?${params.toString()}`;
         });
 
         document.getElementById("backBtn").addEventListener("click", function() {
